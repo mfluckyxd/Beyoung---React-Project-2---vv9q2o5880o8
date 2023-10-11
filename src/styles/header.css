@@ -1,0 +1,135 @@
+.promo-header{
+    background: #f8eb27;
+    padding: 6px 10%;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1d1d1d;
+    text-align: center;
+}
+.promo-header span{
+    font-weight: bold;
+}
+
+.quick-access-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 5px 10%;
+}
+.quick-access-header a{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.quick-access-left a{
+    display: flex;
+    align-items: center;
+}
+.quick-access-right{
+    display: flex;
+    align-items: center;
+    
+}
+.quick-access-right a{
+    padding:0 10px;
+}
+.quick-access-right a:first-child{
+    border-right: 1px solid white;
+}
+@media (max-width:768px) {
+    .quick-access-header{
+        padding: 5px 5%;
+    }
+    .quick-access-right a:last-child{
+        padding-right: 0;
+    }
+    .promo-header{
+        padding: 6px 5%;
+
+    }
+}
+
+.nav-header{
+    padding: 5px 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    animation: slide-down 0.7s;
+    z-index: 5;
+}
+.app-header{
+    position: relative;
+}
+.nav-header.fixed{
+    position: fixed;
+    top: 0;
+    width: 100%;
+        
+      
+}
+
+.nav-header .nav-items a{
+    color: #000;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 12px 20px;
+    text-decoration: none;
+    width: fit-content;
+}
+.nav-left .nav-items a:hover{
+    background-color: #f8eb27;
+
+}
+.nav-left-items{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+.nav-left{
+    display: flex;
+    gap: 10px;
+}
+.nav-toggel-button{
+    border: none;
+    background-color: #fff;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.nav-right a{
+    color: #000;
+}
+
+@media (max-width:768px) {
+    .nav-left-items{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: unset;
+    }
+    .nav-header{
+        align-items: flex-start;
+        padding: 5px 5%;
+    }
+    .nav-items{
+        display: flex;
+        flex-direction: column;
+        transition: height 0.3s ease-in-out;
+    }
+}
