@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
-import SingleProductCard from "./SingleProductCard";
+import ProductSliderCard from "./ProductSliderCard";
 
 const ProductSlider = ({ products,heading }) => {
 
@@ -28,7 +28,7 @@ const ProductSlider = ({ products,heading }) => {
         
       >
         {products.map((product, i) => (
-          <SingleProductCard key={i} product={product} />
+          <ProductSliderCard key={i} product={product} />
         ))}
       </Carousel>
     </>

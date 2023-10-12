@@ -1,10 +1,4 @@
-.home-container {
-  height: auto;
-  /* background-color: #868686; */
-  /* width: 100vw; */
-  /* margin: 0 10%; */
-  padding-bottom: 10rem;
-}
+
 
 .bank-offer,
 .product-promo-container,
@@ -68,7 +62,8 @@
 .react-multi-carousel-item {
   padding: 0 10px !important;
 }
-.product-card {
+.new-arrivals-container .product-card, 
+.best-seller-container .product-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -79,10 +74,17 @@
   height: 100%;
   margin-bottom: 6px;
   padding-bottom: 5px;
+  color: black;
+  text-decoration: none;
+  position: relative;
 }
-.product-card p {
+.new-arrivals-container .product-card h5, 
+  .best-seller-container .product-card h5,
+.new-arrivals-container .product-card span, 
+  .best-seller-container .product-card span {
   text-align: center;
   margin: 0 0.7rem;
+  font-size: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 90%;

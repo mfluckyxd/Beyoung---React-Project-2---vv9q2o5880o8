@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
+import ProductsListComponent from '../products/ProductsListComponent'
+import { getProductsBySearch } from '../../utils/getProductsAPI';
 
-import { getAllProductsByLimit, getProductsBySearch } from "../../utils/getProductsAPI";
-
-import ProductSlider from "./product_card/ProductSlider";
-
-const NewArrivals = () => {
-  const [products, setProducts] = useState([]);
-  const [pageNo, setPageNo]=useState(1)
-  
+const ProductsByGender = () => {
+  const [products, setProducts] = useState([])
+  const [pageNo, setPageNo] = useState(1);
 
   const fetchProducts = async () => {
     // setProducts([
@@ -137,31 +134,25 @@ const NewArrivals = () => {
     //     ratings: 0,
     //   },
     // ]);
-
     const filter = {
-      sellerTag: 'new arrival'
+      sellerTag: 'best seller'
     }
     try {
       
         const res = await getProductsBySearch(pageNo,filter);
         setProducts(res);
+        // console.log(res);
     } catch (error) {}
   };
-
   useEffect(() => {
     fetchProducts();
     
   }, []);
-
-
   return (
-    <div className="new-arrivals-container">
-      
-        
-        <ProductSlider products={products} heading={'new arrivals'}/>
-      
+    <div>
+        <ProductsListComponent products={products}/>
     </div>
-  );
-};
+  )
+}
 
-export default NewArrivals;
+export default ProductsByGender

@@ -7,7 +7,6 @@ import PromoProduct3 from "../../assets/product-off-3.jpg";
 import PromoProduct4 from "../../assets/product-off-4.jpg";
 import PromoProduct5 from "../../assets/product-off-5.jpg";
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
 
 const ProductPromo = () => {
   const promoProducts = [

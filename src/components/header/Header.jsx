@@ -67,10 +67,10 @@ const Header = () => {
             </Link>
             <div className="collapse navbar-collapse d-lg-block d-md-block" id="collapsNavbar">
               <nav className="nav-items ">
-                <NavLink>Men</NavLink>
-                <NavLink>Women</NavLink>
-                <NavLink>New arrivals</NavLink>
-                <NavLink>Shop All</NavLink>
+                <NavLink to={'/men'}>Men</NavLink>
+                <NavLink to={'/women'}>Women</NavLink>
+                <NavLink to={'/new-arrivals'}>New arrivals</NavLink>
+                <NavLink to={'shop-all'}>Shop All</NavLink>
               </nav>
             </div>
           </div>

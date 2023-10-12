@@ -4,11 +4,18 @@ import { headerWithProjectIdOnly } from "./getHeaders";
 const apiURL = 'https://academics.newtonschool.co/api/v1/'
 
 
-export const getProductsBySearch = async (searchField, searchTerm)=>{
+export const getProductsBySearch = async (page, filter)=>{
     const headers = headerWithProjectIdOnly()
+
+    let searchFilter = ''
+    if (filter) {
+        searchFilter = `&filter=${JSON.stringify(filter)}`
+    }
+
+
     try {
         const res = await axios.get(
-            `${apiURL}/ecommerce/clothes/products?search={"${searchField}":"${searchTerm}"}`,
+            `${apiURL}/ecommerce/clothes/products?limit=${20}&page=${page}${searchFilter}`,
             headers   
         );
 
@@ -18,21 +25,15 @@ export const getProductsBySearch = async (searchField, searchTerm)=>{
     } 
 }
 
-export const getAllProductsByLimit = async (limit)=>{
+export const getProductById = async (id)=>{
     const headers = headerWithProjectIdOnly()
     try {
         const res = await axios.get(
-            `${apiURL}/ecommerce/clothes/products?limit=${limit}`,
+            `${apiURL}/ecommerce/product/${id}`,
             headers
         )
-        res.data.data.map((product)=>{
-            // console.log(product.category!=='clothes');
-            if (product.subCategory!=='jogger'&&product.subCategory!=='jeans'&&product.subCategory!=='shirt') {
-                console.log(product.subCategory);
-            }
-            
-        })
-        // console.log(res.data.data)
+       return res.data.data
+        
     } catch (error) {
         return error
     }
