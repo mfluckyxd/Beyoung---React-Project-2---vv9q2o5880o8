@@ -1,29 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProductById } from "../../utils/getProductsAPI";
 import "../../styles/productcomponent.css";
-import { Rating } from "@mui/material";
+import { Divider, LinearProgress, Rating } from "@mui/material";
 import DiscountIcon from "@mui/icons-material/Discount";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import BestSeller from "../home/BestSeller";
 
 const ProductComponent = () => {
-  const [searchParams] = useSearchParams();
 
-  const id = searchParams.get("id");
 
   const [product, setProduct] = useState([]);
+  
+  const {id} = useParams();
+  
+  
 
-  const fetchProducts = async () => {
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  const fetchProduct = async () => {
+
     try {
       const res = await getProductById(id);
       console.log(res);
       setProduct(res);
+      scrollToTop()
     } catch (error) {}
   };
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProduct();
+
+
+    document.querySelectorAll('.product-details-box').forEach((box) => {
+      box.querySelector('h5').addEventListener('click', () => {
+        const content = box.querySelector('content');
+      content.classList.toggle('collapseContent');
+      });
+    });
+  }, [id]);
+
+  const handleZipSearch = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="product-component">
       <div className="main-product-container">
@@ -55,15 +77,119 @@ const ProductComponent = () => {
                     {index + 1}
                   </option>
                 ))}
-              
               </select>
             </div>
             <div className="product-buttons">
-                <button style={{backgroundColor:'#51CCCC', color:'white'}}><AddShoppingCartIcon/><span>Add to cart</span></button>
-                <button style={{backgroundColor:'#F9EB28'}}><ShoppingCartCheckoutIcon/><span>Buy Now</span></button>
+              <button style={{ backgroundColor: "#51CCCC", color: "white" }}>
+                <AddShoppingCartIcon />
+                <span>Add to cart</span>
+              </button>
+              <button style={{ backgroundColor: "#F9EB28" }}>
+                <ShoppingCartCheckoutIcon />
+                <span>Buy Now</span>
+              </button>
+            </div>
+            <div className="delivery-options">
+              <h4>delivery options</h4>
+              <section className="delivery-options-box">
+                <p>
+                  Enter your Pincode to check the delivery time and free pick up
+                  options
+                </p>
+                <form onSubmit={handleZipSearch}>
+                  {" "}
+                  <input type="text" name="zipcode" id="zipcode" />{" "}
+                  <button type="submit">check</button>
+                </form>
+                <label>
+                  <img
+                    style={{ width: "2rem" }}
+                    src="https://www.beyoung.in/desktop/images/product-details-2/cod.jpg"
+                    alt="cod"
+                  />
+                  Cash On Delivery
+                </label>
+                <label>
+                  <img
+                    style={{ width: "2rem" }}
+                    src="https://www.beyoung.in/desktop/images/product-details-2/ship.jpg"
+                    alt="cod"
+                  />
+                  Express Shipping
+                </label>
+              </section>
             </div>
           </section>
         </div>
+      </div>
+      <div className="product-info-container">
+        <h3>Product Details</h3>
+        <div className="product-details-section">
+          <div className="product-details-box">
+            <h5>Product Highlights</h5>
+            <content>
+              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
+              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
+              Style Everyday Casuals
+            </content>
+          </div>
+          <div className="product-details-box">
+            <h5>Product Highlights</h5>
+            <content>
+              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
+              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
+              Style Everyday Casuals
+            </content>
+          </div>
+          <div className="product-details-box">
+            <h5>Product Highlights</h5>
+            <content>
+              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
+              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
+              Style Everyday Casuals
+            </content>
+          </div>
+          <div className="product-details-box">
+            <h5>Product Highlights</h5>
+            <content>
+              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
+              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
+              Style Everyday Casuals
+            </content>
+          </div>
+        </div>
+      </div>
+      <div className="ratings-review-container">
+        <h3>Rating & Reviews</h3>
+        <div className="ratings-review-section">
+          <div className="review-section-left">
+            <h3>4.8</h3>
+            <Rating name="read-only" value={5} readOnly />
+            <p>Based on 31K+ ratings and 9K+ reviews</p>
+          </div>
+          <div className="review-section-right">
+            <h4>Product reviews</h4>
+            <p><ThumbUpIcon/>91% of customers recommend this brand</p>
+            <Divider sx={{marginBottom:'2rem'}}/>
+            <div className="rating-bar"><span>5</span><StarBorderIcon/><LinearProgress style={{ width:'70%' }} color='inherit' variant="determinate" value={80} /><span>80+</span> </div>
+            <div className="rating-bar"><span>4</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={10} /><span>10+</span> </div>
+            <div className="rating-bar"><span>3</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={7} /> <span>7+</span></div>
+            <div className="rating-bar"><span>2</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={3} /> <span>3+</span></div>
+            <div className="rating-bar"><span>1</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={1} /> <span>1+</span></div>
+
+
+          </div>
+        </div>
+      </div>
+      <BestSeller/>
+      <div className="about-us-container">
+        <ul>
+          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon1.jpg" alt="1.5M+ Happy Beyoungsters" /><p>1.5M+ Happy Beyoungsters</p></li>
+          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon2.jpg" alt="15 Days Easy Returns" /><p>15 Days Easy Returns</p></li>
+          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon3.jpg" alt="Homegrown Brand" /><p>Homegrown Brand</p></li>
+          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon4.jpg" alt="Packed with Safety" /><p>Packed with Safety</p></li>
+          
+        </ul>
       </div>
     </div>
   );

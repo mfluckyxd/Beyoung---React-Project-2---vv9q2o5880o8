@@ -62,15 +62,15 @@ const Header = () => {
             <MenuIcon sx={{height:"35px", width:'35px'}} />
           </button>
           <div className="nav-left-items">
-            <Link className="nav-logo">
+            <Link to={'/'} className="nav-logo">
               <img src={logoSVG} alt="Logo" />
             </Link>
             <div className="collapse navbar-collapse d-lg-block d-md-block" id="collapsNavbar">
               <nav className="nav-items ">
-                <NavLink to={'/men'}>Men</NavLink>
-                <NavLink to={'/women'}>Women</NavLink>
-                <NavLink to={'/new-arrivals'}>New arrivals</NavLink>
-                <NavLink to={'shop-all'}>Shop All</NavLink>
+                <NavLink to={'/products?gender=men'}>Men</NavLink>
+                <NavLink to={'/products?gender=women'}>Women</NavLink>
+                <NavLink to={'/products?sellerTag=new-arrival'}>New arrivals</NavLink>
+                <NavLink to={'/products'}>Shop All</NavLink>
               </nav>
             </div>
           </div>

@@ -11,7 +11,7 @@ const ProductSliderCard = ({ product }) => {
     e.preventDefault();
   }
   return (
-    <Link to={`/product?id=${_id}`} className="product-card" id={_id}>
+    <Link to={`/products/${_id}`} className="product-card" id={_id}>
       <img src={displayImage} style={{ width: "100%",  }} alt={name} />
       <h5>{name}</h5>
       <p>{subCategory}</p>
