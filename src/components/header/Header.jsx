@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -7,6 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
+import Login from "../authentication/Login";
 
 const Header = () => {
 
@@ -33,6 +34,13 @@ const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const [showLoginModal, setShowLoginModal] = useState()
+  const handleSignin =(e)=>{
+    e.preventDefault();
+    setShowLoginModal(true)
+
+  }
   return (
     <div className="app-header">
       <section className="promo-header">
@@ -47,7 +55,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="quick-access-right">
-          <Link>Sign In</Link>
+          <Link onClick={handleSignin}>Sign In</Link>
           <Link>Sign Up</Link>
         </div>
       </section>
@@ -87,6 +95,7 @@ const Header = () => {
           </Link>
         </div>
       </section>
+      <Login open={showLoginModal} setOpen={setShowLoginModal}/>
     </div>
   );
 };
