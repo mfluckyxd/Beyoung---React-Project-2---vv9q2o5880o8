@@ -11,22 +11,28 @@ import Login from "../authentication/Login";
 import { useAuth, useUpdateLoginStatus } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
+import { Badge } from "@mui/material";
+import {
+  useCartNumbers,
+  useUpdateCartNumbers,
+} from "../../context/CartItemNumbersContext";
+
 const Header = () => {
   const loginStatus = useAuth();
   console.log(loginStatus);
 
+  const updateLoginStatus = useUpdateLoginStatus();
+  const updateCartNumbers = useUpdateCartNumbers();
 
-  const updateLoginStatus = useUpdateLoginStatus()
+  const numberOfCartItems = useCartNumbers();
+  // console.log(numberOfCartItems);
 
-
-  
-  const handleLogout = ()=>{
-    
-    localStorage.removeItem('authToken')
-    updateLoginStatus(false)
-    toast.success("Logged out succesfully",{position: "bottom-left"});
-
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    updateLoginStatus(false);
+    toast.success("Logged out succesfully", { position: "bottom-left" });
+    updateCartNumbers(0);
+  };
 
   useEffect(() => {
     const navbar = document.querySelector(".nav-header");
@@ -76,7 +82,7 @@ const Header = () => {
         <div className="quick-access-right">
           {loginStatus ? (
             <>
-              <button >My Account</button>
+              <button>My Account</button>
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
@@ -123,8 +129,10 @@ const Header = () => {
           <Link>
             <FavoriteIcon />
           </Link>
-          <Link>
-            <ShoppingCartIcon />
+          <Link to={'cart'}>
+            <Badge badgeContent={numberOfCartItems} color="primary">
+              <ShoppingCartIcon />
+            </Badge>
           </Link>
         </div>
       </section>

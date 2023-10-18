@@ -8,6 +8,8 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { loginAPI, signupAPI } from "../../utils/authAPI";
 import { toast } from "react-toastify";
 import { useUpdateLoginStatus } from "../../context/AuthContext";
+import { syncCartItems } from "../../utils/cartAPI";
+import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 
 const style = {
   position: "absolute",
@@ -41,6 +43,8 @@ const Login = ({ open, setOpen }) => {
   const [loader, setLoader] = useState(false)
 
   const updateLoginStatus = useUpdateLoginStatus();
+  const updateCartNumbers = useUpdateCartNumbers();
+
 
 
   const handleChanges = (e) => {
@@ -96,6 +100,7 @@ const Login = ({ open, setOpen }) => {
         handleClose();
         toast.success("Logged in succesfully",{position: "bottom-left"});
         updateLoginStatus(true)
+        syncCartItems(updateCartNumbers)
       }else{
         toast.error(res.message,{position: "bottom-left"});
       }

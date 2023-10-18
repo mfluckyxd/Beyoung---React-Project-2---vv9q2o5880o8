@@ -6,42 +6,81 @@ import { Divider, LinearProgress, Rating } from "@mui/material";
 import DiscountIcon from "@mui/icons-material/Discount";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import BestSeller from "../home/BestSeller";
+import { useAuth } from "../../context/AuthContext";
+import { addItemToCart, getnumberOfCartItems } from "../../utils/cartAPI";
+import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 
 const ProductComponent = () => {
-
-
   const [product, setProduct] = useState([]);
-  
-  const {id} = useParams();
-  
-  
 
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+  const { id } = useParams();
+  const loginStatus = useAuth();
+  const updateCartNumbers = useUpdateCartNumbers();
+
+  const [selectedQty, setSelectedQty] = useState(1);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const fetchProduct = async () => {
-
     try {
       const res = await getProductById(id);
-      console.log(res);
+      // console.log(res);
       setProduct(res);
-      scrollToTop()
+      scrollToTop();
     } catch (error) {}
   };
   useEffect(() => {
     fetchProduct();
-
-
-    document.querySelectorAll('.product-details-box').forEach((box) => {
-      box.querySelector('h5').addEventListener('click', () => {
-        const content = box.querySelector('content');
-      content.classList.toggle('collapseContent');
+  }, [id]);
+  useEffect(() => {
+    document.querySelectorAll(".product-details-box").forEach((box) => {
+      box.querySelector("h5").addEventListener("click", () => {
+        const content = box.querySelector("content");
+        content.classList.toggle("collapseContent");
       });
     });
-  }, [id]);
+  }, []);
+
+  const handleQtyChange = (event) => {
+    const newQuantity = event.target.value;
+    setSelectedQty(newQuantity);
+  };
+
+  const handleAddToCart = async () => {
+    if (loginStatus) {
+      try {
+        const res = await addItemToCart(id, selectedQty);
+        // console.log(res);
+        const response = await getnumberOfCartItems()
+        updateCartNumbers(response)
+
+
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const newItem = {
+        id: id,
+        qty: selectedQty,
+      };
+      const existingItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const existingItemIndex = existingItems.findIndex(
+        (item) => item.id === newItem.id
+      );
+
+      if (existingItemIndex !== -1) {
+        existingItems[existingItemIndex].qty += newItem.qty;
+      } else {
+        existingItems.push(newItem);
+      }
+      localStorage.setItem("cartItems", JSON.stringify(existingItems));
+      updateCartNumbers(existingItems.length);
+    }
+  };
 
   const handleZipSearch = (e) => {
     e.preventDefault();
@@ -62,16 +101,21 @@ const ProductComponent = () => {
               Inclusive of All Taxes + Free Shipping
             </p>
             <div className="product-rating">
-              <Rating name="read-only" value={product.ratings} readOnly />
+              <Rating name="read-only" value={product.ratings || 0} readOnly />
               <p>{product.ratings}</p>
             </div>
             <div className="product-discount">
-              <DiscountIcon />{" "}
+              <DiscountIcon />
               <span>Extra ₹100 OFF on ₹999 (Code:BEYOUNG100)</span>
             </div>
             <div className="qty-section">
-              <label for="quantity">QTY:</label>
-              <select name="quantity" id="quantity">
+              <label htmlFor="quantity">QTY:</label>
+              <select
+                name="quantity"
+                id="quantity"
+                value={selectedQty}
+                onChange={handleQtyChange}
+              >
                 {Array.from({ length: 10 }, (_, index) => (
                   <option key={index + 1} value={index + 1}>
                     {index + 1}
@@ -80,7 +124,10 @@ const ProductComponent = () => {
               </select>
             </div>
             <div className="product-buttons">
-              <button style={{ backgroundColor: "#51CCCC", color: "white" }}>
+              <button
+                onClick={handleAddToCart}
+                style={{ backgroundColor: "#51CCCC", color: "white" }}
+              >
                 <AddShoppingCartIcon />
                 <span>Add to cart</span>
               </button>
@@ -169,26 +216,100 @@ const ProductComponent = () => {
           </div>
           <div className="review-section-right">
             <h4>Product reviews</h4>
-            <p><ThumbUpIcon/>91% of customers recommend this brand</p>
-            <Divider sx={{marginBottom:'2rem'}}/>
-            <div className="rating-bar"><span>5</span><StarBorderIcon/><LinearProgress style={{ width:'70%' }} color='inherit' variant="determinate" value={80} /><span>80+</span> </div>
-            <div className="rating-bar"><span>4</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={10} /><span>10+</span> </div>
-            <div className="rating-bar"><span>3</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={7} /> <span>7+</span></div>
-            <div className="rating-bar"><span>2</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={3} /> <span>3+</span></div>
-            <div className="rating-bar"><span>1</span><StarBorderIcon/><LinearProgress style={{  width:'70%' }} color='inherit' variant="determinate" value={1} /> <span>1+</span></div>
-
-
+            <p>
+              <ThumbUpIcon />
+              91% of customers recommend this brand
+            </p>
+            <Divider sx={{ marginBottom: "2rem" }} />
+            <div className="rating-bar">
+              <span>5</span>
+              <StarBorderIcon />
+              <LinearProgress
+                style={{ width: "70%" }}
+                color="inherit"
+                variant="determinate"
+                value={80}
+              />
+              <span>80+</span>{" "}
+            </div>
+            <div className="rating-bar">
+              <span>4</span>
+              <StarBorderIcon />
+              <LinearProgress
+                style={{ width: "70%" }}
+                color="inherit"
+                variant="determinate"
+                value={10}
+              />
+              <span>10+</span>{" "}
+            </div>
+            <div className="rating-bar">
+              <span>3</span>
+              <StarBorderIcon />
+              <LinearProgress
+                style={{ width: "70%" }}
+                color="inherit"
+                variant="determinate"
+                value={7}
+              />{" "}
+              <span>7+</span>
+            </div>
+            <div className="rating-bar">
+              <span>2</span>
+              <StarBorderIcon />
+              <LinearProgress
+                style={{ width: "70%" }}
+                color="inherit"
+                variant="determinate"
+                value={3}
+              />{" "}
+              <span>3+</span>
+            </div>
+            <div className="rating-bar">
+              <span>1</span>
+              <StarBorderIcon />
+              <LinearProgress
+                style={{ width: "70%" }}
+                color="inherit"
+                variant="determinate"
+                value={1}
+              />{" "}
+              <span>1+</span>
+            </div>
           </div>
         </div>
       </div>
-      <BestSeller/>
+      <BestSeller />
       <div className="about-us-container">
         <ul>
-          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon1.jpg" alt="1.5M+ Happy Beyoungsters" /><p>1.5M+ Happy Beyoungsters</p></li>
-          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon2.jpg" alt="15 Days Easy Returns" /><p>15 Days Easy Returns</p></li>
-          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon3.jpg" alt="Homegrown Brand" /><p>Homegrown Brand</p></li>
-          <li><img src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon4.jpg" alt="Packed with Safety" /><p>Packed with Safety</p></li>
-          
+          <li>
+            <img
+              src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon1.jpg"
+              alt="1.5M+ Happy Beyoungsters"
+            />
+            <p>1.5M+ Happy Beyoungsters</p>
+          </li>
+          <li>
+            <img
+              src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon2.jpg"
+              alt="15 Days Easy Returns"
+            />
+            <p>15 Days Easy Returns</p>
+          </li>
+          <li>
+            <img
+              src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon3.jpg"
+              alt="Homegrown Brand"
+            />
+            <p>Homegrown Brand</p>
+          </li>
+          <li>
+            <img
+              src="https://www.beyoung.in/desktop/images/product-details-2/product-discription-icon4.jpg"
+              alt="Packed with Safety"
+            />
+            <p>Packed with Safety</p>
+          </li>
         </ul>
       </div>
     </div>
