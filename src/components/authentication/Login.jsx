@@ -7,6 +7,7 @@ import loginBanner from "../../assets/login-banner.jpg";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { loginAPI, signupAPI } from "../../utils/authAPI";
 import { toast } from "react-toastify";
+import { useUpdateLoginStatus } from "../../context/AuthContext";
 
 const style = {
   position: "absolute",
@@ -38,6 +39,8 @@ const Login = ({ open, setOpen }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [loader, setLoader] = useState(false)
+
+  const updateLoginStatus = useUpdateLoginStatus();
 
 
   const handleChanges = (e) => {
@@ -91,9 +94,10 @@ const Login = ({ open, setOpen }) => {
       // console.log(res);
       if (res.token) {
         handleClose();
-        toast.success("Logged in succesfully");
+        toast.success("Logged in succesfully",{position: "bottom-left"});
+        updateLoginStatus(true)
       }else{
-        toast.error(res.message);
+        toast.error(res.message,{position: "bottom-left"});
       }
     } catch (error) {
       // console.log(error);

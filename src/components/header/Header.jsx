@@ -8,15 +8,24 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Login from "../authentication/Login";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, useUpdateLoginStatus } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const loginStatus = useAuth();
   console.log(loginStatus);
 
+
+  const updateLoginStatus = useUpdateLoginStatus()
+
+
+  
   const handleLogout = ()=>{
-    sessionStorage.removeItem('loginStatus')
-    sessionStorage.removeItem('authToken')
+    
+    localStorage.removeItem('authToken')
+    updateLoginStatus(false)
+    toast.success("Logged out succesfully",{position: "bottom-left"});
+
   }
 
   useEffect(() => {

@@ -7,9 +7,8 @@ export const loginAPI = async (userInfo) => {
   try {
     const res = await axios.post(`${apiURL}/user/login`, userInfo, headers);
     if (res.data.token) {
-        console.log('im at token');
-        sessionStorage.setItem('loginStatus', 'true');
-        sessionStorage.setItem('authToken', res.data.token);
+        
+        localStorage.setItem('authToken', res.data.token);
     }
     return res.data;
   } catch (error) {
@@ -24,9 +23,8 @@ export const signupAPI = async (userInfo) => {
     const res = await axios.post(`${apiURL}/user/signup`, userInfo, headers);
     // console.log(res.data.data);
     if (res.data.token) {
-        console.log('im at token');
-        sessionStorage.setItem('loginStatus', 'true');
-        sessionStorage.setItem('authToken', res.data.token);
+        
+        localStorage.setItem('authToken', res.data.token);
     }
     return res.data;
   } catch (error) {
