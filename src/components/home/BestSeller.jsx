@@ -142,7 +142,7 @@ const BestSeller = () => {
         
           const res = await getProductsBySearch(pageNo,filter);
           setProducts(res);
-          console.log(res);
+          // console.log(res);
       } catch (error) {}
     };
   

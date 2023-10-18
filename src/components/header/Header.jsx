@@ -8,39 +8,49 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Login from "../authentication/Login";
+import { useAuth } from "../../context/AuthContext";
 
 const Header = () => {
+  const loginStatus = useAuth();
+  console.log(loginStatus);
+
+  const handleLogout = ()=>{
+    sessionStorage.removeItem('loginStatus')
+    sessionStorage.removeItem('authToken')
+  }
 
   useEffect(() => {
-    const navbar = document.querySelector('.nav-header');
-    const container = document.querySelector('.app-header');
+    const navbar = document.querySelector(".nav-header");
+    const container = document.querySelector(".app-header");
 
-    const promoHeader = document.querySelector('.promo-header')
-    const quickAccessHeader = document.querySelector('.quick-access-header')
-
-    
+    const promoHeader = document.querySelector(".promo-header");
+    const quickAccessHeader = document.querySelector(".quick-access-header");
 
     const handleScroll = () => {
-      if (window.scrollY > container.offsetTop+promoHeader.clientHeight+quickAccessHeader.clientHeight) {
-        navbar.classList.add('fixed');
+      if (
+        window.scrollY >
+        container.offsetTop +
+          promoHeader.clientHeight +
+          quickAccessHeader.clientHeight
+      ) {
+        navbar.classList.add("fixed");
       } else {
-        navbar.classList.remove('fixed');
+        navbar.classList.remove("fixed");
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  const [showLoginModal, setShowLoginModal] = useState()
-  const handleSignin =(e)=>{
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const handleSignin = (e) => {
     e.preventDefault();
-    setShowLoginModal(true)
-
-  }
+    setShowLoginModal(true);
+  };
   return (
     <div className="app-header">
       <section className="promo-header">
@@ -55,8 +65,17 @@ const Header = () => {
           </Link>
         </div>
         <div className="quick-access-right">
-          <Link onClick={handleSignin}>Sign In</Link>
-          <Link>Sign Up</Link>
+          {loginStatus ? (
+            <>
+              <button >My Account</button>
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <button onClick={handleSignin}>Sign In</button>
+              <button onClick={handleSignin}>Sign Up</button>
+            </>
+          )}
         </div>
       </section>
       <section className="nav-header">
@@ -67,18 +86,23 @@ const Header = () => {
             data-toggle="collapse"
             data-target="#collapsNavbar"
           >
-            <MenuIcon sx={{height:"35px", width:'35px'}} />
+            <MenuIcon sx={{ height: "35px", width: "35px" }} />
           </button>
           <div className="nav-left-items">
-            <Link to={'/'} className="nav-logo">
+            <Link to={"/"} className="nav-logo">
               <img src={logoSVG} alt="Logo" />
             </Link>
-            <div className="collapse navbar-collapse d-lg-block d-md-block" id="collapsNavbar">
+            <div
+              className="collapse navbar-collapse d-lg-block d-md-block"
+              id="collapsNavbar"
+            >
               <nav className="nav-items ">
-                <NavLink to={'/products?gender=men'}>Men</NavLink>
-                <NavLink to={'/products?gender=women'}>Women</NavLink>
-                <NavLink to={'/products?sellerTag=new-arrival'}>New arrivals</NavLink>
-                <NavLink to={'/products'}>Shop All</NavLink>
+                <NavLink to={"/products?gender=men"}>Men</NavLink>
+                <NavLink to={"/products?gender=women"}>Women</NavLink>
+                <NavLink to={"/products?sellerTag=new-arrival"}>
+                  New arrivals
+                </NavLink>
+                <NavLink to={"/products"}>Shop All</NavLink>
               </nav>
             </div>
           </div>
@@ -95,7 +119,7 @@ const Header = () => {
           </Link>
         </div>
       </section>
-      <Login open={showLoginModal} setOpen={setShowLoginModal}/>
+      <Login open={showLoginModal} setOpen={setShowLoginModal} />
     </div>
   );
 };

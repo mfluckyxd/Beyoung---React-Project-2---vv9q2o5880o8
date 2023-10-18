@@ -34,17 +34,25 @@
     align-items: center;
     
 }
-.quick-access-right a{
+.quick-access-right button{
     padding:0 10px;
+    cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    color: white;
+    border: none;
+    &:focus{
+        outline: none;
+    }
 }
-.quick-access-right a:first-child{
+.quick-access-right button:first-child{
     border-right: 1px solid white;
 }
 @media (max-width:768px) {
     .quick-access-header{
         padding: 5px 5%;
     }
-    .quick-access-right a:last-child{
+    .quick-access-right button:last-child{
         padding-right: 0;
     }
     .promo-header{

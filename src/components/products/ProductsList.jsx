@@ -24,11 +24,11 @@ const ProductsList = () => {
       filter[key] = value.replace(/-/g, " ");
     });
     setFilter(filter);
-    
   }, [searchParams]);
-  useEffect(()=>{
-fetchProducts();
-  },[filter,pageNo])
+  
+  useEffect(() => {
+    fetchProducts();
+  }, [filter, pageNo]);
   return (
     <div>
       <ProductsListComponent

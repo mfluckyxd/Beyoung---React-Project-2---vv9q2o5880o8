@@ -1,7 +1,6 @@
 import React from 'react'
 import ProductSliderCard from '../home/product_card/ProductSliderCard'
 import '../../styles/productlist.css'
-import SingleProductCard from './SingleProductCard'
 import { useSearchParams } from 'react-router-dom'
 
 

@@ -1,7 +1,6 @@
 import axios from "axios"
-import { headerWithProjectIdOnly } from "./getHeaders";
+import { headerWithProjectIdOnly, apiURL } from "./getHeaders";
 
-const apiURL = 'https://academics.newtonschool.co/api/v1'
 
 
 export const getProductsBySearch = async (page, filter)=>{
