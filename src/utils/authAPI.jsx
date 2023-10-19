@@ -10,6 +10,7 @@ export const loginAPI = async (userInfo) => {
         
         localStorage.setItem('authToken', res.data.token);
     }
+    console.log(res.data);
     return res.data;
   } catch (error) {
     return error.response.data;

@@ -1,56 +1,51 @@
 import axios from "axios";
 import { headerWithJWT, apiURL } from "./getHeaders";
 
-const headers = headerWithJWT();
 export const addItemToCart = async (id, qty) => {
-  
+  const headers = headerWithJWT();
+
   try {
-    const res = await axios.post(
+    const res = await axios.patch(
       `${apiURL}/ecommerce/cart/${id}`,
       { quantity: qty },
       headers
     );
 
-    return res;
+    return res.data;
   } catch (error) {
-    return error
+    return error.response.data;
   }
 };
 
-
-export const getCartItems = async ()=>{
+export const getCartItems = async () => {
+  const headers = headerWithJWT();
   try {
-    const res = await axios.get(
-      `${apiURL}/ecommerce/cart/`,
-      headers
-    );
-
-    return res;
+    const res = await axios.get(`${apiURL}/ecommerce/cart/`, headers);
+    return res.data;
   } catch (error) {
-    return error
+    return error.response.data;
   }
-}
+};
 
-export const getnumberOfCartItems = async ()=>{
+export const getnumberOfCartItems = async () => {
   try {
     const res = await getCartItems();
-    // console.log(res);
-    return res.data.results
+    return res.results;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export const syncCartItems = async (updateCartNumbers)=>{
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'))
-  console.log(cartItems);
-  if (cartItems.length>0) {
-    cartItems.map(({id,qty})=>(
-        addItemToCart(id,qty)
-    ))
-    localStorage.setItem('cartItems', JSON.stringify([]))
+export const deleteItemFromCart = async (id) => {
+  const headers = headerWithJWT();
+  try {
+    const res = await axios.delete(
+      `${apiURL}/ecommerce/cart/${id}`,
+      headers
+    );
+
+    return res.data;
+  } catch (error) {
+    return error.response.data;
   }
-  const numsOfCartItems = await getnumberOfCartItems()
-  updateCartNumbers(numsOfCartItems)
-}
-
+};

@@ -8,30 +8,33 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Login from "../authentication/Login";
-import { useAuth, useUpdateLoginStatus } from "../../context/AuthContext";
+import { useAuth, useUpdateLoginModalStatus, useUpdateLoginStatus } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
 import { Badge } from "@mui/material";
 import {
   useCartNumbers,
   useUpdateCartNumbers,
+  useUpdateWishlistNumbers,
+  useWishlistNumbers,
 } from "../../context/CartItemNumbersContext";
 
 const Header = () => {
   const loginStatus = useAuth();
-  console.log(loginStatus);
-
   const updateLoginStatus = useUpdateLoginStatus();
   const updateCartNumbers = useUpdateCartNumbers();
-
+  const updateWishlistNumbers = useUpdateWishlistNumbers()
   const numberOfCartItems = useCartNumbers();
-  // console.log(numberOfCartItems);
+  const numberOfWishlistItems = useWishlistNumbers();
+  const setShowLoginModal = useUpdateLoginModalStatus();
 
+  
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     updateLoginStatus(false);
     toast.success("Logged out succesfully", { position: "bottom-left" });
     updateCartNumbers(0);
+    updateWishlistNumbers(0)
   };
 
   useEffect(() => {
@@ -61,7 +64,8 @@ const Header = () => {
     };
   }, []);
 
-  const [showLoginModal, setShowLoginModal] = useState(false);
+
+   
   const handleSignin = (e) => {
     e.preventDefault();
     setShowLoginModal(true);
@@ -127,16 +131,19 @@ const Header = () => {
             <SearchIcon />
           </Link>
           <Link>
+          <Badge badgeContent={numberOfWishlistItems} color="primary">
             <FavoriteIcon />
+            </Badge>
           </Link>
-          <Link to={'cart'}>
+          <Link to={'/cart'}>
             <Badge badgeContent={numberOfCartItems} color="primary">
               <ShoppingCartIcon />
             </Badge>
           </Link>
         </div>
       </section>
-      <Login open={showLoginModal} setOpen={setShowLoginModal} />
+      {/* <Login  /> */}
+
     </div>
   );
 };

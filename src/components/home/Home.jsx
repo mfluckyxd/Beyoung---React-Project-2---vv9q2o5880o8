@@ -17,6 +17,7 @@ import Reviews from './Reviews';
 const Home = () => {
 
   return (
+    <>
     <div className='home-container'>
       <HeroComponent/>
       <OfferComponent/>
@@ -34,6 +35,7 @@ const Home = () => {
       <section><img src={shippingbanner} style={{width:'100%'}} alt="Be Young fashion store" /></section>
       <section><img src={brandsbanner} style={{width:'100%'}} alt="Be Young fashion store" /></section>
     </div>
+    </>
   )
 }
 

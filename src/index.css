@@ -10,4 +10,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
     /* overflow-x: hidden; */
   }
+
+  @media (max-width: 768px) {
+    .Toastify__toast-container {
+      width: 50% !important;
+    }
+  }
+  @media (max-width: 500px) {
+    .Toastify__toast-container {
+      width: 80% !important;
+      
+    }
+  }
   

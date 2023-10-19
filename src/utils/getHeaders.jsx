@@ -1,7 +1,6 @@
 const projectID = 'vv9q2o5880o8'
 export const apiURL = 'https://academics.newtonschool.co/api/v1'
 
-const authToken = localStorage.getItem("authToken");
 
 export const headerWithProjectIdOnly = () => {
     return {
@@ -11,6 +10,8 @@ export const headerWithProjectIdOnly = () => {
     };
   };
 export const headerWithJWT = () => {
+const authToken = localStorage.getItem("authToken");
+
     return {
       headers: {
         projectID: projectID,

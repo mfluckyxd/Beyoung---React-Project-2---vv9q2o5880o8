@@ -7,9 +7,10 @@ import loginBanner from "../../assets/login-banner.jpg";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { loginAPI, signupAPI } from "../../utils/authAPI";
 import { toast } from "react-toastify";
-import { useUpdateLoginStatus } from "../../context/AuthContext";
-import { syncCartItems } from "../../utils/cartAPI";
-import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
+import { useShowLoginModal, useUpdateLoginModalStatus, useUpdateLoginStatus } from "../../context/AuthContext";
+import { getnumberOfCartItems } from "../../utils/cartAPI";
+import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
+import { getnumberOfWishlistItems } from "../../utils/wishListAPI";
 
 const style = {
   position: "absolute",
@@ -29,7 +30,13 @@ const style = {
   //   border: '2px solid #000',
   //   boxShadow: 24,
 };
-const Login = ({ open, setOpen }) => {
+const Login = () => {
+
+
+  const open = useShowLoginModal()
+  const setOpen = useUpdateLoginModalStatus();
+
+
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -44,6 +51,7 @@ const Login = ({ open, setOpen }) => {
 
   const updateLoginStatus = useUpdateLoginStatus();
   const updateCartNumbers = useUpdateCartNumbers();
+  const updateWishlistNumbers = useUpdateWishlistNumbers()
 
 
 
@@ -100,7 +108,10 @@ const Login = ({ open, setOpen }) => {
         handleClose();
         toast.success("Logged in succesfully",{position: "bottom-left"});
         updateLoginStatus(true)
-        syncCartItems(updateCartNumbers)
+        const numberOfCartItems = await getnumberOfCartItems()
+        const numberOfWishlistItems = await getnumberOfWishlistItems()
+        updateCartNumbers(numberOfCartItems)
+        updateWishlistNumbers(numberOfWishlistItems)
       }else{
         toast.error(res.message,{position: "bottom-left"});
       }

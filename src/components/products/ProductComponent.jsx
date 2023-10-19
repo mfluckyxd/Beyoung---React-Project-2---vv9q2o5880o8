@@ -9,9 +9,10 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import BestSeller from "../home/BestSeller";
-import { useAuth } from "../../context/AuthContext";
-import { addItemToCart, getnumberOfCartItems } from "../../utils/cartAPI";
+import { useAuth, useUpdateLoginModalStatus } from "../../context/AuthContext";
+import { addItemToCart } from "../../utils/cartAPI";
 import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
+import { toast } from "react-toastify";
 
 const ProductComponent = () => {
   const [product, setProduct] = useState([]);
@@ -19,6 +20,8 @@ const ProductComponent = () => {
   const { id } = useParams();
   const loginStatus = useAuth();
   const updateCartNumbers = useUpdateCartNumbers();
+  const setShowLoginModal = useUpdateLoginModalStatus();
+
 
   const [selectedQty, setSelectedQty] = useState(1);
 
@@ -54,31 +57,23 @@ const ProductComponent = () => {
     if (loginStatus) {
       try {
         const res = await addItemToCart(id, selectedQty);
-        // console.log(res);
-        const response = await getnumberOfCartItems()
-        updateCartNumbers(response)
+        console.log(res);
+        if (res.status==='success') {
+          toast.success(res.message)
+          updateCartNumbers(res.results)
+        } else if(res.status==='fail'){
+          toast.error(res.message)
+        }else{
+          toast.error('Something went wrong, please try again later.')
+        }
+     
 
 
       } catch (error) {
         console.log(error);
       }
     } else {
-      const newItem = {
-        id: id,
-        qty: selectedQty,
-      };
-      const existingItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const existingItemIndex = existingItems.findIndex(
-        (item) => item.id === newItem.id
-      );
-
-      if (existingItemIndex !== -1) {
-        existingItems[existingItemIndex].qty += newItem.qty;
-      } else {
-        existingItems.push(newItem);
-      }
-      localStorage.setItem("cartItems", JSON.stringify(existingItems));
-      updateCartNumbers(existingItems.length);
+      setShowLoginModal(true)
     }
   };
 
