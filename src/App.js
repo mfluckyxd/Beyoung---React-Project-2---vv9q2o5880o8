@@ -10,12 +10,14 @@ import CartItems from "./components/cart/CartItems";
 import ShippingSection from "./components/checkout/ShippingSection";
 import PaymentSection from "./components/checkout/PaymentSection";
 import CartComponent from "./components/cart/CartComponent";
+import { CheckoutProvider } from "./context/CheckoutContext";
 
 function App() {
   return (
     <>
       <AuthProvider>
         <CartNumbersProvider>
+          <CheckoutProvider>
           <Routes>
             <Route path="/cart" element={<CartComponent />} />
             <Route path="/checkout" element={<CheckoutComponent />}>
@@ -28,6 +30,7 @@ function App() {
           </Routes>
 
           <ToastContainer autoClose={3000} position="bottom-left"/>
+          </CheckoutProvider>
         </CartNumbersProvider>
       </AuthProvider>
     </>

@@ -5,12 +5,23 @@ import { deleteItemFromCart } from "../../utils/cartAPI";
 import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
 import { addToFavAPI } from "../../utils/wishListAPI";
+import { useCheckout } from "../../context/CheckoutContext";
 
-const CartItemCard = ({product,removeProductFromState,setTotalPrice,setTotalItems,}) => {
+const CartItemCard = ({product,removeProductFromState}) => {
   const {
     product: { _id, name, displayImage, price },
     quantity,
   } = product;
+
+
+  const {
+    
+    
+    
+    
+    updateTotalItems,
+    updateTotalPrice,
+  } = useCheckout();
 
   const [qty, setQty] = useState(quantity);
 
@@ -28,9 +39,9 @@ const CartItemCard = ({product,removeProductFromState,setTotalPrice,setTotalItem
       console.log(res);
       if (res.status === "success") {
         removeProductFromState(_id);
-        setTotalItems(res.data.items.length);
+        updateTotalItems(res.data.items.length);
         updateCartNumbers(res.data.items.length);
-        setTotalPrice(res.data.totalPrice);
+        updateTotalPrice(res.data.totalPrice);
         toast.success(res.message);
       }
     } catch (error) {

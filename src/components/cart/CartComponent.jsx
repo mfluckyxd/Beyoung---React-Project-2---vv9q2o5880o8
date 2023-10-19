@@ -5,18 +5,17 @@ import PricingSection from "../checkout/PricingSection";
 import "../../styles/cart.css";
 import { getCartItems } from "../../utils/cartAPI";
 import EmptyCart from "./EmptyCart";
+import { useCheckout } from "../../context/CheckoutContext";
 
 const CartComponent = () => {
-  const [products, setProducts] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
 
-  const checkoutData = {
-    products:products,
-    totalItems:totalItems,
-    totalPrice:totalPrice,
-  }
 
+  const {
+    products,
+    updateProducts,
+    updateTotalItems,
+    updateTotalPrice,
+  } = useCheckout()
 
 
   const fetchProducts = async () => {
@@ -24,9 +23,9 @@ const CartComponent = () => {
       const res = await getCartItems();
       console.log(res.data);
       const { items, totalPrice } = res.data;
-      setProducts(items);
-      setTotalPrice(totalPrice);
-      setTotalItems(items.length);
+      updateProducts(items);
+      updateTotalPrice(totalPrice);
+      updateTotalItems(items.length);
     } catch (error) {
       console.log(error);
     }
@@ -45,12 +44,9 @@ const CartComponent = () => {
         <>
           <div className="cart-container">
             <CartItems
-              products={products}
-              setProducts={setProducts}
-              setTotalItems={setTotalItems}
-              setTotalPrice={setTotalPrice}
+
             />
-            <PricingSection checkoutData={checkoutData} />
+            <PricingSection  />
           </div>
         </>
       )}

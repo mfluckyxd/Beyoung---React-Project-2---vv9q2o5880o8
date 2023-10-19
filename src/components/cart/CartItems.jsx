@@ -1,13 +1,21 @@
 import React from "react";
 import CartItemCard from "./CartItemCard";
+import { useCheckout } from "../../context/CheckoutContext";
 
-const CartItems = ({ products, setProducts,setTotalPrice,setTotalItems }) => {
+const CartItems = () => {
+  
+  const {
+    products,
+
+    updateProducts,
+ 
+  } = useCheckout();
+
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(
       (product) => product.product._id !== productId
     );
-
-    setProducts(updatedProducts);
+    updateProducts(updatedProducts);
   };
   return (
     <div className="cart-items-container">
@@ -17,8 +25,7 @@ const CartItems = ({ products, setProducts,setTotalPrice,setTotalItems }) => {
             key={i}
             product={product}
             removeProductFromState={removeProductFromState}
-            setTotalPrice={setTotalPrice}
-            setTotalItems={setTotalItems}
+            
           />
         ))}
     </div>

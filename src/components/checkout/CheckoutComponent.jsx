@@ -22,7 +22,7 @@ const CheckoutComponent = () => {
         ) : (
           <div className="checkout-section">
             <Outlet/>
-            {/* <PricingSection/> */}
+            <PricingSection/>
             <section className="main-checkout-routes"></section>
             <section className="pricing-secion"></section>
           </div>

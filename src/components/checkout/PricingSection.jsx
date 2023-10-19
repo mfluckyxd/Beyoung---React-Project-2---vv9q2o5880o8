@@ -1,9 +1,12 @@
 import { Divider } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCheckout } from "../../context/CheckoutContext";
 
-const PricingSection = ({ checkoutData }) => {
-  const { totalItems, totalPrice, products } = checkoutData;
+const PricingSection = () => {
+  
+
+  const { totalItems, totalPrice } = useCheckout();
   return (
     <div className="pricing-section-container">
       <section className="pricing-section">
@@ -35,11 +38,7 @@ const PricingSection = ({ checkoutData }) => {
           <span>&#8377;{totalPrice}</span>
         </p>
         <button>
-          <Link
-            to={"/checkout/shipping"}
-          >
-            checkout securely
-          </Link>
+          <Link to={"/checkout/shipping"}>checkout securely</Link>
         </button>
       </section>
     </div>
