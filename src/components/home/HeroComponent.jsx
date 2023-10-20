@@ -18,8 +18,8 @@ const HeroComponent = () => {
   return (
     <div className='hero-section'>
         <Slider {...settings}>
-            <Link><img style={{width:"100%", display:'block'}} src={heroBanner1} alt="hero-banner" /></Link>
-            <Link><img style={{width:"100%", display:'block'}} src={heroBanner2} alt="hero-banner" /></Link>
+            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={heroBanner1} alt="hero-banner" /></Link>
+            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={heroBanner2} alt="hero-banner" /></Link>
         </Slider>
     </div>
   )

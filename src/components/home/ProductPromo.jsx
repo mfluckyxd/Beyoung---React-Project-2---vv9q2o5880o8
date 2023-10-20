@@ -7,6 +7,7 @@ import PromoProduct3 from "../../assets/product-off-3.jpg";
 import PromoProduct4 from "../../assets/product-off-4.jpg";
 import PromoProduct5 from "../../assets/product-off-5.jpg";
 import Carousel from "react-multi-carousel";
+import { Link } from "react-router-dom";
 
 const ProductPromo = () => {
   const promoProducts = [
@@ -39,15 +40,15 @@ const ProductPromo = () => {
   return (
     <div className="product-promo-container">
       <section className="promo-banner">
-        <img src={PromoBanner1} alt="promotional-banner" />
-        <img src={PromoBanner2} alt="promotional-banner" />
+        <Link to={'/products'}><img src={PromoBanner1} alt="promotional-banner" /></Link>
+        <Link to={'/products'}><img src={PromoBanner2} alt="promotional-banner" /></Link>
       </section>
       <section className="promo-products-slider">
         <h3>BIG SAVING ZONE</h3>
         <Carousel responsive={responsive} infinite={true}>
           {promoProducts.map((product, i) => (
             <div className="slider-item-wrapper" key={i}>
-              <img src={product} style={{width:'100%'}} alt="promotional-products" />
+              <Link  to={'/products'}><img src={product} style={{width:'100%'}} alt="promotional-products" /></Link>
             </div>
           ))}
         </Carousel>

@@ -10,9 +10,9 @@ const Categories = () => {
     <div className='categories-container'>
         <h3>Categories</h3>
         <section className="categories-cards-section">
-            <Link className="category-card"><img src={shirts} alt="shirts" /></Link>
-            <Link className="category-card"><img src={jeans} alt="jeans" /></Link>
-            <Link className="category-card"><img src={joggers} alt="joggers" /></Link>
+            <Link to={'/products?subCategory=shirt'} className="category-card"><img src={shirts} alt="shirts" /></Link>
+            <Link to={'/products?subCategory=jeans'} className="category-card"><img src={jeans} alt="jeans" /></Link>
+            <Link to={'/products?subCategory=jogger'} className="category-card"><img src={joggers} alt="joggers" /></Link>
             
             
             

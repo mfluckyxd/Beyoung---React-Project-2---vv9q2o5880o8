@@ -39,8 +39,11 @@
   justify-content: space-between;
   /* gap: 1rem; */
 }
-.product-promo-container .promo-banner img {
+.product-promo-container .promo-banner a {
   width: 48%;
+  >img{
+    width: 100%;
+  }
 }
 
 .promo-products-slider {
