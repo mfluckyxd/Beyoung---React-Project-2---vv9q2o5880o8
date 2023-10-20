@@ -12,10 +12,13 @@ import { useCheckout } from "../../context/CheckoutContext";
 import { useLoader } from "../../context/LoaderContext";
 
 const CartItemCard = ({ product, removeProductFromState }) => {
+
+ 
   const {
     product: { _id, name, displayImage, price },
     quantity,
   } = product;
+  
 
   const { updateTotalItems, updateTotalPrice } = useCheckout();
 

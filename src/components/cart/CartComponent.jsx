@@ -12,13 +12,17 @@ const CartComponent = () => {
   const { products, updateProducts, updateTotalItems, updateTotalPrice } =
     useCheckout();
     const {updateLoaderStatus} = useLoader()
+    
 
   const fetchProducts = async () => {
+    
     try {
       updateLoaderStatus(true)
+      
       const res = await getCartItems();
       // console.log(res.data);
       const { items, totalPrice } = res.data;
+      
       updateProducts(items);
       updateTotalPrice(totalPrice);
       updateTotalItems(items.length);
@@ -26,11 +30,14 @@ const CartComponent = () => {
       console.log(error);
     }finally{
       updateLoaderStatus(false)
+      // console.log(products);
     }
   };
 
   useEffect(() => {
+    
     fetchProducts();
+
   }, []);
 
   return (

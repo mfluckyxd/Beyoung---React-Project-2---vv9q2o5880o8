@@ -6,11 +6,11 @@ const CartItems = () => {
   
   const {
     products,
-
     updateProducts,
- 
   } = useCheckout();
-
+  
+  
+ 
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(
       (product) => product.product._id !== productId
