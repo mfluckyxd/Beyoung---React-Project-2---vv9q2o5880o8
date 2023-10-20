@@ -3,6 +3,7 @@ import ProductsListComponent from "../products/ProductsListComponent";
 import { getProductsBySearch } from "../../utils/getProductsAPI";
 import { useSearchParams } from "react-router-dom";
 import { useLoader } from "../../context/LoaderContext";
+import NoProducts from "./NoProducts";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -10,38 +11,49 @@ const ProductsList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [filter, setFilter] = useState({});
+  // const [filter, setFilter] = useState({});
 
-  const {updateLoaderStatus} = useLoader()
+  const { updateLoaderStatus } = useLoader();
 
-
-  const fetchProducts = async () => {
+  const fetchProducts = async (searchFilter) => {
     try {
-      updateLoaderStatus(true)
-      const res = await getProductsBySearch(pageNo, filter);
-      setProducts(res);
-    } catch (error) {}finally{
-      updateLoaderStatus(false)
+      updateLoaderStatus(true);
+      const res = await getProductsBySearch(pageNo, searchFilter);
+      // console.log(res);
+      // setProducts(res);
+      if (res.status==='success') {
+        setProducts(res.data)
+      }else{
+        setProducts(false)
+      }
+    } catch (error) {
+    } finally {
+      updateLoaderStatus(false);
     }
   };
 
   useEffect(() => {
     let filter = {};
     searchParams.forEach((value, key) => {
-      filter[key] = value.replace(/-/g, " ");
+      filter[key] = decodeURIComponent(value);
     });
-    setFilter(filter);
+    // setFilter(filter);
+    fetchProducts(filter)
   }, [searchParams]);
-  
-  useEffect(() => {
-    fetchProducts();
-  }, [filter, pageNo]);
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, [filter, pageNo]);
+ 
   return (
     <div>
-      <ProductsListComponent
-        products={products}
-        setSearchParams={setSearchParams}
-      />
+      {!products ? (
+        <NoProducts/>
+      ) : (
+        <ProductsListComponent
+          products={products}
+        />
+      )}
     </div>
   );
 };

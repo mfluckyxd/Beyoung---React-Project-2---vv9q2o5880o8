@@ -119,10 +119,38 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    >a{
+        color: #000;
+    }
+    >button{
+        color: #000;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+    }
 }
-.nav-right a{
-    color: #000;
+
+.search-bar{
+    background-color: #fff;
+    padding: 0.7rem;
+    border: 0.5px solid #ddc9c9;
+    >input{
+        outline: none;
+        border-radius: unset;
+        border: 0.5px solid #ddc9c9;
+        height: 2rem;
+    }
+    >button{
+        background-color: black;
+        color: white;
+        border: none;
+        text-transform: uppercase;
+        height: 2rem;
+        cursor: pointer;
+    }
 }
+
 
 @media (max-width:768px) {
     .nav-left-items{

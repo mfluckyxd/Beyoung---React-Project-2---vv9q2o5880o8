@@ -21,7 +21,11 @@ const NewArrivals = () => {
     try {
       updateLoaderStatus(true)
         const res = await getProductsBySearch(pageNo,filter);
-        setProducts(res);
+        if (res.status==='success') {
+          setProducts(res.data)
+        }else{
+          setProducts({})
+        }
     } catch (error) {}finally{
       updateLoaderStatus(false)
     }

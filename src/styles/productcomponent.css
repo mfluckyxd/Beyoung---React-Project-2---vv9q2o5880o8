@@ -76,6 +76,10 @@
   justify-content: center;
   font-weight: 610;
   border: none;
+  cursor: pointer;
+  &:hover{
+    
+  }
 }
 
 .delivery-options-box {

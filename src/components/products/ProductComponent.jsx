@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../utils/getProductsAPI";
 import "../../styles/productcomponent.css";
 import { Divider, LinearProgress, Rating } from "@mui/material";
@@ -14,6 +14,8 @@ import { addItemToCart } from "../../utils/cartAPI";
 import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
 import { useLoader } from "../../context/LoaderContext";
+import { useCheckout } from "../../context/CheckoutContext";
+
 
 const ProductComponent = () => {
   const [product, setProduct] = useState([]);
@@ -23,6 +25,10 @@ const ProductComponent = () => {
   const updateCartNumbers = useUpdateCartNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
   const {updateLoaderStatus} = useLoader()
+
+  const { updateProducts, updateTotalItems, updateTotalPrice } =
+    useCheckout();
+    const navigate = useNavigate()
 
 
 
@@ -86,6 +92,15 @@ const ProductComponent = () => {
     }
   };
 
+  const handleBuyNow = ()=>{
+    const chkoutproduct = [product]
+      updateProducts(chkoutproduct)
+      updateTotalItems(1)
+      updateTotalPrice(product.price*selectedQty)
+      navigate('/checkout/shipping')
+      
+  }
+
   const handleZipSearch = (e) => {
     e.preventDefault();
   };
@@ -135,7 +150,7 @@ const ProductComponent = () => {
                 <AddShoppingCartIcon />
                 <span>Add to cart</span>
               </button>
-              <button style={{ backgroundColor: "#F9EB28" }}>
+              <button onClick={handleBuyNow} style={{ backgroundColor: "#F9EB28" }}>
                 <ShoppingCartCheckoutIcon />
                 <span>Buy Now</span>
               </button>

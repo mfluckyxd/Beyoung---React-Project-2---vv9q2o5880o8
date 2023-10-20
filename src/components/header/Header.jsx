@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import logoSVG from "../../Logo.svg";
@@ -11,13 +11,15 @@ import Login from "../authentication/Login";
 import { useAuth, useUpdateLoginModalStatus, useUpdateLoginStatus } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
-import { Badge } from "@mui/material";
+import { Badge, ClickAwayListener, Popper, TextField } from "@mui/material";
 import {
   useCartNumbers,
   useUpdateCartNumbers,
   useUpdateWishlistNumbers,
   useWishlistNumbers,
 } from "../../context/CartItemNumbersContext";
+import { useLoader } from "../../context/LoaderContext";
+import { getProductsBySearch } from "../../utils/getProductsAPI";
 
 const Header = () => {
   const loginStatus = useAuth();
@@ -27,6 +29,10 @@ const Header = () => {
   const numberOfCartItems = useCartNumbers();
   const numberOfWishlistItems = useWishlistNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
+
+
+
+
 
   
   const handleLogout = () => {
@@ -65,6 +71,30 @@ const Header = () => {
   }, []);
 
 
+  const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const searchInputRef = useRef()
+  const navigate = useNavigate()
+
+  const handleSearchBtnClick = (event) => {
+    if (anchorEl) {
+      setIsSearchbarOpen(false);
+      setAnchorEl(null);
+    } else {
+      setIsSearchbarOpen(true);
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+const handleSearch = async ()=>{
+  const {value} = searchInputRef.current;
+  console.log(value);
+  setIsSearchbarOpen(false);
+  navigate(`/products?name=${value}`)
+  
+
+}
    
   const handleSignin = (e) => {
     e.preventDefault();
@@ -118,7 +148,7 @@ const Header = () => {
               <nav className="nav-items ">
                 <NavLink to={"/products?gender=men"}>Men</NavLink>
                 <NavLink to={"/products?gender=women"}>Women</NavLink>
-                <NavLink to={"/products?sellerTag=new-arrival"}>
+                <NavLink to={"/products?sellerTag=new arrival"}>
                   New arrivals
                 </NavLink>
                 <NavLink to={"/products"}>Shop All</NavLink>
@@ -127,9 +157,9 @@ const Header = () => {
           </div>
         </div>
         <div className="nav-right">
-          <Link>
+          <button onClick={handleSearchBtnClick}>
             <SearchIcon />
-          </Link>
+          </button>
           <Link>
           <Badge badgeContent={numberOfWishlistItems} color="primary">
             <FavoriteIcon />
@@ -142,8 +172,17 @@ const Header = () => {
           </Link>
         </div>
       </section>
-      {/* <Login  /> */}
-
+      
+      {isSearchbarOpen && (
+        <ClickAwayListener onClickAway={handleSearchBtnClick}>
+          <Popper open={isSearchbarOpen} anchorEl={anchorEl} placement="bottom-end" >
+            <div className="search-bar">
+              <input id="searchBarInput" type="text" placeholder="Search entire store here..." ref={searchInputRef}/>
+              <button onClick={handleSearch}>Search</button>
+            </div>
+          </Popper>
+        </ClickAwayListener>
+      )}
     </div>
   );
 };

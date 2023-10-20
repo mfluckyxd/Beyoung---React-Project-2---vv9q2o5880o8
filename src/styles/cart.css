@@ -4,6 +4,7 @@
   background-color: #f8f8f8;
   margin: 0 7rem;
   /* height: 70vh; */
+  min-height: 90vh;
   justify-content: space-around;
   padding: 2rem 0;
 }

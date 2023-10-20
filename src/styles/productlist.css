@@ -29,7 +29,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 31%;
+  width: 20%;
   background-color: #fff;
   margin-top: 1.5rem;
   border-radius: 5px 5px 0 0;
@@ -68,6 +68,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.no-products{
+  min-width: 95vw;
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  >img{
+    max-width: 300px;
+    width: 100%;
+  }
+  >p{
+    padding: 1rem 3rem;
+    border-top: 1px solid black;
+    
+  }
 }
 
 @media (max-width:580px) {
