@@ -70,7 +70,7 @@ const ProductComponent = () => {
       try {
         updateLoaderStatus(true)
         const res = await addItemToCart(id, selectedQty);
-        console.log(res);
+        // console.log(res);
         if (res.status==='success') {
           toast.success(res.message)
           updateCartNumbers(res.results)
@@ -193,35 +193,50 @@ const ProductComponent = () => {
         <div className="product-details-section">
           <div className="product-details-box">
             <h5>Product Highlights</h5>
-            <content>
-              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
-              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
-              Style Everyday Casuals
-            </content>
+              <ul>
+                <li>It is a long established fact that a reader will</li>
+                <li>Be distracted by the readable content</li>
+                <li>Of a page when looking at its layout</li>
+                <li>The point of using Lorem Ipsum is that it</li>
+                <li>Has a more-or-less normal distribution of letters</li>
+                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
+              </ul>
+              
           </div>
           <div className="product-details-box">
             <h5>Product Highlights</h5>
-            <content>
-              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
-              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
-              Style Everyday Casuals
-            </content>
+            <ul>
+                <li>It is a long established fact that a reader will</li>
+                <li>Be distracted by the readable content</li>
+                <li>Of a page when looking at its layout</li>
+                <li>The point of using Lorem Ipsum is that it</li>
+                <li>Has a more-or-less normal distribution of letters</li>
+                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
+              </ul>
           </div>
           <div className="product-details-box">
             <h5>Product Highlights</h5>
-            <content>
-              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
-              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
-              Style Everyday Casuals
-            </content>
+            <ul>
+                <li>It is a long established fact that a reader will</li>
+                <li>Be distracted by the readable content</li>
+                <li>Of a page when looking at its layout</li>
+                <li>The point of using Lorem Ipsum is that it</li>
+                <li>Has a more-or-less normal distribution of letters</li>
+                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
+              </ul>
           </div>
           <div className="product-details-box">
             <h5>Product Highlights</h5>
-            <content>
-              Fabric Stretch Denim Weave Type Twill Fade Light Blue Fit Slim
-              Tapered Fit Pocket 5 Pockets Waist Rise Mid-Rise Wash Indigo Wash
-              Style Everyday Casuals
-            </content>
+           
+            <ul>
+                <li>It is a long established fact that a reader will</li>
+                <li>Be distracted by the readable content</li>
+                <li>Of a page when looking at its layout</li>
+                <li>The point of using Lorem Ipsum is that it</li>
+                <li>Has a more-or-less normal distribution of letters</li>
+                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
+              </ul>
+            
           </div>
         </div>
       </div>

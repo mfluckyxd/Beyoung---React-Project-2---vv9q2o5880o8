@@ -34,7 +34,7 @@ const CartItemCard = ({ product, removeProductFromState }) => {
     try {
       updateLoaderStatus(true)
       const res = await deleteItemFromCart(_id);
-      console.log(res);
+      // console.log(res);
       if (res.status === "success") {
         removeProductFromState(_id);
         updateTotalItems(res.data.items.length);
@@ -57,7 +57,7 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       removeItemFromCart(id);
 
       const res = await addToFavAPI(body);
-      console.log(res);
+      // console.log(res);
       if (res.status === "success") {
         toast.success(res.message);
         updateWishlistNumbers(res.results);

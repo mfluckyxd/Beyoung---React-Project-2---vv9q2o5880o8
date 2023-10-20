@@ -78,7 +78,7 @@
   border: none;
   cursor: pointer;
   &:hover{
-    
+
   }
 }
 
@@ -156,7 +156,7 @@
     .product-details-section{
         flex-direction: column;
     }
-    .product-details-box content{
+    .product-details-box ul{
         display: none;
     }
     .product-details-box .collapseContent{

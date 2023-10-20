@@ -10,7 +10,7 @@ export const loginAPI = async (userInfo) => {
         
         localStorage.setItem('authToken', res.data.token);
     }
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     return error.response.data;
@@ -20,7 +20,7 @@ export const loginAPI = async (userInfo) => {
 export const signupAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
   try {
-    console.log(`${apiURL}/user/signup`, headers, userInfo);
+    // console.log(`${apiURL}/user/signup`, headers, userInfo);
     const res = await axios.post(`${apiURL}/user/signup`, userInfo, headers);
     // console.log(res.data.data);
     if (res.data.token) {

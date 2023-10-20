@@ -17,7 +17,7 @@ const CartComponent = () => {
     try {
       updateLoaderStatus(true)
       const res = await getCartItems();
-      console.log(res.data);
+      // console.log(res.data);
       const { items, totalPrice } = res.data;
       updateProducts(items);
       updateTotalPrice(totalPrice);

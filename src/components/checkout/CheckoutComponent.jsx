@@ -10,7 +10,7 @@ import { useCheckout } from "../../context/CheckoutContext";
 const CheckoutComponent = () => {
   
   const {totalItems,checkoutAddress} = useCheckout()
-  console.log(Object.keys(checkoutAddress).length);
+  // console.log(Object.keys(checkoutAddress).length);
 
   return (
     <>

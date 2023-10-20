@@ -8,6 +8,8 @@ import NoProducts from "./NoProducts";
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [pageNo, setPageNo] = useState(1);
+  const [prevPageNo, setPrevPageNo] = useState(null);
+  const [prevSearchParams,setPrevSearchParams] = useState(null)
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -15,16 +17,19 @@ const ProductsList = () => {
 
   const { updateLoaderStatus } = useLoader();
 
-  const fetchProducts = async (searchFilter) => {
+  const fetchProducts = async (searchFilter,isPageChange) => {
     try {
       updateLoaderStatus(true);
       const res = await getProductsBySearch(pageNo, searchFilter);
       // console.log(res);
       // setProducts(res);
-      if (res.status==='success') {
-        setProducts(res.data)
-      }else{
-        setProducts(false)
+      if (!isPageChange) {
+        setProducts([]);
+      }
+      if (res.status === "success") {
+        setProducts(isPageChange ? [...products, ...res.data] : res.data);
+      } else {
+        setProducts({});
       }
     } catch (error) {
     } finally {
@@ -34,26 +39,49 @@ const ProductsList = () => {
 
   useEffect(() => {
     let filter = {};
+    
     searchParams.forEach((value, key) => {
-      filter[key] = decodeURIComponent(value);
+      // console.log(value);
+      if (value!=='shop all') {
+        filter[key] = decodeURIComponent(value);
+      }
+      
     });
-    // setFilter(filter);
-    fetchProducts(filter)
-  }, [searchParams]);
 
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, [filter, pageNo]);
- 
+    const isSearchChange = prevSearchParams !== searchParams.toString();
+    if (isSearchChange) {
+      setPageNo(1);
+      setPrevPageNo(null) // Reset pageNo to 1
+    }
+  
+    // Set prevSearchParams to current searchParams
+    setPrevSearchParams(searchParams.toString());
+    // setFilter(filter);
+    const isPageChange = prevPageNo !== null && prevPageNo !== pageNo;
+    fetchProducts(filter,isPageChange);
+  }, [searchParams, pageNo]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - 800
+    ) {
+      setPrevPageNo(pageNo)
+      setPageNo((prevPage) => prevPage + 1);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const isEmpty = !Object.keys(products).length;
+
   return (
     <div>
-      {!products ? (
-        <NoProducts/>
-      ) : (
-        <ProductsListComponent
-          products={products}
-        />
-      )}
+      {isEmpty ? <NoProducts /> : <ProductsListComponent products={products} />}
     </div>
   );
 };

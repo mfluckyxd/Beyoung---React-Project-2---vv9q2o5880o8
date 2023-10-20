@@ -38,7 +38,7 @@ const PricingSection = () => {
       navigate("/checkout/shipping");
     } else if (currentPage === "shipping") {
       if (Object.keys(checkoutAddress).length) {
-        console.log(checkoutAddress);
+        // console.log(checkoutAddress);
         navigate("/checkout/payment");
       } else {
         toast.error("Please verify your address again!");
@@ -58,7 +58,7 @@ const PricingSection = () => {
       updateLoaderStatus(true)
       for (const { product, quantity } of products) {
         const res = await newOrder(product._id, quantity, checkoutAddress);
-        console.log(res);
+        // console.log(res);
         deleteItemFromCart(product._id)
       }
     } catch (error) {

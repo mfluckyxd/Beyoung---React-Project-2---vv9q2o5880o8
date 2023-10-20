@@ -89,7 +89,7 @@ const Header = () => {
 
 const handleSearch = async ()=>{
   const {value} = searchInputRef.current;
-  console.log(value);
+  // console.log(value);
   setIsSearchbarOpen(false);
   navigate(`/products?name=${value}`)
   
@@ -151,7 +151,7 @@ const handleSearch = async ()=>{
                 <NavLink to={"/products?sellerTag=new arrival"}>
                   New arrivals
                 </NavLink>
-                <NavLink to={"/products"}>Shop All</NavLink>
+                <NavLink to={"/products?q=shop all"}>Shop All</NavLink>
               </nav>
             </div>
           </div>
