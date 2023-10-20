@@ -22,13 +22,9 @@ const style = {
   justifyContent: "center",
 
   "@media (max-width: 768px)": {
-    width: "90%", // Apply width: '100%' for screens less than 750px
+    width: "90%", 
   },
 
-  //   width: 400,
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   boxShadow: 24,
 };
 const Login = () => {
 

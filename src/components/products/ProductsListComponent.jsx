@@ -20,9 +20,9 @@ const ProductsListComponent = ({ products, setSearchParams }) => {
   };
   return (
     <div className="products-list-compo-container">
-      <section className="product-list-filter-section">
+      {/* <section className="product-list-filter-section">
         <button onClick={handleFilter}>filter</button>
-      </section>
+      </section> */}
       <section className="product-list-section">
         <h3>{heading}</h3>
         <div className="product-list-cards-container">

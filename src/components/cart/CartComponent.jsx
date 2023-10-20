@@ -8,15 +8,8 @@ import EmptyCart from "./EmptyCart";
 import { useCheckout } from "../../context/CheckoutContext";
 
 const CartComponent = () => {
-
-
-  const {
-    products,
-    updateProducts,
-    updateTotalItems,
-    updateTotalPrice,
-  } = useCheckout()
-
+  const { products, updateProducts, updateTotalItems, updateTotalPrice } =
+    useCheckout();
 
   const fetchProducts = async () => {
     try {
@@ -43,10 +36,8 @@ const CartComponent = () => {
       ) : (
         <>
           <div className="cart-container">
-            <CartItems
-
-            />
-            <PricingSection  />
+            <CartItems />
+            <PricingSection />
           </div>
         </>
       )}

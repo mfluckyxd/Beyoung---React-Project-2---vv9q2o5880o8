@@ -2,32 +2,26 @@ import { Divider } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteItemFromCart } from "../../utils/cartAPI";
-import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
+import {
+  useUpdateCartNumbers,
+  useUpdateWishlistNumbers,
+} from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
 import { addToFavAPI } from "../../utils/wishListAPI";
 import { useCheckout } from "../../context/CheckoutContext";
 
-const CartItemCard = ({product,removeProductFromState}) => {
+const CartItemCard = ({ product, removeProductFromState }) => {
   const {
     product: { _id, name, displayImage, price },
     quantity,
   } = product;
 
-
-  const {
-    
-    
-    
-    
-    updateTotalItems,
-    updateTotalPrice,
-  } = useCheckout();
+  const { updateTotalItems, updateTotalPrice } = useCheckout();
 
   const [qty, setQty] = useState(quantity);
 
   const updateCartNumbers = useUpdateCartNumbers();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
-
 
   const handleQtyChange = (event) => {
     const newQuantity = event.target.value;

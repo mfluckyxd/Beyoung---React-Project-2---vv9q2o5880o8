@@ -1,12 +1,44 @@
 import { Divider } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCheckout } from "../../context/CheckoutContext";
+import { toast } from "react-toastify";
 
 const PricingSection = () => {
   
+  const { totalItems, totalPrice,checkoutAddress,paymentValid, products } = useCheckout();
 
-  const { totalItems, totalPrice } = useCheckout();
+  const navigate = useNavigate()
+
+
+
+  const location = useLocation();
+  const currentRoute = location.pathname.split('/');
+  const currentPage = currentRoute[currentRoute.length - 1];
+ 
+  const handleCheckout = (e)=>{
+    e.preventDefault();
+    if (currentPage==='cart') {
+      navigate('/checkout/shipping')
+    }else if(currentPage==='shipping'){
+      if (Object.keys(checkoutAddress).length) {
+        console.log(checkoutAddress);
+        navigate('/checkout/payment')
+      }else{
+        toast.error('Please verify your address again!')
+      }
+      
+    }else if(currentPage==='payment') {
+      if (paymentValid) {
+        alert('order Placed')
+      }
+      else{
+        toast.error('Please verify your payment details again!')
+      }
+    }
+  }
+
+  
   return (
     <div className="pricing-section-container">
       <section className="pricing-section">
@@ -37,8 +69,8 @@ const PricingSection = () => {
           <span>Total Amount</span>
           <span>&#8377;{totalPrice}</span>
         </p>
-        <button>
-          <Link to={"/checkout/shipping"}>checkout securely</Link>
+        <button onClick={handleCheckout}>
+          checkout securely
         </button>
       </section>
     </div>

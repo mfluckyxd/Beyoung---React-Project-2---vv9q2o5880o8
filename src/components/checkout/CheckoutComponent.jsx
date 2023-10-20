@@ -1,33 +1,28 @@
 import React from "react";
-import { useLocation } from 'react-router-dom';
 import "../../styles/checkout.css";
+import "../../styles/cart.css";
 import EmptyCart from "../cart/EmptyCart";
-import { useCartNumbers } from "../../context/CartItemNumbersContext";
 import CheckoutHeader from "./CheckoutHeader";
 import { Outlet } from "react-router";
 import PricingSection from "./PricingSection";
+import { useCheckout } from "../../context/CheckoutContext";
 
 const CheckoutComponent = () => {
-  const numberOfItemsInCart = useCartNumbers();
-
   
+  const {totalItems,checkoutAddress} = useCheckout()
+  console.log(Object.keys(checkoutAddress).length);
 
- 
   return (
     <>
-      
-        <CheckoutHeader/>
-        {numberOfItemsInCart === 0 ? (
-          <EmptyCart />
-        ) : (
-          <div className="checkout-section">
-            <Outlet/>
-            <PricingSection/>
-            <section className="main-checkout-routes"></section>
-            <section className="pricing-secion"></section>
-          </div>
-        )}
-      
+      <CheckoutHeader />
+      {totalItems === 0 &&Object.keys(checkoutAddress).length===0 ? (
+        <EmptyCart />
+      ) : (
+        <div className="checkout-section cart-container">
+          <Outlet />
+          <PricingSection />
+        </div>
+      )}
     </>
   );
 };
