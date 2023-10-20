@@ -13,6 +13,7 @@ import { useAuth, useUpdateLoginModalStatus } from "../../context/AuthContext";
 import { addItemToCart } from "../../utils/cartAPI";
 import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
+import { useLoader } from "../../context/LoaderContext";
 
 const ProductComponent = () => {
   const [product, setProduct] = useState([]);
@@ -21,6 +22,8 @@ const ProductComponent = () => {
   const loginStatus = useAuth();
   const updateCartNumbers = useUpdateCartNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
+  const {updateLoaderStatus} = useLoader()
+
 
 
   const [selectedQty, setSelectedQty] = useState(1);
@@ -30,11 +33,14 @@ const ProductComponent = () => {
   };
   const fetchProduct = async () => {
     try {
+      updateLoaderStatus(true)
       const res = await getProductById(id);
       // console.log(res);
       setProduct(res);
       scrollToTop();
-    } catch (error) {}
+    } catch (error) {}finally{
+      updateLoaderStatus(false)
+    }
   };
   useEffect(() => {
     fetchProduct();
@@ -56,6 +62,7 @@ const ProductComponent = () => {
   const handleAddToCart = async () => {
     if (loginStatus) {
       try {
+        updateLoaderStatus(true)
         const res = await addItemToCart(id, selectedQty);
         console.log(res);
         if (res.status==='success') {
@@ -71,6 +78,8 @@ const ProductComponent = () => {
 
       } catch (error) {
         console.log(error);
+      }finally{
+        updateLoaderStatus(false)
       }
     } else {
       setShowLoginModal(true)

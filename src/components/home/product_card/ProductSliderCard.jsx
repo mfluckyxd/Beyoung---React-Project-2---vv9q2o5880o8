@@ -8,6 +8,7 @@ import {
 } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import { useUpdateWishlistNumbers } from "../../../context/CartItemNumbersContext";
+import { useLoader } from "../../../context/LoaderContext";
 
 const ProductSliderCard = ({ product }) => {
   const { name, price, _id, displayImage, subCategory } = product;
@@ -15,6 +16,8 @@ const ProductSliderCard = ({ product }) => {
   const loginStatus = useAuth();
   const setShowLoginModal = useUpdateLoginModalStatus();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
+  const {updateLoaderStatus} = useLoader()
+
 
   const handleAddToFav = async (e) => {
     e.preventDefault();
@@ -24,6 +27,7 @@ const ProductSliderCard = ({ product }) => {
 
     if (loginStatus) {
       try {
+        updateLoaderStatus(true)
         const res = await addToFavAPI(body);
         console.log(res);
         if (res.status==='success') {
@@ -36,6 +40,8 @@ const ProductSliderCard = ({ product }) => {
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        updateLoaderStatus(false)
       }
     } else {
       setShowLoginModal(true);

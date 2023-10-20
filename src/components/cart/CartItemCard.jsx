@@ -9,6 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { addToFavAPI } from "../../utils/wishListAPI";
 import { useCheckout } from "../../context/CheckoutContext";
+import { useLoader } from "../../context/LoaderContext";
 
 const CartItemCard = ({ product, removeProductFromState }) => {
   const {
@@ -23,12 +24,15 @@ const CartItemCard = ({ product, removeProductFromState }) => {
   const updateCartNumbers = useUpdateCartNumbers();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
 
+  const {updateLoaderStatus} = useLoader()
+
   const handleQtyChange = (event) => {
     const newQuantity = event.target.value;
     setQty(newQuantity);
   };
   const removeItemFromCart = async (_id) => {
     try {
+      updateLoaderStatus(true)
       const res = await deleteItemFromCart(_id);
       console.log(res);
       if (res.status === "success") {
@@ -40,6 +44,8 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      updateLoaderStatus(false)
     }
   };
   const moveToWishlist = async (id) => {
@@ -47,6 +53,7 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       productId: id,
     };
     try {
+      updateLoaderStatus(true)
       removeItemFromCart(id);
 
       const res = await addToFavAPI(body);
@@ -57,7 +64,11 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       } else if (res.status === "fail") {
         toast.error(res.message);
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }finally{
+      updateLoaderStatus(false)
+    }
   };
 
   return (

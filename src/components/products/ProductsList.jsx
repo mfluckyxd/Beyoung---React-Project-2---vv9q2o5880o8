@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductsListComponent from "../products/ProductsListComponent";
 import { getProductsBySearch } from "../../utils/getProductsAPI";
 import { useSearchParams } from "react-router-dom";
+import { useLoader } from "../../context/LoaderContext";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -11,11 +12,17 @@ const ProductsList = () => {
 
   const [filter, setFilter] = useState({});
 
+  const {updateLoaderStatus} = useLoader()
+
+
   const fetchProducts = async () => {
     try {
+      updateLoaderStatus(true)
       const res = await getProductsBySearch(pageNo, filter);
       setProducts(res);
-    } catch (error) {}
+    } catch (error) {}finally{
+      updateLoaderStatus(false)
+    }
   };
 
   useEffect(() => {

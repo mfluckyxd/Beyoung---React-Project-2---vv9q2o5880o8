@@ -6,13 +6,16 @@ import "../../styles/cart.css";
 import { getCartItems } from "../../utils/cartAPI";
 import EmptyCart from "./EmptyCart";
 import { useCheckout } from "../../context/CheckoutContext";
+import { useLoader } from "../../context/LoaderContext";
 
 const CartComponent = () => {
   const { products, updateProducts, updateTotalItems, updateTotalPrice } =
     useCheckout();
+    const {updateLoaderStatus} = useLoader()
 
   const fetchProducts = async () => {
     try {
+      updateLoaderStatus(true)
       const res = await getCartItems();
       console.log(res.data);
       const { items, totalPrice } = res.data;
@@ -21,6 +24,8 @@ const CartComponent = () => {
       updateTotalItems(items.length);
     } catch (error) {
       console.log(error);
+    }finally{
+      updateLoaderStatus(false)
     }
   };
 

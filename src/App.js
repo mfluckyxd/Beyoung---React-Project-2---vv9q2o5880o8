@@ -11,6 +11,8 @@ import ShippingSection from "./components/checkout/ShippingSection";
 import PaymentSection from "./components/checkout/PaymentSection";
 import CartComponent from "./components/cart/CartComponent";
 import { CheckoutProvider } from "./context/CheckoutContext";
+import { LoaderProvider } from "./context/LoaderContext";
+import Loader from "./components/Loader";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
       <AuthProvider>
         <CartNumbersProvider>
           <CheckoutProvider>
+            <LoaderProvider>
           <Routes>
             <Route path="/cart" element={<CartComponent />} />
             <Route path="/checkout" element={<CheckoutComponent />}>
@@ -30,6 +33,8 @@ function App() {
           </Routes>
 
           <ToastContainer autoClose={3000} position="bottom-left"/>
+          <Loader/>
+          </LoaderProvider>
           </CheckoutProvider>
         </CartNumbersProvider>
       </AuthProvider>
