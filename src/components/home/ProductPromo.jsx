@@ -40,15 +40,15 @@ const ProductPromo = () => {
   return (
     <div className="product-promo-container">
       <section className="promo-banner">
-        <Link to={'/products'}><img src={PromoBanner1} alt="promotional-banner" /></Link>
-        <Link to={'/products'}><img src={PromoBanner2} alt="promotional-banner" /></Link>
+        <Link to={'/products?q=shop all'}><img src={PromoBanner1} alt="promotional-banner" /></Link>
+        <Link to={'/products?q=shop all'}><img src={PromoBanner2} alt="promotional-banner" /></Link>
       </section>
       <section className="promo-products-slider">
         <h3>BIG SAVING ZONE</h3>
         <Carousel responsive={responsive} infinite={true}>
           {promoProducts.map((product, i) => (
             <div className="slider-item-wrapper" key={i}>
-              <Link  to={'/products'}><img src={product} style={{width:'100%'}} alt="promotional-products" /></Link>
+              <Link  to={'/products?q=shop all'}><img src={product} style={{width:'100%'}} alt="promotional-products" /></Link>
             </div>
           ))}
         </Carousel>

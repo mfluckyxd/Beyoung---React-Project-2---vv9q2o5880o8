@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductsListComponent from "../products/ProductsListComponent";
 import { getProductsBySearch } from "../../utils/getProductsAPI";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLoader } from "../../context/LoaderContext";
 import NoProducts from "./NoProducts";
 
@@ -13,7 +13,7 @@ const ProductsList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // const [filter, setFilter] = useState({});
+ const navigate = useNavigate()
 
   const { updateLoaderStatus } = useLoader();
 
@@ -39,7 +39,10 @@ const ProductsList = () => {
 
   useEffect(() => {
     let filter = {};
-    
+    console.log(searchParams.size);
+    if(searchParams.size===0){
+      navigate('/')
+    }
     searchParams.forEach((value, key) => {
       // console.log(value);
       if (value!=='shop all') {

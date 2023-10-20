@@ -19,11 +19,11 @@ const OfferComponent = () => {
   return (
     <div className='bank-offer'>
         <Slider {...settings}>
-            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={bankOffer1} alt="hero-banner" /></Link>
-            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={bankOffer2} alt="hero-banner" /></Link>
-            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={bankOffer3} alt="hero-banner" /></Link>
-            <Link to={'/products'}><img style={{width:"100%", display:'block'}} src={bankOffer4} alt="hero-banner" /></Link>
-            <Link  to={'/products'}><img style={{width:"100%", display:'block'}} src={bankOffer5} alt="hero-banner" /></Link>
+            <Link to={'/products?q=shop all'}><img style={{width:"100%", display:'block'}} src={bankOffer1} alt="hero-banner" /></Link>
+            <Link to={'/products?q=shop all'}><img style={{width:"100%", display:'block'}} src={bankOffer2} alt="hero-banner" /></Link>
+            <Link to={'/products?q=shop all'}><img style={{width:"100%", display:'block'}} src={bankOffer3} alt="hero-banner" /></Link>
+            <Link to={'/products?q=shop all'}><img style={{width:"100%", display:'block'}} src={bankOffer4} alt="hero-banner" /></Link>
+            <Link  to={'/products?q=shop all'}><img style={{width:"100%", display:'block'}} src={bankOffer5} alt="hero-banner" /></Link>
         </Slider>
     </div>
   )
