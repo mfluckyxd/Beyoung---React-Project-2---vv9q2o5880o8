@@ -100,13 +100,7 @@ const handleSearch = async ()=>{
     setShowLoginModal(true);
   };
 
-  const handleGoToCart =()=>{
-    if (loginStatus) {
-      navigate('/cart')
-    }else{
-      setShowLoginModal(true)
-    }
-  }
+
   return (
     <div className="app-header">
       <section className="promo-header">
@@ -167,16 +161,16 @@ const handleSearch = async ()=>{
           <button onClick={handleSearchBtnClick}>
             <SearchIcon />
           </button>
-          <Link>
+          <Link to={'myaccount/wishlist'}>
           <Badge badgeContent={numberOfWishlistItems} color="primary">
             <FavoriteIcon />
             </Badge>
           </Link>
-          <button onClick={handleGoToCart}>
+          <Link to={'/cart'} >
             <Badge badgeContent={numberOfCartItems} color="primary">
               <ShoppingCartIcon />
             </Badge>
-          </button>
+          </Link>
         </div>
       </section>
       

@@ -162,6 +162,7 @@
     .nav-header{
         align-items: flex-start;
         padding: 5px 5%;
+        flex-wrap: wrap;
     }
     .nav-items{
         display: flex;

@@ -75,6 +75,8 @@ const MyAccount = () => {
             <button onClick={handleLogout}>logout</button>
         </div>
       </section>
+
+      
       <section className="my-ac-right-section">
         <Outlet />
       </section>

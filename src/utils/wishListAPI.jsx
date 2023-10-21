@@ -15,10 +15,21 @@ export const addToFavAPI = async (body) => {
     return error.response.data;
   }
 };
+
+
 export const getWishlistItems = async () => {
   const headers = headerWithJWT();
   try {
     const res = await axios.get(`${apiURL}/ecommerce/wishlist/`, headers);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const removeFromWishlist = async (id) => {
+  const headers = headerWithJWT();
+  try {
+    const res = await axios.delete(`${apiURL}/ecommerce/wishlist/${id}`, headers);
     return res.data;
   } catch (error) {
     return error.response.data;
