@@ -55,7 +55,8 @@ const ProductComponent = () => {
   useEffect(() => {
     document.querySelectorAll(".product-details-box").forEach((box) => {
       box.querySelector("h5").addEventListener("click", () => {
-        const content = box.querySelector("content");
+        const content = box.querySelector("ul");
+        console.log(content);
         content.classList.toggle("collapseContent");
       });
     });
@@ -112,6 +113,9 @@ const ProductComponent = () => {
   const handleZipSearch = (e) => {
     e.preventDefault();
   };
+
+
+  const productDetailsHtml = { __html: product.description };
   return (
     <div className="product-component">
       <div className="main-product-container">
@@ -200,15 +204,17 @@ const ProductComponent = () => {
         <h3>Product Details</h3>
         <div className="product-details-section">
           <div className="product-details-box">
-            <h5>Product Highlights</h5>
-              <ul>
+            <h5>Product Description</h5>
+              {/* <ul>
                 <li>It is a long established fact that a reader will</li>
                 <li>Be distracted by the readable content</li>
                 <li>Of a page when looking at its layout</li>
                 <li>The point of using Lorem Ipsum is that it</li>
                 <li>Has a more-or-less normal distribution of letters</li>
                 <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
-              </ul>
+              </ul> */}
+              <ul><li><div dangerouslySetInnerHTML={productDetailsHtml} /></li></ul>
+              
               
           </div>
           <div className="product-details-box">

@@ -21,3 +21,13 @@ export const newOrder = async (id, qty, address) => {
     return error.response.data;
   }
 };
+
+export const getOrderHistory = async()=>{
+  const headers = headerWithJWT();
+  try {
+    const res = await axios.get(`${apiURL}/ecommerce/order`,headers)
+    return res.data
+  } catch (error) {
+    return error
+  }
+}

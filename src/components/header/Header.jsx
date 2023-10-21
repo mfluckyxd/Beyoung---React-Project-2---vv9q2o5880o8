@@ -109,7 +109,7 @@ const handleSearch = async ()=>{
       </section>
       <section className="quick-access-header">
         <div className="quick-access-left">
-          <Link>
+          <Link to={'/myaccount/orders'}>
             <LocationOnIcon />
             Track Order
           </Link>
