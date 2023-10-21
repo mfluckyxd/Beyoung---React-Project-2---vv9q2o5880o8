@@ -37,6 +37,8 @@ const Header = () => {
   
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("useremail");
     updateLoginStatus(false);
     toast.success("Logged out succesfully", { position: "bottom-left" });
     updateCartNumbers(0);
@@ -89,17 +91,22 @@ const Header = () => {
 
 const handleSearch = async ()=>{
   const {value} = searchInputRef.current;
-  // console.log(value);
   setIsSearchbarOpen(false);
   navigate(`/products?name=${value}`)
-  
-
 }
    
   const handleSignin = (e) => {
     e.preventDefault();
     setShowLoginModal(true);
   };
+
+  const handleGoToCart =()=>{
+    if (loginStatus) {
+      navigate('/cart')
+    }else{
+      setShowLoginModal(true)
+    }
+  }
   return (
     <div className="app-header">
       <section className="promo-header">
@@ -116,7 +123,7 @@ const handleSearch = async ()=>{
         <div className="quick-access-right">
           {loginStatus ? (
             <>
-              <button>My Account</button>
+              <button onClick={()=>navigate('/myaccount')}>My Account</button>
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
@@ -165,11 +172,11 @@ const handleSearch = async ()=>{
             <FavoriteIcon />
             </Badge>
           </Link>
-          <Link to={'/cart'}>
+          <button onClick={handleGoToCart}>
             <Badge badgeContent={numberOfCartItems} color="primary">
               <ShoppingCartIcon />
             </Badge>
-          </Link>
+          </button>
         </div>
       </section>
       

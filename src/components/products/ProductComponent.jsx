@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../utils/getProductsAPI";
 import "../../styles/productcomponent.css";
-import { Divider, LinearProgress, Rating } from "@mui/material";
+import { CircularProgress, Divider, LinearProgress, Rating } from "@mui/material";
 import DiscountIcon from "@mui/icons-material/Discount";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -25,6 +25,7 @@ const ProductComponent = () => {
   const updateCartNumbers = useUpdateCartNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
   const {updateLoaderStatus} = useLoader()
+  const [loading, setLoading] = useState(false)
 
   const { updateProducts, updateTotalItems, updateTotalPrice } =
     useCheckout();
@@ -68,7 +69,7 @@ const ProductComponent = () => {
   const handleAddToCart = async () => {
     if (loginStatus) {
       try {
-        updateLoaderStatus(true)
+        setLoading(true)
         const res = await addItemToCart(id, selectedQty);
         // console.log(res);
         if (res.status==='success') {
@@ -85,7 +86,7 @@ const ProductComponent = () => {
       } catch (error) {
         console.log(error);
       }finally{
-        updateLoaderStatus(false)
+        setLoading(false)
       }
     } else {
       setShowLoginModal(true)
@@ -93,11 +94,18 @@ const ProductComponent = () => {
   };
 
   const handleBuyNow = ()=>{
-    const chkoutproduct = [product]
+
+    if (loginStatus) {
+       const chkoutproduct = [product]
       updateProducts(chkoutproduct)
       updateTotalItems(1)
       updateTotalPrice(product.price*selectedQty)
       navigate('/checkout/shipping')
+    }else{
+      setShowLoginModal(true)
+    }
+
+   
       
   }
 
@@ -147,8 +155,8 @@ const ProductComponent = () => {
                 onClick={handleAddToCart}
                 style={{ backgroundColor: "#51CCCC", color: "white" }}
               >
-                <AddShoppingCartIcon />
-                <span>Add to cart</span>
+                {loading?<CircularProgress size={20} color="inherit"/>:<><AddShoppingCartIcon />
+                <span>Add to cart</span></>}
               </button>
               <button onClick={handleBuyNow} style={{ backgroundColor: "#F9EB28" }}>
                 <ShoppingCartCheckoutIcon />

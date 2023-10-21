@@ -6,7 +6,11 @@ import ProductsList from "./products/ProductsList";
 import ProductComponent from "./products/ProductComponent";
 import Footer from "./footer/Footer";
 import Login from "./authentication/Login";
-
+import ProtectedRoute from "./ProtectedRoute";
+import MyAccount from "./myaccount/MyAccount";
+import MyProfile from "./myaccount/MyProfile";
+import MyOrders from "./myaccount/MyOrders";
+import WishList from "./myaccount/WishList";
 
 const RoutesComponent = () => {
   return (
@@ -16,9 +20,21 @@ const RoutesComponent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductsList />} />
         <Route path="/products/:id" element={<ProductComponent />} />
+
+        <Route
+          path="/myaccount"
+          element={<ProtectedRoute Component={<MyAccount />} />}
+        >
+          <Route index element={<Navigate to="profile" />} />
+
+          <Route path="profile" element={<MyProfile />} />
+          <Route path="orders" element={<MyOrders />} />
+          <Route path="wishlist" element={<WishList />} />
+        </Route>
+
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
-      <Login  />
+      <Login />
 
       <Footer />
     </>

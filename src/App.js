@@ -13,6 +13,7 @@ import CartComponent from "./components/cart/CartComponent";
 import { CheckoutProvider } from "./context/CheckoutContext";
 import { LoaderProvider } from "./context/LoaderContext";
 import Loader from "./components/Loader";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -21,20 +22,27 @@ function App() {
         <CartNumbersProvider>
           <CheckoutProvider>
             <LoaderProvider>
-          <Routes>
-            <Route path="/cart" element={<CartComponent />} />
-            <Route path="/checkout" element={<CheckoutComponent />}>
-              <Route index element={<Navigate to="shipping" />} />
-              
-              <Route path="shipping" element={<ShippingSection />} />
-              <Route path="payment" element={<PaymentSection />} />
-            </Route>
-            <Route path="*" element={<RoutesComponent />} />
-          </Routes>
+              <Routes>
+                {/* <Route path="/mynetwork"element={<ProtectedRoute Component={<MyNetwork />} />}/> */}
+                <Route
+                  path="/cart"
+                  element={<ProtectedRoute Component={<CartComponent />} />}
+                />
+                <Route
+                  path="/checkout"
+                  element={<ProtectedRoute Component={<CheckoutComponent />} />}
+                >
+                  <Route index element={<Navigate to="shipping" />} />
 
-          <ToastContainer autoClose={3000} position="bottom-left"/>
-          <Loader/>
-          </LoaderProvider>
+                  <Route path="shipping" element={<ShippingSection />} />
+                  <Route path="payment" element={<PaymentSection />} />
+                </Route>
+                <Route path="*" element={<RoutesComponent />} />
+              </Routes>
+
+              <ToastContainer autoClose={3000} position="bottom-left" />
+              <Loader />
+            </LoaderProvider>
           </CheckoutProvider>
         </CartNumbersProvider>
       </AuthProvider>
