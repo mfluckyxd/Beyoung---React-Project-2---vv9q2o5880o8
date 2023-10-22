@@ -6,6 +6,7 @@ import { removeFromWishlist } from '../../utils/wishListAPI';
 import { toast } from 'react-toastify';
 import { useUpdateCartNumbers, useUpdateWishlistNumbers } from '../../context/CartItemNumbersContext';
 import { addItemToCart } from '../../utils/cartAPI';
+import { Link } from 'react-router-dom';
 
 const WishlistCard = ({product,removeProductFromState}) => {
     
@@ -58,7 +59,7 @@ const WishlistCard = ({product,removeProductFromState}) => {
   return (
     <div className='wishlist-card'>
         <Stack spacing={0.7}>
-            <img src={displayImage} alt={name} style={{width:'100%',borderRadius:'5px'}} />
+            <Link to={`/products/${_id}`}><img src={displayImage} alt={name} style={{width:'100%',borderRadius:'5px'}} /></Link>
             <Typography sx={{textOverflow:'ellipsis',whiteSpace:'nowrap',display:'inline-block',overflow:'hidden'}} variant='subtitle1'>{name}</Typography>
             <Typography sx={{fontWeight:'600'}} variant='subtitle1'>&#8377; {price}</Typography>
             <button onClick={moveToCart} className='move-to-cart-btn'><AddShoppingCartIcon/>Move To Cart</button>

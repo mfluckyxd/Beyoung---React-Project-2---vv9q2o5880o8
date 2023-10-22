@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useLoader } from "../../context/LoaderContext";
+import { getOrderHistory } from "../../utils/orderAPI";
+import MyOrderCard from "./MyOrderCard";
 
 const MyOrders = () => {
-  const products = null
+  const [orders, setOrders] = useState([]);
+  const { updateLoaderStatus } = useLoader();
+
+  const fetchOrders = async () => {
+    try {
+      updateLoaderStatus(true);
+      const res = await getOrderHistory()
+      
+      if (res.status==='success') {
+        setOrders(res.data)
+      }
+    } catch (error) {
+    } finally {
+      updateLoaderStatus(false);
+    }
+  };
+  useEffect(()=>{
+    fetchOrders()
+  },[])
+
   return (
-    
-
-    <div>MyOrders
-      <section>orders section</section>
+    <div className="my-orders-container">
+      
+      {orders.map((order,i)=>(
+        <MyOrderCard key={i} orderItem={order}/>
+      ))}
     </div>
+  );
+};
 
-  )
-}
-
-export default MyOrders
+export default MyOrders;
