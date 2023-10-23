@@ -31,7 +31,7 @@ const MyOrders = () => {
       
     >
       {orders.length === 0 ? (
-        <img style={{width:'70%',margin:'0 auto'}} src="emptyImage" alt="no-orders" />
+        <img style={{width:'70%',margin:'0 auto'}} src={emptyImage} alt="no-orders" />
       ) : (
         <div className="my-orders-container">
           {orders.map((order, i) => (
