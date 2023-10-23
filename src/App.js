@@ -14,6 +14,8 @@ import { CheckoutProvider } from "./context/CheckoutContext";
 import { LoaderProvider } from "./context/LoaderContext";
 import Loader from "./components/Loader";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ErrorProvider } from "./context/ErrorContext";
+import Error404 from "./components/Error404";
 
 function App() {
   return (
@@ -22,18 +24,11 @@ function App() {
         <CartNumbersProvider>
           <CheckoutProvider>
             <LoaderProvider>
+            <ErrorProvider>
               <Routes>
-                {/* <Route path="/mynetwork"element={<ProtectedRoute Component={<MyNetwork />} />}/> */}
-                <Route
-                  path="/cart"
-                  element={<ProtectedRoute Component={<CartComponent />} />}
-                />
-                <Route
-                  path="/checkout"
-                  element={<ProtectedRoute Component={<CheckoutComponent />} />}
-                >
+                <Route path="/cart" element={<ProtectedRoute Component={<CartComponent />} />}/>
+                <Route path="/checkout" element={<ProtectedRoute Component={<CheckoutComponent />} />}>
                   <Route index element={<Navigate to="shipping" />} />
-
                   <Route path="shipping" element={<ShippingSection />} />
                   <Route path="payment" element={<PaymentSection />} />
                 </Route>
@@ -42,6 +37,8 @@ function App() {
 
               <ToastContainer autoClose={3000} position="bottom-left" />
               <Loader />
+              <Error404/>
+            </ErrorProvider>
             </LoaderProvider>
           </CheckoutProvider>
         </CartNumbersProvider>

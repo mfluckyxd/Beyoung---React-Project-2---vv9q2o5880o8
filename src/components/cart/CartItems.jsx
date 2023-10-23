@@ -9,7 +9,7 @@ const CartItems = () => {
     updateProducts,
   } = useCheckout();
   
-  
+  console.log(products);
  
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(

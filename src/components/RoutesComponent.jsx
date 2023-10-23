@@ -11,6 +11,7 @@ import MyAccount from "./myaccount/MyAccount";
 import MyProfile from "./myaccount/MyProfile";
 import MyOrders from "./myaccount/MyOrders";
 import WishList from "./myaccount/WishList";
+import SingleOrder from "./myaccount/SingleOrder";
 
 const RoutesComponent = () => {
   return (
@@ -29,6 +30,8 @@ const RoutesComponent = () => {
 
           <Route path="profile" element={<MyProfile />} />
           <Route path="orders" element={<MyOrders />} />
+            
+          <Route path="orders/:id" element={<SingleOrder/>} />
           <Route path="wishlist" element={<WishList />} />
         </Route>
 

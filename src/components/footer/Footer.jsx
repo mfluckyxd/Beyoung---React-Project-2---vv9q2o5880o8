@@ -14,37 +14,43 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { useError } from "../../context/ErrorContext";
 
 const Footer = () => {
   const [open, setOpen] = React.useState(1);
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
+  const {updateErrorStatus} = useError()
+  
+  const showError = ()=>{
+    updateErrorStatus(true)
+  }
 
   return (
     <div className="footer-container">
       <div className="footer-menu-section">
         <section className="footer-menu">
           <h4>Need Help</h4>
-          <Link>Contact Us</Link>
-          <Link>Track Order</Link>
-          <Link>Returns & Refunds</Link>
-          <Link>FAQ's</Link>
-          <Link>Career</Link>
+          <Link onClick={showError}>Contact Us</Link>
+          <Link onClick={showError}>Track Order</Link>
+          <Link onClick={showError}>Returns & Refunds</Link>
+          <Link onClick={showError}>FAQ's</Link>
+          <Link onClick={showError}>Career</Link>
         </section>
         <section className="footer-menu">
           <h4>COMPANY</h4>
-          <Link>About Us</Link>
-          <Link>Beyoung Blog</Link>
-          <Link>Beyoungistan</Link>
-          <Link>Collaboration</Link>
-          <Link>Media</Link>
+          <Link onClick={showError}>About Us</Link>
+          <Link onClick={showError}>Beyoung Blog</Link>
+          <Link onClick={showError}>Beyoungistan</Link>
+          <Link onClick={showError}>Collaboration</Link>
+          <Link onClick={showError}>Media</Link>
         </section>
         <section className="footer-menu">
           <h4>MORE INFO</h4>
-          <Link>Term and Conditions</Link>
-          <Link>Privacy Policy</Link>
-          <Link>Shipping Policy</Link>
-          <Link>Sitemap</Link>
+          <Link onClick={showError}>Term and Conditions</Link>
+          <Link onClick={showError}>Privacy Policy</Link>
+          <Link onClick={showError}>Shipping Policy</Link>
+          <Link onClick={showError}>Sitemap</Link>
         </section>
         <section className="footer-menu">
           <h4>location</h4>

@@ -22,6 +22,7 @@ const CartComponent = () => {
       const res = await getCartItems();
       // console.log(res.data);
       const { items, totalPrice } = res.data;
+      console.log(items);
       
       updateProducts(items);
       updateTotalPrice(totalPrice);

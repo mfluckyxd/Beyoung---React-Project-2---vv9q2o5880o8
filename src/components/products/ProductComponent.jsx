@@ -42,7 +42,7 @@ const ProductComponent = () => {
     try {
       updateLoaderStatus(true)
       const res = await getProductById(id);
-      // console.log(res);
+      
       setProduct(res);
       scrollToTop();
     } catch (error) {}finally{
