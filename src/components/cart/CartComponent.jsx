@@ -49,7 +49,7 @@ const CartComponent = () => {
       ) : (
         <>
           <div className="cart-container">
-            {/* <CartItems /> */}
+            <CartItems />
             <PricingSection />
           </div>
         </>

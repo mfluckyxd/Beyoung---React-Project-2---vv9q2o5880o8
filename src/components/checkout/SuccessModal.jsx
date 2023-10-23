@@ -2,6 +2,7 @@ import { Box, Modal } from '@mui/material'
 import React from 'react'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useNavigate } from 'react-router';
+import { useSuccessModal } from '../../context/SuccessModalContext';
 
 
 
@@ -36,22 +37,24 @@ const style = {
         padding: '1rem 0',
         width: '100%',
   }
-const SuccessModal = ({open,setOpen}) => {
+const SuccessModal = () => {
     const navigate = useNavigate()
+    const {showSuccessModal,updateSuccessmodal} = useSuccessModal()
     const handleClick = ()=>{
-        setOpen(false)
+        updateSuccessmodal(false)
         navigate('/')
     }
+   
 
     
     return (
         <div>
         <Modal
-          open={open}
-          onClose={setOpen}
+          open={showSuccessModal}
+          onClose={updateSuccessmodal}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          disableEnforceFocus={true}
+          
         >
           <Box sx={style}>
             <CheckCircleOutlineIcon style={{color:'green',fontSize:'5rem'}}/>

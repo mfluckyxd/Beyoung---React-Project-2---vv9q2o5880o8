@@ -19,6 +19,7 @@ const SingleOrder = () => {
     const {address} = shipmentDetails || {};
 
   const userName = localStorage.getItem("username");
+  
 
 
     console.log('product:',product);
@@ -45,7 +46,9 @@ const SingleOrder = () => {
     }
 
 
-    
+    const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
     const formateTimeStamp = (timestamp)=>{
         const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
         const formattedDate = new Date(timestamp).toLocaleDateString('en-US', options);
@@ -54,6 +57,7 @@ const SingleOrder = () => {
     const orderTime = formateTimeStamp(orderDate)
     useEffect(()=>{
         fetchData();
+        scrollToTop()
     },[])
 
   return (

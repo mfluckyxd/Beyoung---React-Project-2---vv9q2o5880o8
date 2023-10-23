@@ -8,6 +8,7 @@ import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 import { deleteItemFromCart } from "../../utils/cartAPI";
 import { useLoader } from "../../context/LoaderContext";
 import SuccessModal from "./SuccessModal";
+import { useSuccessModal } from "../../context/SuccessModalContext";
 
 const PricingSection = () => {
   const {
@@ -26,7 +27,7 @@ const PricingSection = () => {
 
   const {updateLoaderStatus} = useLoader()
 
-  const [successModal, setSuccessModal] = useState(false)
+  const {updateSuccessmodal} = useSuccessModal()
 
 
   const navigate = useNavigate();
@@ -60,11 +61,14 @@ const PricingSection = () => {
       for (const { product, quantity } of products) {
         const res = await newOrder(product._id, quantity, checkoutAddress);
         deleteItemFromCart(product._id)
+        console.log(product);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      toast.success("Order Placed Succesfully!")
+      
+      updateSuccessmodal(true)
+      navigate('/')
       updatePaymentValid(false)
       updateCheckoutAddress({})
       updateProducts([])
@@ -72,7 +76,7 @@ const PricingSection = () => {
       updateTotalPrice(0)
       updateCart(0)
       updateLoaderStatus(false)
-      navigate('/')
+      
 
 
     }
@@ -111,7 +115,6 @@ const PricingSection = () => {
         <button onClick={handleCheckout}>checkout securely</button>
       </section>
 
-      <SuccessModal open={successModal} setOpen={setSuccessModal}/>
     </div>
   );
 };

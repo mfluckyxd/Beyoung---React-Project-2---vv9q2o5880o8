@@ -14,7 +14,7 @@ const MyOrders = () => {
       const res = await getOrderHistory();
 
       if (res.status === "success") {
-        setOrders(res.data);
+        setOrders(res.data.reverse());
       }
     } catch (error) {
     } finally {

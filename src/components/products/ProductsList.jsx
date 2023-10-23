@@ -37,6 +37,9 @@ const ProductsList = () => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   useEffect(() => {
     let filter = {};
     console.log(searchParams.size);
@@ -54,12 +57,13 @@ const ProductsList = () => {
     const isSearchChange = prevSearchParams !== searchParams.toString();
     if (isSearchChange) {
       setPageNo(1);
-      setPrevPageNo(null) // Reset pageNo to 1
+      setPrevPageNo(null)
+      scrollToTop()
     }
   
-    // Set prevSearchParams to current searchParams
+    
     setPrevSearchParams(searchParams.toString());
-    // setFilter(filter);
+    
     const isPageChange = prevPageNo !== null && prevPageNo !== pageNo;
     fetchProducts(filter,isPageChange);
   }, [searchParams, pageNo]);

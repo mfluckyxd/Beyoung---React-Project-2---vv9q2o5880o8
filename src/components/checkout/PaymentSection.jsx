@@ -16,9 +16,9 @@ const PaymentSection = () => {
     const { name, value } = e.target;
     if (name === "ccnum" && value.length !== 16) {
       setErrors({ ...errors, [name]: true });
-    } else if (name === "month" && value.length !==2) {
+    } else if (name === "month" && (value.length !==2|| parseInt(value, 10) > 12)||parseInt(value, 10) ===0) {
       setErrors({ ...errors, [name]: true });
-    }else if(name==='year' && value.length!==4){
+    }else if(name==='year' && (value.length!==4||parseInt(value, 10) ===0)){
       setErrors({ ...errors, [name]: true });
     }else if(name==='name' && value.length<3){
       setErrors({ ...errors, [name]: true });
@@ -94,7 +94,7 @@ const PaymentSection = () => {
                 disabled={disableForm}
                 error={errors.month}
                 helperText={
-                  errors.month ? "Month must be 2 digits only" : ""
+                  errors.month ? "Please enter a valid month value" : ""
                 }
               />
             </Grid>
@@ -111,7 +111,7 @@ const PaymentSection = () => {
                 disabled={disableForm}
                 error={errors.year}
                 helperText={
-                  errors.year ? "Year must be 4 digits only" : ""
+                  errors.year ? "Please enter a valid month value" : ""
                 }
               />
             </Grid>

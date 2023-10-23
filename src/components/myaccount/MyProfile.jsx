@@ -1,5 +1,5 @@
 import { Avatar, CircularProgress, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updateCredentialsAPI } from "../../utils/authAPI";
 import { toast } from "react-toastify";
 
@@ -104,6 +104,13 @@ const MyProfile = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(()=>{
+    scrollToTop()
+  })
 
   return (
     <div className="my-profile-section">

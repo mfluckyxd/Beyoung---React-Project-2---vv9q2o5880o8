@@ -31,9 +31,12 @@ const WishList = () => {
       updateLoaderStatus(false);
     }
   };
-
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   useEffect(() => {
     fetchproducts();
+    scrollToTop()
   }, []);
   return (
     <div className="wishlist-section" >
