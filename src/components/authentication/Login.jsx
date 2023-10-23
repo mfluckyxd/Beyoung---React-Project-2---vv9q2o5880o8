@@ -79,7 +79,12 @@ const Login = () => {
   };
 
   const handleClose = () => {
-    setUserInfo('')
+    setUserInfo({
+      name: "",
+      email: "",
+      password: "",
+      appType : "ecommerce"
+    })
     setOpen(false);
   }
 

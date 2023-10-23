@@ -3,8 +3,9 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import logoSVG from "../../Logo.svg";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import ShoppingCartIcon2 from '../../assets/shoppingcarticon.svg'
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Login from "../authentication/Login";
@@ -20,6 +21,7 @@ import {
 } from "../../context/CartItemNumbersContext";
 import { useLoader } from "../../context/LoaderContext";
 import { getProductsBySearch } from "../../utils/getProductsAPI";
+import ShoppingCartIcon from "../../assets/ShoppingCartIcon";
 
 const Header = () => {
   const loginStatus = useAuth();
@@ -162,12 +164,12 @@ const handleSearch = async ()=>{
             <SearchIcon />
           </button>
           <Link to={'myaccount/wishlist'}>
-          <Badge badgeContent={numberOfWishlistItems} color="primary">
-            <FavoriteIcon />
+          <Badge badgeContent={numberOfWishlistItems} >
+            <FavoriteBorderIcon />
             </Badge>
           </Link>
           <Link to={'/cart'} >
-            <Badge badgeContent={numberOfCartItems} color="primary">
+            <Badge badgeContent={numberOfCartItems}  >
               <ShoppingCartIcon />
             </Badge>
           </Link>
