@@ -22,7 +22,7 @@ const CartComponent = () => {
       const res = await getCartItems();
       // console.log(res.data);
       const { items, totalPrice } = res.data;
-      console.log(items);
+      // console.log(res);
       
       updateProducts(items);
       updateTotalPrice(totalPrice);
@@ -49,7 +49,7 @@ const CartComponent = () => {
       ) : (
         <>
           <div className="cart-container">
-            <CartItems />
+            {/* <CartItems /> */}
             <PricingSection />
           </div>
         </>

@@ -13,7 +13,7 @@ import { useLoader } from "../../context/LoaderContext";
 
 const CartItemCard = ({ product, removeProductFromState }) => {
 
- 
+  // console.log(product);
   const {
     product: { _id, name, displayImage, price },
     quantity,
