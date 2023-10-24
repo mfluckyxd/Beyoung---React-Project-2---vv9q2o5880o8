@@ -29,7 +29,7 @@ const ProductsList = () => {
       if (res.status === "success") {
         setProducts(isPageChange ? [...products, ...res.data] : res.data);
       } else {
-        setProducts({});
+        setProducts([]);
       }
     } catch (error) {
     } finally {
@@ -42,7 +42,7 @@ const ProductsList = () => {
   };
   useEffect(() => {
     let filter = {};
-    console.log(searchParams.size);
+    // console.log(searchParams.size);
     if(searchParams.size===0){
       navigate('/')
     }

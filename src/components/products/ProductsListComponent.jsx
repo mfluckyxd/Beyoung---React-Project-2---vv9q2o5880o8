@@ -2,7 +2,6 @@ import React from "react";
 import ProductSliderCard from "../home/product_card/ProductSliderCard";
 import "../../styles/productlist.css";
 import { useSearchParams } from "react-router-dom";
-import NoProducts from "./NoProducts";
 
 const ProductsListComponent = ({ products }) => {
   const [searchParams] = useSearchParams();
