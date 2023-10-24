@@ -51,7 +51,7 @@
   font-weight: 630;
 }
 .qty-section {
-  margin-top: 3rem;
+  
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -248,3 +248,27 @@
         padding: 0;
     }
  }
+
+
+
+
+.size-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    height: 47px;
+    width: 47px;
+    
+    font-size: 13px;
+    
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 50px; 
+} 
+
+
+
+.active-size{
+  border: 2px solid #51cccc;
+
+}

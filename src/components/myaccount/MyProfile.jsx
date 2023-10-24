@@ -33,6 +33,10 @@ const MyProfile = () => {
   };
   const updateData = async () => {
     let body = {};
+    if (!isValidEmail(email)) {
+      toast.error("Please enter a valid email")
+      return
+    }
     if (editingEmail) {
       body = {
         email: email,
@@ -52,8 +56,12 @@ const MyProfile = () => {
       const res = await updateCredentialsAPI(body)
       
       if (res.status==='success') {
+        
         toast.success('Profile updated succesfully!')
         localStorage.setItem('useremail', email);
+        setIsFormActive(false)
+        setEditingEmail(false)
+        setEditingPass(false)
         
       }else if(res.status==='fail'){
         toast.error(res.message)
@@ -145,7 +153,7 @@ const MyProfile = () => {
             helperText={errors.email ? "Please enter an valid Email" : ""}
           />
         </Grid>
-        {(editingEmail || editingPass) && (
+        {(editingEmail || editingPass)  && (
           <Grid item xs={12}>
             <TextField
               label="Current Password"
@@ -165,7 +173,7 @@ const MyProfile = () => {
             />
           </Grid>
         )}
-        {editingPass && (
+        {editingPass  && (
           <Grid item xs={12}>
             <TextField
               label="New Password"
@@ -185,24 +193,24 @@ const MyProfile = () => {
             />
           </Grid>
         )}
-        {isFormActive ? (
+        {/* {isFormActive ? ( */}
           <>
             <Grid item xs={6}>
-              <button onClick={updateData} className="update-btn">
-                {loading?<><CircularProgress size={20} color="inherit"/></>:"Save changes"}
+              <button onClick={isFormActive?updateData:enableFordEdit} className="update-btn" value={!isFormActive&&"email"}>
+                {loading?<><CircularProgress size={20} color="inherit"/></>:(isFormActive?"Save changes":"change email")}
                 
               </button>
             </Grid>
             <Grid item xs={6}>
-              <button onClick={discardData} className="update-btn">
+              <button onClick={isFormActive?discardData:enableFordEdit} className="update-btn" value={!isFormActive&&"pass"}>
+                {isFormActive?"discard changes":"change password"}
                 
-                discard changes
               </button>
             </Grid>
           </>
-        ) : (
+        {/* ) : ( */}
           <>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <button
                 onClick={enableFordEdit}
                 className="update-btn"
@@ -210,8 +218,8 @@ const MyProfile = () => {
               >
                 change email
               </button>
-            </Grid>
-            <Grid item xs={6}>
+            </Grid> */}
+            {/* <Grid item xs={6}>
               <button
                 onClick={enableFordEdit}
                 className="update-btn"
@@ -219,9 +227,9 @@ const MyProfile = () => {
               >
                 change password
               </button>
-            </Grid>
+            </Grid> */}
           </>
-        )}
+        {/* )} */}
       </Grid>
     </div>
   );

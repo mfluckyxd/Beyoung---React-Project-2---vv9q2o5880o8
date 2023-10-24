@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../utils/getProductsAPI";
 import "../../styles/productcomponent.css";
-import { CircularProgress, Divider, LinearProgress, Rating } from "@mui/material";
+import { CircularProgress, Divider, FormControlLabel, LinearProgress, Radio, RadioGroup, Rating } from "@mui/material";
 import DiscountIcon from "@mui/icons-material/Discount";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -15,6 +15,7 @@ import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
 import { useLoader } from "../../context/LoaderContext";
 import { useCheckout } from "../../context/CheckoutContext";
+import { Margin } from "@mui/icons-material";
 
 
 const ProductComponent = () => {
@@ -31,9 +32,8 @@ const ProductComponent = () => {
     useCheckout();
     const navigate = useNavigate()
 
-
-
   const [selectedQty, setSelectedQty] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(false)
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -56,11 +56,13 @@ const ProductComponent = () => {
     document.querySelectorAll(".product-details-box").forEach((box) => {
       box.querySelector("h5").addEventListener("click", () => {
         const content = box.querySelector("ul");
-        console.log(content);
+        
         content.classList.toggle("collapseContent");
       });
     });
   }, []);
+  
+  const [randomRating] = useState((Math.random() * 5).toFixed(1))
 
   const handleQtyChange = (event) => {
     const newQuantity = event.target.value;
@@ -113,6 +115,7 @@ const ProductComponent = () => {
   const handleZipSearch = (e) => {
     e.preventDefault();
   };
+  const sizes = ['S','M','L','XL']
 
 
   const productDetailsHtml = { __html: product.description };
@@ -132,12 +135,27 @@ const ProductComponent = () => {
               Inclusive of All Taxes + Free Shipping
             </p>
             <div className="product-rating">
-              <Rating name="read-only" value={product.ratings || 0} readOnly />
-              <p>{product.ratings}</p>
+              <Rating name="read-only" value={randomRating} readOnly />
+              <p>{randomRating}</p>
             </div>
             <div className="product-discount">
               <DiscountIcon />
               <span>Extra ₹100 OFF on ₹999 (Code:BEYOUNG100)</span>
+            </div>
+            <div className="sizes-section">
+              <p style={{margin:'3rem 0 0.4rem 0'}}>SIZE</p>
+            <RadioGroup row name="size" sx={{marginLeft:'8px'}} value={selectedSize} onChange={(e)=>setSelectedSize(e.target.value)}>
+              {sizes.map((size) => (
+                <FormControlLabel 
+                  className={`size-label ${selectedSize === size ? 'active-size' : ''}`}
+                  key={size}
+                  value={size}
+                  control={<Radio sx={{display:'none'}} color="default" />}
+                  label={size}
+                />
+                ))}
+              </RadioGroup>
+              
             </div>
             <div className="qty-section">
               <label htmlFor="quantity">QTY:</label>
@@ -258,7 +276,7 @@ const ProductComponent = () => {
         <h3>Rating & Reviews</h3>
         <div className="ratings-review-section">
           <div className="review-section-left">
-            <h3>4.8</h3>
+            <h3>{randomRating}</h3>
             <Rating name="read-only" value={5} readOnly />
             <p>Based on 31K+ ratings and 9K+ reviews</p>
           </div>

@@ -80,6 +80,10 @@
         
       
 }
+.nav-items{
+    flex-wrap: nowrap;
+    display: flex;
+}
 
 .nav-header .nav-items a{
     color: #000;

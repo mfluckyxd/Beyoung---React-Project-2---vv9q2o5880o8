@@ -12,7 +12,6 @@ export const loginAPI = async (userInfo) => {
         localStorage.setItem('username', res.data.data.name);
         localStorage.setItem('useremail', res.data.data.email);
     }
-    // console.log(res.data);
     return res.data;
   } catch (error) {
     return error.response.data;
@@ -22,17 +21,17 @@ export const loginAPI = async (userInfo) => {
 export const signupAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
   try {
-    // console.log(`${apiURL}/user/signup`, headers, userInfo);
     const res = await axios.post(`${apiURL}/user/signup`, userInfo, headers);
-    // console.log(res.data.data);
+   
     if (res.data.token) {
         
         localStorage.setItem('authToken', res.data.token);
-        localStorage.setItem('username', res.data.data.name);
-        localStorage.setItem('useremail', res.data.data.email);
+        localStorage.setItem('username', res.data.data.user.name);
+        localStorage.setItem('useremail', res.data.data.user.email);
     }
     return res.data;
   } catch (error) {
+    console.log(error.response.data);
     return error.response.data;
   }
 };
@@ -42,7 +41,8 @@ export const updateCredentialsAPI = async(body)=>{
 
   try {
     const res = await axios.patch(`${apiURL}/user/updateMyPassword`,body,headers)
-    
+    console.log(res.data);
+    console.log(body);
     return res.data
   } catch (error) {
     

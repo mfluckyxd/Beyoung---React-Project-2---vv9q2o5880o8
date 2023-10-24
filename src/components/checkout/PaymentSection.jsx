@@ -12,10 +12,17 @@ const PaymentSection = () => {
     year:false,
     cvv:false
   })
+  const [ccnum, setCcnum] = useState('')
   const handleChanges = (e)=>{
     const { name, value } = e.target;
-    if (name === "ccnum" && value.length !== 16) {
-      setErrors({ ...errors, [name]: true });
+
+    if (name === "ccnum" && value.length<17) {
+
+      
+        setCcnum(value)
+        setErrors({ ...errors, [name]: (value.length==16?false:true) });
+      
+      
     } else if (name === "month" && (value.length !==2|| parseInt(value, 10) > 12)||parseInt(value, 10) ===0) {
       setErrors({ ...errors, [name]: true });
     }else if(name==='year' && (value.length!==4||parseInt(value, 10) ===0)){
@@ -54,8 +61,10 @@ const PaymentSection = () => {
                 label="Card number"
                 type="number"
                 name="ccnum"
+                value={ccnum}
                 onChange={handleChanges}
                 variant="outlined"
+                inputProps={{ maxLength: 16 }}
                 required
                 fullWidth
                 disabled={disableForm}

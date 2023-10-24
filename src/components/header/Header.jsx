@@ -12,7 +12,7 @@ import Login from "../authentication/Login";
 import { useAuth, useUpdateLoginModalStatus, useUpdateLoginStatus } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
-import { Badge, ClickAwayListener, Popper, TextField } from "@mui/material";
+import { Badge, ClickAwayListener, Popper, TextField, useMediaQuery } from "@mui/material";
 import {
   useCartNumbers,
   useUpdateCartNumbers,
@@ -31,6 +31,16 @@ const Header = () => {
   const numberOfCartItems = useCartNumbers();
   const numberOfWishlistItems = useWishlistNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
+
+  const toggelBtnRef = useRef()
+
+
+  const isSmallScreen = useMediaQuery('(max-width:768px)');
+  const HandleClick =()=>{
+    if (isSmallScreen) {
+      toggelBtnRef.current.click()
+    }
+  }
 
 
 
@@ -133,10 +143,12 @@ const handleSearch = async ()=>{
       <section className="nav-header">
         <div className="nav-left">
           <button
-            className="d-lg-none d-md-none nav-toggel-button"
+          ref={toggelBtnRef}
+            className="d-lg-none d-md-none nav-toggel-button collapsed"
             type="button"
             data-toggle="collapse"
             data-target="#collapsNavbar"
+
           >
             <MenuIcon sx={{ height: "35px", width: "35px" }} />
           </button>
@@ -149,12 +161,12 @@ const handleSearch = async ()=>{
               id="collapsNavbar"
             >
               <nav className="nav-items ">
-                <NavLink to={"/products?gender=men"}>Men</NavLink>
-                <NavLink to={"/products?gender=women"}>Women</NavLink>
-                <NavLink to={"/products?sellerTag=new arrival"}>
+                <NavLink onClick={HandleClick}  to={"/products?gender=men"}>Men</NavLink>
+                <NavLink onClick={HandleClick} to={"/products?gender=women"}>Women</NavLink>
+                <NavLink onClick={HandleClick} to={"/products?sellerTag=new arrival"}>
                   New arrivals
                 </NavLink>
-                <NavLink to={"/products?q=shop all"}>Shop All</NavLink>
+                <NavLink onClick={HandleClick} to={"/products?q=shop all"}>Shop All</NavLink>
               </nav>
             </div>
           </div>

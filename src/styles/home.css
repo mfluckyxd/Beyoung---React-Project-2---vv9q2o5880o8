@@ -103,3 +103,8 @@
 .categories-cards-section img{
   width: 100%;
 }
+
+
+.react-multiple-carousel__arrow{
+  z-index: 3 !important;
+}
