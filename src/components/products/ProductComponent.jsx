@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../utils/getProductsAPI";
 import "../../styles/productcomponent.css";
-import { CircularProgress, Divider, FormControlLabel, LinearProgress, Radio, RadioGroup, Rating } from "@mui/material";
+import {
+  CircularProgress,
+  Divider,
+  FormControlLabel,
+  LinearProgress,
+  Radio,
+  RadioGroup,
+  Rating,
+} from "@mui/material";
 import DiscountIcon from "@mui/icons-material/Discount";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -15,8 +23,8 @@ import { useUpdateCartNumbers } from "../../context/CartItemNumbersContext";
 import { toast } from "react-toastify";
 import { useLoader } from "../../context/LoaderContext";
 import { useCheckout } from "../../context/CheckoutContext";
-import { Margin } from "@mui/icons-material";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const ProductComponent = () => {
   const [product, setProduct] = useState([]);
@@ -25,28 +33,35 @@ const ProductComponent = () => {
   const loginStatus = useAuth();
   const updateCartNumbers = useUpdateCartNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
-  const {updateLoaderStatus} = useLoader()
-  const [loading, setLoading] = useState(false)
+  const { updateLoaderStatus } = useLoader();
+  const [loading, setLoading] = useState(false);
 
-  const { updateProducts, updateTotalItems, updateTotalPrice } =
-    useCheckout();
-    const navigate = useNavigate()
+  const { updateProducts, updateTotalItems, updateTotalPrice } = useCheckout();
+  const navigate = useNavigate();
 
   const [selectedQty, setSelectedQty] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(false)
+  const [selectedSize, setSelectedSize] = useState(false);
+  const [zipCode, setZipCode] = useState("");
+  const [showZipValidation, setShowZipValidstion] = useState(false);
+
+  const handleZIpChange = (e) => {
+    setZipCode(e.target.value);
+    setShowZipValidstion(false);
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const fetchProduct = async () => {
     try {
-      updateLoaderStatus(true)
+      updateLoaderStatus(true);
       const res = await getProductById(id);
-      
+
       setProduct(res);
       scrollToTop();
-    } catch (error) {}finally{
-      updateLoaderStatus(false)
+    } catch (error) {
+    } finally {
+      updateLoaderStatus(false);
     }
   };
   useEffect(() => {
@@ -55,14 +70,14 @@ const ProductComponent = () => {
   useEffect(() => {
     document.querySelectorAll(".product-details-box").forEach((box) => {
       box.querySelector("h5").addEventListener("click", () => {
-        const content = box.querySelector("ul");
-        
+        const content = box.querySelector(".collaps-content");
+
         content.classList.toggle("collapseContent");
       });
     });
   }, []);
-  
-  const [randomRating] = useState((Math.random() * 5).toFixed(1))
+
+  const [randomRating] = useState((Math.random() * 5).toFixed(1));
 
   const handleQtyChange = (event) => {
     const newQuantity = event.target.value;
@@ -72,51 +87,40 @@ const ProductComponent = () => {
   const handleAddToCart = async () => {
     if (loginStatus) {
       try {
-        setLoading(true)
+        setLoading(true);
         const res = await addItemToCart(id, selectedQty);
         // console.log(res);
-        if (res.status==='success') {
-          toast.success(res.message)
-          updateCartNumbers(res.results)
-        } else if(res.status==='fail'){
-          toast.error(res.message)
-        }else{
-          toast.error('Something went wrong, please try again later.')
+        if (res.status === "success") {
+          toast.success(res.message);
+          updateCartNumbers(res.results);
+        } else if (res.status === "fail") {
+          toast.error(res.message);
+        } else {
+          toast.error("Something went wrong, please try again later.");
         }
-     
-
-
       } catch (error) {
         console.log(error);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     } else {
-      setShowLoginModal(true)
+      setShowLoginModal(true);
     }
   };
 
-  const handleBuyNow = ()=>{
-
+  const handleBuyNow = () => {
     if (loginStatus) {
-       const chkoutproduct = [product]
-      updateProducts(chkoutproduct)
-      updateTotalItems(1)
-      updateTotalPrice(product.price*selectedQty)
-      navigate('/checkout/shipping')
-    }else{
-      setShowLoginModal(true)
+      const chkoutproduct = [product];
+      updateProducts(chkoutproduct);
+      updateTotalItems(1);
+      updateTotalPrice(product.price * selectedQty);
+      navigate("/checkout/shipping");
+    } else {
+      setShowLoginModal(true);
     }
-
-   
-      
-  }
-
-  const handleZipSearch = (e) => {
-    e.preventDefault();
   };
-  const sizes = ['S','M','L','XL']
 
+  const sizes = ["S", "M", "L", "XL"];
 
   const productDetailsHtml = { __html: product.description };
   return (
@@ -143,19 +147,26 @@ const ProductComponent = () => {
               <span>Extra ₹100 OFF on ₹999 (Code:BEYOUNG100)</span>
             </div>
             <div className="sizes-section">
-              <p style={{margin:'3rem 0 0.4rem 0'}}>SIZE</p>
-            <RadioGroup row name="size" sx={{marginLeft:'8px'}} value={selectedSize} onChange={(e)=>setSelectedSize(e.target.value)}>
-              {sizes.map((size) => (
-                <FormControlLabel 
-                  className={`size-label ${selectedSize === size ? 'active-size' : ''}`}
-                  key={size}
-                  value={size}
-                  control={<Radio sx={{display:'none'}} color="default" />}
-                  label={size}
-                />
+              <p style={{ margin: "3rem 0 0.4rem 0" }}>SIZE</p>
+              <RadioGroup
+                row
+                name="size"
+                sx={{ marginLeft: "8px" }}
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
+              >
+                {sizes.map((size) => (
+                  <FormControlLabel
+                    className={`size-label ${
+                      selectedSize === size ? "active-size" : ""
+                    }`}
+                    key={size}
+                    value={size}
+                    control={<Radio sx={{ display: "none" }} color="default" />}
+                    label={size}
+                  />
                 ))}
               </RadioGroup>
-              
             </div>
             <div className="qty-section">
               <label htmlFor="quantity">QTY:</label>
@@ -177,10 +188,19 @@ const ProductComponent = () => {
                 onClick={handleAddToCart}
                 style={{ backgroundColor: "#51CCCC", color: "white" }}
               >
-                {loading?<CircularProgress size={20} color="inherit"/>:<><AddShoppingCartIcon />
-                <span>Add to cart</span></>}
+                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>
+                    <AddShoppingCartIcon />
+                    <span>Add to cart</span>
+                  </>
+                )}
               </button>
-              <button onClick={handleBuyNow} style={{ backgroundColor: "#F9EB28" }}>
+              <button
+                onClick={handleBuyNow}
+                style={{ backgroundColor: "#F9EB28" }}
+              >
                 <ShoppingCartCheckoutIcon />
                 <span>Buy Now</span>
               </button>
@@ -192,11 +212,35 @@ const ProductComponent = () => {
                   Enter your Pincode to check the delivery time and free pick up
                   options
                 </p>
-                <form onSubmit={handleZipSearch}>
-                  {" "}
-                  <input type="text" name="zipcode" id="zipcode" />{" "}
-                  <button type="submit">check</button>
-                </form>
+                <div>
+                  <input
+                    type="text"
+                    name="zipcode"
+                    id="zipcode"
+                    value={zipCode}
+                    onChange={handleZIpChange}
+                  />{" "}
+                  <button onClick={() => setShowZipValidstion(true)}>
+                    check
+                  </button>
+                </div>
+                {showZipValidation && (
+                  <label>
+                    {zipCode.length === 6 ? (
+                      <>
+                        <CheckCircleIcon
+                          sx={{ color: "green", width: "2rem" }}
+                        />
+                        Free delivery available at {zipCode}
+                      </>
+                    ) : (
+                      <>
+                        <CancelIcon sx={{ color: "red", width: "2rem" }} />
+                        Invalid Pincode
+                      </>
+                    )}
+                  </label>
+                )}
                 <label>
                   <img
                     style={{ width: "2rem" }}
@@ -223,52 +267,42 @@ const ProductComponent = () => {
         <div className="product-details-section">
           <div className="product-details-box">
             <h5>Product Description</h5>
-              {/* <ul>
-                <li>It is a long established fact that a reader will</li>
-                <li>Be distracted by the readable content</li>
-                <li>Of a page when looking at its layout</li>
-                <li>The point of using Lorem Ipsum is that it</li>
-                <li>Has a more-or-less normal distribution of letters</li>
-                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
-              </ul> */}
-              <ul><li><div dangerouslySetInnerHTML={productDetailsHtml} /></li></ul>
-              
-              
+
+            <div
+              className="collaps-content"
+              dangerouslySetInnerHTML={productDetailsHtml}
+            />
           </div>
           <div className="product-details-box">
             <h5>Product Highlights</h5>
-            <ul>
-                <li>It is a long established fact that a reader will</li>
-                <li>Be distracted by the readable content</li>
-                <li>Of a page when looking at its layout</li>
-                <li>The point of using Lorem Ipsum is that it</li>
-                <li>Has a more-or-less normal distribution of letters</li>
-                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
-              </ul>
+            <ul className="collaps-content">
+              <li>
+                100% Bio-washed Cotton - makes the fabric extra soft & silky
+              </li>
+              <li>Precisely stitched with no pilling & no fading</li>
+              <li>Provide all-time comfort. Anytime, anywhere</li>
+              <li>
+                Every cloth is tailored with regular fit over years of testing
+              </li>
+              <li>
+                Elasticated Waistband - adjustable drawstring for better fitting
+              </li>
+              <li>
+                Zero Pilling - absolutely no presence of fuzzballs on the fabric
+              </li>
+            </ul>
           </div>
+
           <div className="product-details-box">
-            <h5>Product Highlights</h5>
-            <ul>
-                <li>It is a long established fact that a reader will</li>
-                <li>Be distracted by the readable content</li>
-                <li>Of a page when looking at its layout</li>
-                <li>The point of using Lorem Ipsum is that it</li>
-                <li>Has a more-or-less normal distribution of letters</li>
-                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
-              </ul>
-          </div>
-          <div className="product-details-box">
-            <h5>Product Highlights</h5>
-           
-            <ul>
-                <li>It is a long established fact that a reader will</li>
-                <li>Be distracted by the readable content</li>
-                <li>Of a page when looking at its layout</li>
-                <li>The point of using Lorem Ipsum is that it</li>
-                <li>Has a more-or-less normal distribution of letters</li>
-                <li>As opposed to using 'Content here, content here', making it look like readable English.</li>
-              </ul>
-            
+            <h5>Delivery & Return Policy</h5>
+            <div className="collaps-content">
+              We provide free shipping on all orders. Pay online to avoid
+              charges of ₹50/product applicable on COD orders. The return or
+              exchange can be done within 15 days after delivery. Every delivery
+              from Beyoung is processed under excellent condition and in the
+              fastest time possible. For our beloved customer's care, we give
+              contactless delivery. Refer to FAQ for more information.
+            </div>
           </div>
         </div>
       </div>

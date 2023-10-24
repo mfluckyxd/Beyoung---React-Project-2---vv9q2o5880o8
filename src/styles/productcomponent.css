@@ -92,6 +92,10 @@
 .delivery-options-box p {
   margin: 0;
 }
+.delivery-options-box label{
+  display: flex;
+  align-items: center;
+}
 .delivery-options-box input {
   margin: 0;
   padding: 0.3rem;
@@ -150,13 +154,25 @@
  .product-details-box{
     background-color: #F5F5F5;
     padding: 1.5rem 1rem;
+    flex: 1;
+    h5>{
+      font-size: 0.3rem !important;
+    }
+ }
+ .product-details-box >h5{
+  font-size: 1.2rem;
+ }
+ .product-details-box ul{
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
  }
 
  @media (max-width:768px)  {
     .product-details-section{
         flex-direction: column;
     }
-    .product-details-box ul{
+    .product-details-box .collaps-content{
         display: none;
     }
     .product-details-box .collapseContent{
