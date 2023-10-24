@@ -3,7 +3,7 @@ import { headerWithProjectIdOnly, apiURL } from "./getHeaders";
 
 
 
-export const getProductsBySearch = async (page, filter)=>{
+export const getProductsBySearch = async (filter)=>{
     const headers = headerWithProjectIdOnly()
 
     function isObjectEmpty(obj) {
@@ -19,7 +19,7 @@ export const getProductsBySearch = async (page, filter)=>{
     try {
         // console.log(`${apiURL}/ecommerce/clothes/products?limit=${20}&page=${page}${searchFilter}`)
         const res = await axios.get(
-            `${apiURL}/ecommerce/clothes/products?limit=${20}&page=${page}${searchFilter}`,
+            `${apiURL}/ecommerce/clothes/products?limit=${200}${searchFilter}`,
             headers   
         );
 
