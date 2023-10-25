@@ -133,8 +133,10 @@
         border: none;
         cursor: pointer;
         outline: none;
-        display: flex;
-        align-items: center;
+        /* display: flex;
+        
+        align-items: center; */
+        padding-top: 9px;
     }
 }
 .MuiBadge-badge{
