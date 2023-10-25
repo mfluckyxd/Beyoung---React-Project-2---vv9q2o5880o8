@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import "../../styles/header.css";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import logoSVG from "../../Logo.svg";
@@ -33,6 +33,8 @@ const Header = () => {
   const setShowLoginModal = useUpdateLoginModalStatus();
 
   const toggelBtnRef = useRef()
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
 
   const isSmallScreen = useMediaQuery('(max-width:768px)');
@@ -109,6 +111,13 @@ const handleSearch = async ()=>{
    
   const handleSignin = (e) => {
     e.preventDefault();
+    if (e.target.value==='signup') {
+      searchParams.set('q', 'signup');
+      setSearchParams(searchParams);
+    }else{
+      searchParams.delete('q')
+      setSearchParams(searchParams)
+    }
     setShowLoginModal(true);
   };
 
@@ -135,7 +144,7 @@ const handleSearch = async ()=>{
           ) : (
             <>
               <button onClick={handleSignin}>Sign In</button>
-              <button onClick={handleSignin}>Sign Up</button>
+              <button onClick={handleSignin} value={'signup'}>Sign Up</button>
             </>
           )}
         </div>

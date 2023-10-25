@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import "../../styles/login.css";
 
@@ -11,6 +11,7 @@ import { useShowLoginModal, useUpdateLoginModalStatus, useUpdateLoginStatus } fr
 import { getnumberOfCartItems } from "../../utils/cartAPI";
 import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
 import { getnumberOfWishlistItems } from "../../utils/wishListAPI";
+import { useSearchParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -31,6 +32,7 @@ const Login = () => {
 
   const open = useShowLoginModal()
   const setOpen = useUpdateLoginModalStatus();
+  const [searchParams, setSearchParams] = useSearchParams();
 
 
   const [userInfo, setUserInfo] = useState({
@@ -44,6 +46,8 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [loader, setLoader] = useState(false)
+
+  
 
   const updateLoginStatus = useUpdateLoginStatus();
   const updateCartNumbers = useUpdateCartNumbers();
@@ -86,6 +90,8 @@ const Login = () => {
       appType : "ecommerce"
     })
     setOpen(false);
+    searchParams.delete('q')
+    setSearchParams(searchParams)
   }
 
   const handleAuth = async (e) => {
@@ -126,9 +132,23 @@ const Login = () => {
   };
   const authSwitch = (e) => {
     e.preventDefault();
-    setIsSignupForm(!isSignupForm);
+    if (searchParams.get('q')) {
+      searchParams.delete('q')
+      setSearchParams(searchParams)
+    }else{
+      searchParams.set('q', 'signup');
+      setSearchParams(searchParams);
+    }
+    // setIsSignupForm(!isSignupForm);
 
   };
+  useEffect(()=>{
+    if (searchParams.get('q')==='signup') {
+      setIsSignupForm(true)
+    }else{
+      setIsSignupForm(false)
+    }
+  },[searchParams])
 
   return (
     <div>
