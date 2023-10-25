@@ -7,11 +7,13 @@ import { getCartItems } from "../../utils/cartAPI";
 import EmptyCart from "./EmptyCart";
 import { useCheckout } from "../../context/CheckoutContext";
 import { useLoader } from "../../context/LoaderContext";
+import { useCartNumbers } from "../../context/CartItemNumbersContext";
 
 const CartComponent = () => {
   const { products, updateProducts, updateTotalItems, updateTotalPrice } =
     useCheckout();
     const {updateLoaderStatus} = useLoader()
+    const cartItems = useCartNumbers()
     
 
   const fetchProducts = async () => {
@@ -23,7 +25,7 @@ const CartComponent = () => {
       // console.log(res.data);
       const { items, totalPrice } = res.data;
       // console.log(res);
-      
+      console.log("set prod:",items);
       updateProducts(items);
       updateTotalPrice(totalPrice);
       updateTotalItems(items.length);
@@ -36,10 +38,10 @@ const CartComponent = () => {
   };
 
   useEffect(() => {
-    
+    console.log('triggered');
     fetchProducts();
 
-  }, []);
+  }, [cartItems]);
 
   return (
     <div>

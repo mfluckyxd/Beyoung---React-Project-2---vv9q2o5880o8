@@ -176,7 +176,7 @@ const handleSearch = async ()=>{
             <SearchIcon />
           </button>
           <Link to={'myaccount/wishlist'}>
-          <Badge badgeContent={numberOfWishlistItems} >
+            <Badge badgeContent={numberOfWishlistItems} >
             <FavoriteBorderIcon />
             </Badge>
           </Link>

@@ -80,19 +80,23 @@ const ProductComponent = () => {
   const [randomRating] = useState((Math.random() * 5).toFixed(1));
 
   const handleQtyChange = (event) => {
-    const newQuantity = event.target.value;
+    const newQuantity = parseInt(event.target.value);
+
     setSelectedQty(newQuantity);
   };
 
   const handleAddToCart = async () => {
     if (loginStatus) {
       try {
+        
         setLoading(true);
+        
         const res = await addItemToCart(id, selectedQty);
         // console.log(res);
         if (res.status === "success") {
           toast.success(res.message);
           updateCartNumbers(res.results);
+         
         } else if (res.status === "fail") {
           toast.error(res.message);
         } else {

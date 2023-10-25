@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteItemFromCart } from "../../utils/cartAPI";
 import {
@@ -19,10 +19,13 @@ const CartItemCard = ({ product, removeProductFromState }) => {
     quantity,
   } = product;
   
+  const [qty, setQty] = useState(quantity);
 
   const { updateTotalItems, updateTotalPrice } = useCheckout();
-
-  const [qty, setQty] = useState(quantity);
+  useEffect(()=>{
+    setQty(quantity)
+    
+  },[quantity])
 
   const updateCartNumbers = useUpdateCartNumbers();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
@@ -30,9 +33,11 @@ const CartItemCard = ({ product, removeProductFromState }) => {
   const {updateLoaderStatus} = useLoader()
 
   const handleQtyChange = (event) => {
+    
     const newQuantity = event.target.value;
     setQty(newQuantity);
   };
+
   const removeItemFromCart = async (_id) => {
     try {
       updateLoaderStatus(true)
@@ -74,6 +79,8 @@ const CartItemCard = ({ product, removeProductFromState }) => {
     }
   };
 
+  
+
   return (
     <div className="cart-item-card">
       <section className="cart-item-content">
@@ -101,6 +108,7 @@ const CartItemCard = ({ product, removeProductFromState }) => {
                   {index + 1}
                 </option>
               ))}
+              {parseInt(qty)>10&&<><option value={qty}>{qty}</option></>}
             </select>
           </div>
         </div>
