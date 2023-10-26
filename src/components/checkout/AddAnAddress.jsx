@@ -27,7 +27,7 @@ const AddAnAddress = () => {
     const { name, value } = e.target;
     if (name === "zipCode" && value.length !== 6) {
       setErrors({ ...errors, [name]: true });
-    } else if (name === "street" && value.length < 6) {
+    } else if (name === "street" && value.length < 1) {
       setErrors({ ...errors, [name]: true });
     } else if (value.length < 3) {
       setErrors({ ...errors, [name]: true });
@@ -76,7 +76,7 @@ const AddAnAddress = () => {
                 disabled={disableForm}
                 error={errors.name}
                 helperText={
-                  errors.name ? "Name must be at least 3 characters long" : ""
+                  errors.name ? "Please enter a valid name" : ""
                 }
               />
             </Grid>
@@ -95,7 +95,7 @@ const AddAnAddress = () => {
                 error={errors.street}
                 helperText={
                   errors.street
-                    ? "Address must be at least 6 characters long"
+                    ? "Please enter a valid address"
                     : ""
                 }
               />

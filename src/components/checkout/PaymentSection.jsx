@@ -24,7 +24,7 @@ const PaymentSection = () => {
       setErrors({ ...errors, [name]: true });
     }else if(name==='year' && (value.length!==4||parseInt(value, 10) ===0)){
       setErrors({ ...errors, [name]: true });
-    }else if(name==='name' && value.length<3){
+    }else if(name==='name' && value.length<1){
       setErrors({ ...errors, [name]: true });
     }else if(name==='cvv' && value.length!==3){
       setErrors({ ...errors, [name]: true });
@@ -83,7 +83,7 @@ const PaymentSection = () => {
                 disabled={disableForm}
                 error={errors.name}
                 helperText={
-                  errors.name ? "Name must be at least 3 characters long" : ""
+                  errors.name ? "Please enter a valid name" : ""
                 }
               />
             </Grid>
