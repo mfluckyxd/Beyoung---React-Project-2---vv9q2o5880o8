@@ -60,8 +60,14 @@ const PricingSection = () => {
       updateLoaderStatus(true)
       for (const { product, quantity } of products) {
         const res = await newOrder(product._id, quantity, checkoutAddress);
-        deleteItemFromCart(product._id)
-        console.log(product);
+        if (res.status==='success') {
+          deleteItemFromCart(product._id)
+        }
+        else{
+          toast.error(res.message)
+        }
+        
+        
       }
     } catch (error) {
       console.log(error);

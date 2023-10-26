@@ -114,7 +114,11 @@ const ProductComponent = () => {
 
   const handleBuyNow = () => {
     if (loginStatus) {
-      const chkoutproduct = [product];
+      
+      const chkoutproduct = [{
+        quantity:selectedQty,
+        product:{_id:id}
+      }];
       updateProducts(chkoutproduct);
       updateTotalItems(1);
       updateTotalPrice(product.price * selectedQty);

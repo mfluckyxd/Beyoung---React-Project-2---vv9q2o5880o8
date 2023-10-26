@@ -15,22 +15,48 @@ const PaymentSection = () => {
   const [ccnum, setCcnum] = useState('')
   const handleChanges = (e)=>{
     const { name, value } = e.target;
+    console.log(name);
+    
+    if (name === "month") {
+      if (value.length !==2|| parseInt(value, 10) > 12||parseInt(value, 10) ===0) {
+        console.log('loggrd');
+        setErrors({ ...errors, [name]: true });
+      }else{
+        setErrors({ ...errors, [name]: false });
+      }
+    }else if(name==='year'){
+      if (value.length!==4||parseInt(value, 10) ===0) {
+        setErrors({ ...errors, [name]: true });
+      }else{
+        setErrors({ ...errors, [name]: false });
+      }
+    }else if((name==='name')){
+      if (value.length<1||!isValidName(value)) {
+        setErrors({ ...errors, [name]: true });
+      }else{
+        setErrors({ ...errors, [name]: false })
+      }
+      
+      
+    }else if(name==='cvv' ){
+      if (value.length!==3) {
+        setErrors({ ...errors, [name]: true });
+      }else{
+        setErrors({ ...errors, [name]: false });
 
-    if (name === "ccnum"&&value.length <= 16) {
+      }
+    }else{console.log('else');}
+  }
+
+  const validateCcnum = (e)=>{
+    const {value} = e.target
+    if (value.length <= 16) {
       setCcnum(value);
-      setErrors({ ...errors, [name]: value.length<16?true:false });
-      
-    } else if (name === "month" && (value.length !==2|| parseInt(value, 10) > 12)||parseInt(value, 10) ===0) {
-      setErrors({ ...errors, [name]: true });
-    }else if(name==='year' && (value.length!==4||parseInt(value, 10) ===0)){
-      setErrors({ ...errors, [name]: true });
-    }else if((name==='name' && value.length<1)||!isValidName(value)){
-      
-      setErrors({ ...errors, [name]: true });
-    }else if(name==='cvv' && value.length!==3){
-      setErrors({ ...errors, [name]: true });
-    }else{
-      setErrors({ ...errors, [name]: false });
+      if (value.length!==16) {
+        setErrors({ ...errors, ccnum: true });
+      }else{
+        setErrors({ ...errors, ccnum: false });
+      }
     }
   }
 
@@ -66,7 +92,7 @@ const PaymentSection = () => {
                 type="number"
                 name="ccnum"
                 value={ccnum}
-                onChange={handleChanges}
+                onChange={validateCcnum}
                 variant="outlined"
                 inputProps={{ maxLength: 16 }}
                 required
@@ -124,7 +150,7 @@ const PaymentSection = () => {
                 disabled={disableForm}
                 error={errors.year}
                 helperText={
-                  errors.year ? "Please enter a valid month value" : ""
+                  errors.year ? "Please enter a valid year value" : ""
                 }
               />
             </Grid>
