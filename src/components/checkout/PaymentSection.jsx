@@ -16,9 +16,9 @@ const PaymentSection = () => {
   const handleChanges = (e)=>{
     const { name, value } = e.target;
 
-    if (name === "ccnum" && value.length<17) {
-        setCcnum(value)
-        setErrors({ ...errors, [name]: (value.length>15?false:true) });
+    if (name === "ccnum"&&value.length <= 16) {
+      setCcnum(value);
+      setErrors({ ...errors, [name]: value.length<16?true:false });
       
     } else if (name === "month" && (value.length !==2|| parseInt(value, 10) > 12)||parseInt(value, 10) ===0) {
       setErrors({ ...errors, [name]: true });
