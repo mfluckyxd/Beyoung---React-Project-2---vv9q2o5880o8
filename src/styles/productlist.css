@@ -68,6 +68,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 25px;
+    background-color: white;
+    height: 30px;
+    width: 30px;
 }
 
 .no-products{
