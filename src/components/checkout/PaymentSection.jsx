@@ -24,13 +24,20 @@ const PaymentSection = () => {
       setErrors({ ...errors, [name]: true });
     }else if(name==='year' && (value.length!==4||parseInt(value, 10) ===0)){
       setErrors({ ...errors, [name]: true });
-    }else if(name==='name' && value.length<1){
+    }else if((name==='name' && value.length<1)||!isValidName(value)){
+      
       setErrors({ ...errors, [name]: true });
     }else if(name==='cvv' && value.length!==3){
       setErrors({ ...errors, [name]: true });
     }else{
       setErrors({ ...errors, [name]: false });
     }
+  }
+
+  const isValidName = (str)=>{
+    const regex = /[^a-zA-Z\s]/;
+
+  return !regex.test(str);
   }
 
   const {updatePaymentValid} = useCheckout();
