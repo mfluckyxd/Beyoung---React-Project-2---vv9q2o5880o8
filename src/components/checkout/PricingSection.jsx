@@ -88,6 +88,30 @@ const PricingSection = () => {
     }
   };
 
+    const clearWholeCart = async ()=>{
+
+    try {
+      updateLoaderStatus(true)
+      console.log(products);
+       
+      for (const { product } of products) {
+        
+        const res = await deleteItemFromCart(product._id)
+        
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong, see console for more detail.')
+    }finally{
+      updateProducts([])
+      updateLoaderStatus(false)
+      updateTotalItems(0)
+      updateTotalPrice(0)
+      updateCart(0)
+
+    }
+  }
+
   return (
     <div className="pricing-section-container">
       <section className="pricing-section">
@@ -119,6 +143,7 @@ const PricingSection = () => {
           <span>&#8377;{totalPrice}</span>
         </p>
         <button onClick={handleCheckout}>checkout securely</button>
+        {currentPage === "cart"&&<button  style={{marginTop:'1rem'}} onClick={clearWholeCart}>Clear Cart</button>}
       </section>
 
     </div>
