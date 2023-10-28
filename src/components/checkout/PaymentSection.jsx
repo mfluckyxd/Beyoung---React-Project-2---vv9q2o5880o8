@@ -3,82 +3,99 @@ import React, { useState } from "react";
 import { useCheckout } from "../../context/CheckoutContext";
 
 const PaymentSection = () => {
-
   const [disableForm, setDisableForm] = useState(false);
   const [errors, setErrors] = useState({
-    ccnum:false,
-    name:false,
-    month:false,
-    year:false,
-    cvv:false
-  })
-  const [ccnum, setCcnum] = useState('')
-  const handleChanges = (e)=>{
+    ccnum: false,
+    name: false,
+    month: false,
+    year: false,
+    cvv: false,
+  });
+  // const [ccnum, setCcnum] = useState('')
+  const [cardInfo, setCardInfo] = useState({
+    ccnum: "",
+    mm: "",
+    yyyy: "",
+    cvv: "",
+  });
+  const handleChanges = (e) => {
     const { name, value } = e.target;
-    console.log(name);
-    
+   
     if (name === "month") {
-      if (value.length !==2|| parseInt(value, 10) > 12||parseInt(value, 10) ===0) {
-        console.log('loggrd');
+      if (value.length <= 2) {
+        setCardInfo((prevInfo) => ({ ...prevInfo, mm: value }));
+        if (
+          value.length !== 2 ||
+          parseInt(value, 10) > 12 ||
+          parseInt(value, 10) === 0
+        ) {
+          
+          setErrors({ ...errors, [name]: true });
+        } else {
+          setErrors({ ...errors, [name]: false });
+        }
+      }
+    } else if (name === "year") {
+      if (value.length <= 4) {
+        setCardInfo((prevInfo) => ({ ...prevInfo, yyyy: value }));
+        if (value.length !== 4 || parseInt(value, 10) === 0) {
+          setErrors({ ...errors, [name]: true });
+        } else {
+          setErrors({ ...errors, [name]: false });
+        }
+      }
+    } else if (name === "name") {
+      if (value.length < 1 || !isValidName(value)) {
         setErrors({ ...errors, [name]: true });
-      }else{
+      } else {
         setErrors({ ...errors, [name]: false });
       }
-    }else if(name==='year'){
-      if (value.length!==4||parseInt(value, 10) ===0) {
-        setErrors({ ...errors, [name]: true });
-      }else{
-        setErrors({ ...errors, [name]: false });
+    } else if (name === "cvv") {
+      if (value.length <= 3) {
+        setCardInfo((prevInfo) => ({ ...prevInfo, cvv: value }));
+        if (value.length !== 3) {
+          setErrors({ ...errors, [name]: true });
+        } else {
+          setErrors({ ...errors, [name]: false });
+        }
       }
-    }else if((name==='name')){
-      if (value.length<1||!isValidName(value)) {
-        setErrors({ ...errors, [name]: true });
-      }else{
-        setErrors({ ...errors, [name]: false })
-      }
-      
-      
-    }else if(name==='cvv' ){
-      if (value.length!==3) {
-        setErrors({ ...errors, [name]: true });
-      }else{
-        setErrors({ ...errors, [name]: false });
-
-      }
-    }else{console.log('else');}
-  }
-
-  const validateCcnum = (e)=>{
-    const {value} = e.target
-    if (value.length <= 16) {
-      setCcnum(value);
-      if (value.length!==16) {
-        setErrors({ ...errors, ccnum: true });
-      }else{
-        setErrors({ ...errors, ccnum: false });
+    } else if (name === "ccnum") {
+      if (value.length <= 16) {
+        setCardInfo((prevInfo) => ({ ...prevInfo, ccnum: value }));
+        if (value.length !== 16) {
+          setErrors({ ...errors, ccnum: true });
+        } else {
+          setErrors({ ...errors, ccnum: false });
+        }
       }
     }
-  }
+  };
 
-  const isValidName = (str)=>{
+  const isValidName = (str) => {
     const regex = /[^a-zA-Z\s]/;
 
-  return !regex.test(str);
-  }
+    return !regex.test(str);
+  };
 
-  const {updatePaymentValid} = useCheckout();
-  const handleFormSubmit = (e)=>{
+  const { updatePaymentValid } = useCheckout();
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!disableForm) {
       if (!Object.values(errors).some((error) => error)) {
-        updatePaymentValid(true)
+        updatePaymentValid(true);
         setDisableForm(true);
       }
     } else {
-      updatePaymentValid(false)
+      updatePaymentValid(false);
       setDisableForm(false);
     }
-  }
+  };
+
+  const preventExtraInputs = (e) => {
+    if (e.key === "-" || e.key === "+" || e.key === "e") {
+      e.preventDefault();
+    }
+  };
   return (
     <div className="cart-items-container payments-container">
       <h5>Enter Your Debit/Credit Card Details</h5>
@@ -91,8 +108,9 @@ const PaymentSection = () => {
                 label="Card number"
                 type="number"
                 name="ccnum"
-                value={ccnum}
-                onChange={validateCcnum}
+                value={cardInfo.ccnum}
+                onChange={handleChanges}
+                onKeyDown={preventExtraInputs}
                 variant="outlined"
                 inputProps={{ maxLength: 16 }}
                 required
@@ -115,9 +133,7 @@ const PaymentSection = () => {
                 fullWidth
                 disabled={disableForm}
                 error={errors.name}
-                helperText={
-                  errors.name ? "Please enter a valid name" : ""
-                }
+                helperText={errors.name ? "Please enter a valid name" : ""}
               />
             </Grid>
             <Grid item xs={3}>
@@ -125,8 +141,9 @@ const PaymentSection = () => {
                 label="MM"
                 type="number"
                 name="month"
-                
+                value={cardInfo.mm}
                 onChange={handleChanges}
+                onKeyDown={preventExtraInputs}
                 variant="outlined"
                 required
                 fullWidth
@@ -142,8 +159,9 @@ const PaymentSection = () => {
                 label="YYYY"
                 type="number"
                 name="year"
-                
+                value={cardInfo.yyyy}
                 onChange={handleChanges}
+                onKeyDown={preventExtraInputs}
                 variant="outlined"
                 required
                 fullWidth
@@ -159,17 +177,16 @@ const PaymentSection = () => {
                 label="CVV"
                 type="number"
                 name="cvv"
-                
+                value={cardInfo.cvv}
                 onChange={handleChanges}
+                onKeyDown={preventExtraInputs}
                 variant="outlined"
                 required
                 fullWidth
-                sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                sx={{ display: "flex", justifyContent: "flex-end" }}
                 disabled={disableForm}
                 error={errors.cvv}
-                helperText={
-                  errors.cvv ? "CVV must be 3 digits only" : ""
-                }
+                helperText={errors.cvv ? "CVV must be 3 digits only" : ""}
               />
             </Grid>
             <Grid item xs={12}>
