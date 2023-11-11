@@ -11,7 +11,7 @@ const PaymentSection = () => {
     year: false,
     cvv: false,
   });
-  // const [ccnum, setCcnum] = useState('')
+
   const [cardInfo, setCardInfo] = useState({
     ccnum: "",
     mm: "",
@@ -73,7 +73,6 @@ const PaymentSection = () => {
 
   const isValidName = (str) => {
     const regex = /[^a-zA-Z\s]/;
-
     return !regex.test(str);
   };
 

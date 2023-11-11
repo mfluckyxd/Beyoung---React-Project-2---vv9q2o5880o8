@@ -22,15 +22,10 @@ const RoutesComponent = () => {
         <Route path="/products" element={<ProductsList />} />
         <Route path="/products/:id" element={<ProductComponent />} />
 
-        <Route
-          path="/myaccount"
-          element={<ProtectedRoute Component={<MyAccount />} />}
-        >
+        <Route path="/myaccount" element={<ProtectedRoute Component={<MyAccount />} />}>
           <Route index element={<Navigate to="profile" />} />
-
           <Route path="profile" element={<MyProfile />} />
           <Route path="orders" element={<MyOrders />} />
-            
           <Route path="orders/:id" element={<SingleOrder/>} />
           <Route path="wishlist" element={<WishList />} />
         </Route>

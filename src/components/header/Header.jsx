@@ -19,8 +19,6 @@ import {
   useUpdateWishlistNumbers,
   useWishlistNumbers,
 } from "../../context/CartItemNumbersContext";
-import { useLoader } from "../../context/LoaderContext";
-import { getProductsBySearch } from "../../utils/getProductsAPI";
 import ShoppingCartIcon from "../../assets/ShoppingCartIcon";
 
 const Header = () => {
@@ -43,11 +41,6 @@ const Header = () => {
       toggelBtnRef.current.click()
     }
   }
-
-
-
-
-
   
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -103,11 +96,11 @@ const Header = () => {
     }
   };
 
-const handleSearch = async ()=>{
-  const {value} = searchInputRef.current;
-  setIsSearchbarOpen(false);
-  navigate(`/products?name=${value}`)
-}
+  const handleSearch = ()=>{
+    const {value} = searchInputRef.current;
+    setIsSearchbarOpen(false);
+    navigate(`/products?name=${value}`)
+  }
    
   const handleSignin = (e) => {
     e.preventDefault();

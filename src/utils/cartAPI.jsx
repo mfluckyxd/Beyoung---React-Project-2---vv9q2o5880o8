@@ -21,7 +21,6 @@ export const getCartItems = async () => {
   const headers = headerWithJWT();
   try {
     const res = await axios.get(`${apiURL}/ecommerce/cart/`, headers);
-    // console.log(res.data);
     return res.data;
   } catch (error) {
     return error.response.data;

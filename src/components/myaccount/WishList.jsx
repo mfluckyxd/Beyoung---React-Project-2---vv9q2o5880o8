@@ -10,13 +10,10 @@ const WishList = () => {
   const { updateLoaderStatus } = useLoader();
 
   const removeProductFromState = (productId) => {
-    console.log(products);
-    console.log(productId);
     const updatedProducts = products.filter(
       (product) => product._id !== productId
     );
     setProducts(updatedProducts);
-    console.log(updatedProducts);
   };
 
   const fetchproducts = async () => {

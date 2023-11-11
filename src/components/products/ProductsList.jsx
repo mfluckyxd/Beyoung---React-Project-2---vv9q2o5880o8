@@ -20,7 +20,6 @@ const ProductsList = () => {
   const fetchProducts = async (searchFilter) => {
     try {
       updateLoaderStatus(true);
-      console.log("fetching");
       const res = await getProductsBySearch(searchFilter);
 
       if (res.status === "success") {
@@ -37,6 +36,17 @@ const ProductsList = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - 800
+    ) {
+      setScrollPosition(window.scrollY);
+      setPageNo((prevPage) => prevPage + 1);
+    }
+  };
+
   useEffect(() => {
     let filter = {};
     if (searchParams.size === 0) {
@@ -60,15 +70,8 @@ const ProductsList = () => {
     fetchProducts(filter);
   }, [searchParams]);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 800
-    ) {
-      setScrollPosition(window.scrollY);
-      setPageNo((prevPage) => prevPage + 1);
-    }
-  };
+  
+
   useEffect(() => {
     window.scrollTo(0, scrollPosition);
   }, [pageNo]);
@@ -80,6 +83,8 @@ const ProductsList = () => {
     };
   }, []);
 
+
+  
   const isEmpty = !Object.keys(products).length;
 
   return (

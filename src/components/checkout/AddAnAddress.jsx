@@ -28,14 +28,12 @@ const AddAnAddress = () => {
     if (name === "zipCode" && value.length !== 6) {
       setErrors({ ...errors, [name]: true });
     } else if (name === "street" && value.length < 1) {
-      console.log('kk');
       setErrors({ ...errors, [name]: true });
     } else if (value.length < 1) {
       setErrors({ ...errors, [name]: true });
     } else {
       setErrors({ ...errors, [name]: false });
     }
-
     setAddress({ ...address, [name]: value });
   };
 

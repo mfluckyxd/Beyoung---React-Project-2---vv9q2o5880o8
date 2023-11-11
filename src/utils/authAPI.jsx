@@ -31,7 +31,6 @@ export const signupAPI = async (userInfo) => {
     }
     return res.data;
   } catch (error) {
-    console.log(error.response.data);
     return error.response.data;
   }
 };
@@ -41,8 +40,6 @@ export const updateCredentialsAPI = async(body)=>{
 
   try {
     const res = await axios.patch(`${apiURL}/user/updateMyPassword`,body,headers)
-    console.log(res.data);
-    console.log(body);
     return res.data
   } catch (error) {
     

@@ -29,7 +29,6 @@ const ProductSliderCard = ({ product }) => {
       try {
         updateLoaderStatus(true)
         const res = await addToFavAPI(body);
-        // console.log(res);
         if (res.status==='success') {
           toast.success(res.message)
           updateWishlistNumbers(res.results)
@@ -40,6 +39,7 @@ const ProductSliderCard = ({ product }) => {
         }
       } catch (error) {
         console.log(error);
+        toast.error('Something went wrong, see console for more detail.')
       }finally{
         updateLoaderStatus(false)
       }

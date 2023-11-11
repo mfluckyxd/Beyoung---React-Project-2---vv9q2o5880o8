@@ -10,37 +10,35 @@ import { Link } from 'react-router-dom';
 
 const WishlistCard = ({product,removeProductFromState}) => {
     
-    const itemid = product._id
+  const itemid = product._id
     
-    const {products:{displayImage,_id,name,price }} = product;
+  const {products:{displayImage,_id,name,price }} = product;
   const { updateLoaderStatus } = useLoader();
-    const updateNumbers = useUpdateWishlistNumbers()
+  const updateNumbers = useUpdateWishlistNumbers()
   const updateCartNumbers = useUpdateCartNumbers();
 
     
-    const handleRemoveItem = async ()=>{
-        try {
-            updateLoaderStatus(true)
-            const res = await removeFromWishlist(_id)
-            console.log(res);
-            if (res.status==='success') {
-                toast.success(res.message)
-                updateNumbers(res.results)
-                removeProductFromState(itemid)
-            }else if(res.status==='fail'){
-                toast.error(res.message)
-            }
-        } catch (error) {
-            
-        }finally{
-            updateLoaderStatus(false)
-        }
-    }
-    const moveToCart = async()=>{
-        try {
-            updateLoaderStatus(true)
-            const res = await addItemToCart(_id, 1);
-
+  const handleRemoveItem = async ()=>{
+      try {
+          updateLoaderStatus(true)
+          const res = await removeFromWishlist(_id)
+          if (res.status==='success') {
+              toast.success(res.message)
+              updateNumbers(res.results)
+              removeProductFromState(itemid)
+          }else if(res.status==='fail'){
+              toast.error(res.message)
+          }
+      } catch (error) {
+          
+      }finally{
+          updateLoaderStatus(false)
+      }
+  }
+  const moveToCart = async()=>{
+      try {
+        updateLoaderStatus(true)
+        const res = await addItemToCart(_id, 1);
         if (res.status==='success') {
           toast.success(res.message)
           handleRemoveItem()
@@ -50,12 +48,12 @@ const WishlistCard = ({product,removeProductFromState}) => {
         }else{
           toast.error('Something went wrong, please try again later.')
         }
-        } catch (error) {
-            
-        }finally{
-            updateLoaderStatus(false)
-        }
-    }
+      } catch (error) {
+          
+      }finally{
+          updateLoaderStatus(false)
+      }
+  }
   return (
     <div className='wishlist-card'>
         <Stack spacing={0.7}>

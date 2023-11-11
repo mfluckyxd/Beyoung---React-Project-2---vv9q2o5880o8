@@ -5,7 +5,6 @@ import { useLoader } from '../../context/LoaderContext';
 
 const BestSeller = () => {
     const [products, setProducts] = useState([]);
-    const [pageNo, setPageNo]=useState(1)
     const {updateLoaderStatus} = useLoader()
 
 
@@ -16,7 +15,7 @@ const BestSeller = () => {
       }
       try {
         updateLoaderStatus(true)
-          const res = await getProductsBySearch(pageNo,filter);
+          const res = await getProductsBySearch(filter);
           if (res.status==='success') {
             setProducts(res.data)
           }else{

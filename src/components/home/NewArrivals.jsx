@@ -7,20 +7,17 @@ import { useLoader } from "../../context/LoaderContext";
 
 const NewArrivals = () => {
   const [products, setProducts] = useState([]);
-  const [pageNo, setPageNo]=useState(1)
   const {updateLoaderStatus} = useLoader()
 
   
 
   const fetchProducts = async () => {
-
-
     const filter = {
       sellerTag: 'new arrival'
     }
     try {
       updateLoaderStatus(true)
-        const res = await getProductsBySearch(pageNo,filter);
+        const res = await getProductsBySearch(filter);
         if (res.status==='success') {
           setProducts(res.data)
         }else{

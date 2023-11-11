@@ -18,13 +18,9 @@ const SingleOrder = () => {
     const {quantity, product} = (items && items[0]) || {};
     const {address} = shipmentDetails || {};
 
-  const userName = localStorage.getItem("username");
+    const userName = localStorage.getItem("username");
   
 
-
-    console.log('product:',product);
-    console.log('totalprice:',totalPrice,'status:', status,'qty:',quantity);
-    console.log(address,orderDate);
     const fetchData = async ()=>{
         try {
             updateLoaderStatus(true)
@@ -39,7 +35,8 @@ const SingleOrder = () => {
                 navigate('/myaccount/orders')
             }
         } catch (error) {
-            
+          console.log(error);
+          toast.error('Something went wrong, see console for more detail.')
         }finally{
             updateLoaderStatus(false)
         }

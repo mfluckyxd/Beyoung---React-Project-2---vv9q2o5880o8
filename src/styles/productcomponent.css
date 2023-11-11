@@ -135,6 +135,7 @@
         padding: 0.5rem;
         width: 100%;
         background-color: #fff;
+        z-index: 1;
       }
       .product-buttons button{
         padding: 0.5rem 0;
@@ -287,4 +288,7 @@
 .active-size{
   border: 2px solid #51cccc;
 
+}
+.product-component .react-multi-carousel-list{
+  width: 100% !important;
 }

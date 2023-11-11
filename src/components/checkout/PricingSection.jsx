@@ -36,10 +36,13 @@ const PricingSection = () => {
   const currentRoute = location.pathname.split("/");
   const currentPage = currentRoute[currentRoute.length - 1];
 
+
+
   const handleCheckout = (e) => {
     e.preventDefault();
     if (currentPage === "cart") {
       navigate("/checkout/shipping");
+      console.log(products);
     } else if (currentPage === "shipping") {
       if (Object.keys(checkoutAddress).length) {
         navigate("/checkout/payment");
@@ -66,8 +69,6 @@ const PricingSection = () => {
         else{
           toast.error(res.message)
         }
-        
-        
       }
     } catch (error) {
       console.log(error);
@@ -88,6 +89,29 @@ const PricingSection = () => {
     }
   };
 
+  const clearWholeCart = async ()=>{
+
+    try {
+      updateLoaderStatus(true)
+      console.log(products);
+       
+      for (const { product } of products) {
+        
+        const res = await deleteItemFromCart(product._id)
+        
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong, see console for more detail.')
+    }finally{
+      updateProducts([])
+      updateLoaderStatus(false)
+      updateTotalItems(0)
+      updateTotalPrice(0)
+      updateCart(0)
+
+    }
+  }
   return (
     <div className="pricing-section-container">
       <section className="pricing-section">
@@ -119,6 +143,7 @@ const PricingSection = () => {
           <span>&#8377;{totalPrice}</span>
         </p>
         <button onClick={handleCheckout}>checkout securely</button>
+        {currentPage === "cart"&&<button  style={{marginTop:'1rem'}} onClick={clearWholeCart}>Clear Cart</button>}
       </section>
 
     </div>

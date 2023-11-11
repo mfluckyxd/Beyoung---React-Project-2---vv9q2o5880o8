@@ -24,7 +24,7 @@ const Home = () => {
       <ProductPromo/>
       <NewArrivals/>
       <section className="our-achievements" style={{marginTop:'2px'}}>
-        <img src={ourAchievement} style={{width:'100%'}} alt='Be Young fashion store' />
+        <img src={ourAchievement} style={{width:'100%'}} alt='Be-Young fashion store' />
       </section>
       <Categories/>
       <section className='fashion-better-banner'>

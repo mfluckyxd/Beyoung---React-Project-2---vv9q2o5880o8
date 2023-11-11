@@ -56,7 +56,6 @@ const MyProfile = () => {
       const res = await updateCredentialsAPI(body)
       
       if (res.status==='success') {
-        
         toast.success('Profile updated succesfully!')
         localStorage.setItem('useremail', email);
         setIsFormActive(false)

@@ -10,12 +10,11 @@ import { useCheckout } from "../../context/CheckoutContext";
 const CheckoutComponent = () => {
   
   const {totalItems,checkoutAddress} = useCheckout()
-  // console.log(Object.keys(checkoutAddress).length);
 
   return (
     <>
       <CheckoutHeader />
-      {totalItems === 0 &&Object.keys(checkoutAddress).length===0 ? (
+      {totalItems === 0 && Object.keys(checkoutAddress).length===0 ? (
         <EmptyCart />
       ) : (
         <div className="checkout-section cart-container">

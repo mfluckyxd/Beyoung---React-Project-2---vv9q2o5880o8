@@ -110,7 +110,6 @@ const Login = () => {
         };
          res = await loginAPI(user);
       }
-      // console.log(res);
       if (res.token) {
         handleClose();
         toast.success("Logged in succesfully",{position: "bottom-left"});
@@ -123,7 +122,6 @@ const Login = () => {
         toast.error(res.message,{position: "bottom-left"});
       }
     } catch (error) {
-      // console.log(error);
       toast.error('Something went wrong!Please try again later.');
     }
     finally{
@@ -139,9 +137,8 @@ const Login = () => {
       searchParams.set('q', 'signup');
       setSearchParams(searchParams);
     }
-    // setIsSignupForm(!isSignupForm);
-
   };
+
   useEffect(()=>{
     if (searchParams.get('q')==='signup') {
       setIsSignupForm(true)

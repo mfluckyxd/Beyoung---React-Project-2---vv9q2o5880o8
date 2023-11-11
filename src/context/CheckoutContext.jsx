@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 const CheckoutContext = createContext();
 
 export function CheckoutProvider({ children }) {
+  
   const [products, setProducts] = useState(
     JSON.parse(localStorage.getItem("products")) || []
   );
