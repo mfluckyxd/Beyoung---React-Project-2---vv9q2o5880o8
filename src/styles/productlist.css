@@ -1,23 +1,52 @@
 .products-list-compo-container {
-  
-  justify-content: space-between;
   margin: 1rem 10%;
-  gap: 2rem;
 }
-.product-list-filter-section {
-  flex: 1;
-  background-color: #d07474;
-  width: 100%;
-  height: 70vh;
-}
-.product-list-section {
-  flex: 3;
-}
+
 .product-list-section>h3{
     text-transform: uppercase;
     font-size: 1.5rem;
 }
+
+.products-container{
+  display: flex;
+}
+
+.product-filters {
+  flex: 1;
+  margin-top: 1.5rem;
+  
+}
+.filters-heading{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  background-color: #F5F5F5;
+  >h5{
+    display: inline-block;
+  }
+}
+.filter-btn{
+  display: flex;
+  padding: 15px;
+  justify-content: space-between;
+  >button{
+    border: none;
+    border-bottom: 1px solid;
+    padding: 0;
+    outline: none;
+    background-color: transparent;
+    
+    cursor: pointer;
+    &:hover{
+    font-weight: 600;
+    }
+  }
+}
+.filters-container .MuiCheckbox-root:hover{
+  background-color: transparent !important;
+}
 .product-list-cards-container {
+  flex: 3;
   display: flex;
   flex-wrap: wrap;
     padding: 0 4px;
@@ -93,9 +122,21 @@
   }
 }
 
-@media (max-width:580px) {
+@media (max-width:800px) {
   .products-list-compo-container{
     margin: 1rem 4%;
+  }
+}
+
+@media (max-width:700px) {
+  .products-container{
+    flex-direction: column;
+  }
+  .filters-container{
+    display: none;
+  }
+  .product-filters .collaps-active{
+    display: unset;
   }
 }
 @media (max-width:500px) {

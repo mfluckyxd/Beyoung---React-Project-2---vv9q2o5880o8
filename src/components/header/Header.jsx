@@ -35,7 +35,7 @@ const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
 
-  const isSmallScreen = useMediaQuery('(max-width:768px)');
+  const isSmallScreen = useMediaQuery('(max-width:769px)');
   const HandleClick =()=>{
     if (isSmallScreen) {
       toggelBtnRef.current.click()
