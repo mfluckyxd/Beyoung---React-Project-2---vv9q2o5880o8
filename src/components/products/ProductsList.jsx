@@ -37,15 +37,15 @@ const ProductsList = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 800
-    ) {
-      setScrollPosition(window.scrollY);
-      setPageNo((prevPage) => prevPage + 1);
-    }
-  };
+  // const handleScroll = () => {
+  //   if (
+  //     window.innerHeight + document.documentElement.scrollTop >=
+  //     document.documentElement.offsetHeight - 800
+  //   ) {
+  //     setScrollPosition(window.scrollY);
+  //     setPageNo((prevPage) => prevPage + 1);
+  //   }
+  // };
 
   useEffect(() => {
     let filter = {};
@@ -73,16 +73,16 @@ const ProductsList = () => {
 
   
 
-  useEffect(() => {
-    window.scrollTo(0, scrollPosition);
-  }, [pageNo]);
+  // useEffect(() => {
+  //   window.scrollTo(0, scrollPosition);
+  // }, [pageNo]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
 
   
@@ -93,7 +93,7 @@ const ProductsList = () => {
       {isEmpty ? (
         <NoProducts />
       ) : (
-        <ProductsListComponent products={products} pageNo={pageNo} />
+        <ProductsListComponent products={products}  />
       )}
     </div>
   );

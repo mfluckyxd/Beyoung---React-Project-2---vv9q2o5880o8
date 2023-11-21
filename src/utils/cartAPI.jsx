@@ -3,13 +3,14 @@ import { headerWithJWT, apiURL } from "./getHeaders";
 
 export const addItemToCart = async (id, qty) => {
   const headers = headerWithJWT();
-
+  
   try {
     const res = await axios.patch(
       `${apiURL}/ecommerce/cart/${id}`,
       { quantity: qty },
       headers
     );
+    
 
     return res.data;
   } catch (error) {

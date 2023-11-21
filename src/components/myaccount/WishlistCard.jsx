@@ -13,11 +13,12 @@ const WishlistCard = ({product,removeProductFromState}) => {
   const itemid = product._id
     
   const {products:{displayImage,_id,name,price }} = product;
+  // console.log(product);
   const { updateLoaderStatus } = useLoader();
   const updateNumbers = useUpdateWishlistNumbers()
   const updateCartNumbers = useUpdateCartNumbers();
 
-    
+
   const handleRemoveItem = async ()=>{
       try {
           updateLoaderStatus(true)
@@ -39,6 +40,8 @@ const WishlistCard = ({product,removeProductFromState}) => {
       try {
         updateLoaderStatus(true)
         const res = await addItemToCart(_id, 1);
+        
+
         if (res.status==='success') {
           toast.success(res.message)
           handleRemoveItem()

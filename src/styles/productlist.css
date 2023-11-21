@@ -45,8 +45,28 @@
 .filters-container .MuiCheckbox-root:hover{
   background-color: transparent !important;
 }
-.product-list-cards-container {
+.product-list-container{
   flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  >button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    cursor: pointer;
+    padding: 10px;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+  }
+}
+.product-list-cards-container {
+  
   display: flex;
   flex-wrap: wrap;
     padding: 0 4px;
@@ -104,7 +124,7 @@
 }
 
 .no-products{
-  min-width: 95vw;
+  
  
   display: flex;
   align-items: center;

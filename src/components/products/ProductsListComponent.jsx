@@ -3,16 +3,14 @@ import ProductSliderCard from "../home/product_card/ProductSliderCard";
 import "../../styles/productlist.css";
 import { useSearchParams } from "react-router-dom";
 import FilterCustomDropdown from "./FilterCustomDropdown";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  useMediaQuery,
-} from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import NoProducts from "./NoProducts";
 
-const ProductsListComponent = ({ products, pageNo }) => {
+const ProductsListComponent = ({ products }) => {
   const [searchParams] = useSearchParams();
+  const [pageNo, setPageNo] = useState(1);
 
   const params = new URLSearchParams(searchParams);
   const isSmallScreen = useMediaQuery("(max-width:700px)");
@@ -29,7 +27,6 @@ const ProductsListComponent = ({ products, pageNo }) => {
   }
 
   const uniqueValues = (arr, key) => {
-
     return [...new Set(arr.map((item) => item[key].toLowerCase()))];
   };
   const getInitialFilter = (products) => {
@@ -57,8 +54,10 @@ const ProductsListComponent = ({ products, pageNo }) => {
     const { subCategory, brand, color } = productsFilter;
     const filteredResult = products.filter((product) => {
       const subCategoryFilter =
-        subCategory.length === 0 || subCategory.includes(product.subCategory.toLowerCase());
-      const brandFilter = brand.length === 0 || brand.includes(product.brand.toLowerCase());
+        subCategory.length === 0 ||
+        subCategory.includes(product.subCategory.toLowerCase());
+      const brandFilter =
+        brand.length === 0 || brand.includes(product.brand.toLowerCase());
       const colorFilter =
         color.length === 0 || color.includes(product.color.toLowerCase());
       return subCategoryFilter && brandFilter && colorFilter;
@@ -75,13 +74,23 @@ const ProductsListComponent = ({ products, pageNo }) => {
     });
     setFilteredProducts(products);
   };
-  useEffect(()=>{
+  useEffect(() => {
+    clearFilter();
+    setFilteredProducts(products);
+  }, [products]);
+  useEffect(() => {
     const initialFilter = getInitialFilter(products);
-    setFilterCriteria(initialFilter)
-    setFilteredProducts(products)
-  },[products])
+    setFilterCriteria(initialFilter);
+    setPageNo(1);
+  }, [filteredProducts]);
 
   const itemsToDisplay = filteredProducts.slice(0, pageNo * 20);
+  const isEmpty = !Object.keys(filteredProducts).length;
+
+  const loadMore = () => {
+    const newPage = pageNo + 1;
+    setPageNo(newPage);
+  };
 
   return (
     <div className="products-list-compo-container">
@@ -131,11 +140,26 @@ const ProductsListComponent = ({ products, pageNo }) => {
             </div>
           </div>
 
-          <div className="product-list-cards-container">
-            {products.length &&
-              itemsToDisplay.map((product, i) => (
-                <ProductSliderCard key={i} product={product} />
-              ))}
+          <div className="product-list-container">
+            <div className="product-list-cards-container">
+              {isEmpty ? (
+                <NoProducts />
+              ) : (
+                products.length &&
+                itemsToDisplay.map((product, i) => (
+                  <ProductSliderCard key={i} product={product} />
+                ))
+              )}
+            </div>
+            {!isEmpty && (
+              <button
+                onClick={loadMore}
+                disabled={itemsToDisplay.length === filteredProducts.length}
+              >
+                <span>Load More</span>
+                <ExpandCircleDownIcon />
+              </button>
+            )}
           </div>
         </div>
       </section>

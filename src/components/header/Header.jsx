@@ -125,7 +125,7 @@ const Header = () => {
         <div className="quick-access-left">
           <Link to={'/myaccount/orders'}>
             <LocationOnIcon />
-            Track Order
+            TRACK YOUR ORDER
           </Link>
         </div>
         <div className="quick-access-right">
@@ -136,8 +136,8 @@ const Header = () => {
             </>
           ) : (
             <>
-              <button onClick={handleSignin}>Sign In</button>
-              <button onClick={handleSignin} value={'signup'}>Sign Up</button>
+              <button onClick={handleSignin}>LOG IN</button>
+              <button onClick={handleSignin} value={'signup'}>SIGN UP</button>
             </>
           )}
         </div>
