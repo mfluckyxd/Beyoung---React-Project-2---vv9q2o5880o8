@@ -17,7 +17,7 @@ export const getProductsBySearch = async (filter)=>{
   
     try {
         const res = await axios.get(
-            `${apiURL}/ecommerce/clothes/products?limit=${100}${searchFilter}`,
+            `${apiURL}/ecommerce/clothes/products?limit=${300}${searchFilter}`,
             headers   
         );
         return res.data
