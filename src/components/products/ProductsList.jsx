@@ -68,6 +68,7 @@ const ProductsList = () => {
     setPrevSearchParams(searchParams.toString());
 
     fetchProducts(filter);
+    
   }, [searchParams]);
 
   

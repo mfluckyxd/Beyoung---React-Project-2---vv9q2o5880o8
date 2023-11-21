@@ -14,7 +14,7 @@ export const getProductsBySearch = async (filter)=>{
     if ((filter && !isObjectEmpty(filter))) {
         searchFilter = `&search=${(JSON.stringify(filter))}`
     }
-
+  
     try {
         const res = await axios.get(
             `${apiURL}/ecommerce/clothes/products?limit=${100}${searchFilter}`,

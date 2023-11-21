@@ -75,6 +75,11 @@ const ProductsListComponent = ({ products, pageNo }) => {
     });
     setFilteredProducts(products);
   };
+  useEffect(()=>{
+    const initialFilter = getInitialFilter(products);
+    setFilterCriteria(initialFilter)
+    setFilteredProducts(products)
+  },[products])
 
   const itemsToDisplay = filteredProducts.slice(0, pageNo * 20);
 
