@@ -7,9 +7,8 @@ import NoProducts from "./NoProducts";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
   const [prevSearchParams, setPrevSearchParams] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,15 +36,7 @@ const ProductsList = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // const handleScroll = () => {
-  //   if (
-  //     window.innerHeight + document.documentElement.scrollTop >=
-  //     document.documentElement.offsetHeight - 800
-  //   ) {
-  //     setScrollPosition(window.scrollY);
-  //     setPageNo((prevPage) => prevPage + 1);
-  //   }
-  // };
+
 
   useEffect(() => {
     let filter = {};
@@ -60,8 +51,6 @@ const ProductsList = () => {
 
     const isSearchChange = prevSearchParams !== searchParams.toString();
     if (isSearchChange) {
-      setScrollPosition(0);
-      setPageNo(1);
       scrollToTop();
     }
 
@@ -73,16 +62,7 @@ const ProductsList = () => {
 
   
 
-  // useEffect(() => {
-  //   window.scrollTo(0, scrollPosition);
-  // }, [pageNo]);
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
 
 
   
