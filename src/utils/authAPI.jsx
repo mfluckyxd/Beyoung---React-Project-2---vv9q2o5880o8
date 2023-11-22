@@ -1,5 +1,6 @@
 import axios from "axios";
 import { headerWithProjectIdOnly, apiURL, headerWithJWT } from "./getHeaders";
+import { toast } from "react-toastify";
 
 export const loginAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
@@ -35,11 +36,20 @@ export const signupAPI = async (userInfo) => {
   }
 };
 
-export const updateCredentialsAPI = async(body)=>{
+export const updateProfileInfo = async(body, type)=>{
   const headers = headerWithJWT();
+  let requestUrl = apiURL;
+  if (type=="password") {
+    requestUrl +="/user/updateMyPassword";
+  }else if (type=="username") {
+    requestUrl +="/user/updateme"
+  }else{
+    toast.error("Something went wrong")
+    return;
+  }
 
   try {
-    const res = await axios.patch(`${apiURL}/user/updateMyPassword`,body,headers)
+    const res = await axios.patch(requestUrl,body,headers)
     return res.data
   } catch (error) {
     

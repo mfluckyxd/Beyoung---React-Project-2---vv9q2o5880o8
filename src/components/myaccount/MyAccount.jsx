@@ -13,7 +13,7 @@ import {
 
 const MyAccount = () => {
   const name = localStorage.getItem("username");
-  const email = localStorage.getItem("useremail");
+  
 
   const updateLoginStatus = useUpdateLoginStatus();
   const updateCartNumbers = useUpdateCartNumbers();

@@ -1,23 +1,25 @@
 import { Avatar, CircularProgress, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { updateCredentialsAPI } from "../../utils/authAPI";
+import {updateProfileInfo } from "../../utils/authAPI";
 import { toast } from "react-toastify";
 
 const MyProfile = () => {
-  const name = localStorage.getItem("username");
+  
+  const email = localStorage.getItem("useremail");
+  const [currentName, setCurrentName] = useState(localStorage.getItem("username"))
 
-  const [email, setEmail] = useState(localStorage.getItem("useremail"));
+  const [username, setUsername] = useState(currentName);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const [isFormActive, setIsFormActive] = useState(false);
-  const [editingEmail, setEditingEmail] = useState(false);
+  const [editingUsername, setEditingUsername] = useState(false);
   const [editingPass, setEditingPass] = useState(false);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({
-    email: false,
+    username: false,
     pass: false,
     newpass: false,
   });
@@ -25,71 +27,77 @@ const MyProfile = () => {
   const enableFordEdit = (e) => {
     const { value } = e.target;
     setIsFormActive(true);
-    if (value === "email") {
-      setEditingEmail(true);
+    if (value === "username") {
+      setEditingUsername(true);
     } else if (value === "pass") {
       setEditingPass(true);
     }
   };
+
+
   const updateData = async () => {
     let body = {};
-    if (!isValidEmail(email)) {
-      toast.error("Please enter a valid email")
-      return
-    }
-    if (editingEmail) {
+    let updateType;
+    if (editingUsername) {
+      if (username.length<1) {
+        toast.error("Please enter valid details")
+        return;
+      }
       body = {
-        email: email,
-        passwordCurrent: password,
-        password: password,
+        name:username
       };
+      updateType = "username";
     } else if (editingPass) {
       body = {
         email: email,
         passwordCurrent: password,
         password: newPassword,
       };
+      updateType = "password"
     }
 
     try {
-      setLoading(true)
-      const res = await updateCredentialsAPI(body)
-      
-      if (res.status==='success') {
-        toast.success('Profile updated succesfully!')
-        localStorage.setItem('useremail', email);
-        setIsFormActive(false)
-        setEditingEmail(false)
-        setEditingPass(false)
+      setLoading(true);
+      const res = await updateProfileInfo(body, updateType);
+
+      if (res.status === "success") {
+        toast.success("Profile updated succesfully!");
+        localStorage.setItem("username", username);
+        setCurrentName(username)
+        setIsFormActive(false);
+        setEditingUsername(false);
+        setEditingPass(false);
         
-      }else if(res.status==='fail'){
-        toast.error(res.message)
+        setPassword("")
+        setNewPassword("")
+      } else if (res.status === "fail") {
+        toast.error(res.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong, Please try again later!')
-    }finally{
-      setLoading(false)
+      toast.error("Something went wrong, Please try again later!");
+    } finally {
+      setLoading(false);
     }
   };
   const discardData = () => {
-    setEmail(localStorage.getItem("useremail"));
+    setUsername(currentName);
     setPassword("");
     setNewPassword("");
     setIsFormActive(false);
-    setEditingEmail(false);
+    setEditingUsername(false);
     setEditingPass(false);
-    setErrors({ email: false, pass: false, newpass: false });
+    setErrors({ username: false, pass: false, newpass: false });
   };
   const handleChanges = (e) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      if (!isValidEmail(value)) {
+    if (name === "username") {
+      setUsername(value);
+      if (value == "") {
         setErrors({ ...errors, [name]: true });
       } else {
         setErrors({ ...errors, [name]: false });
       }
-      setEmail(value);
     } else if (name === "pass") {
       if (value.length < 6) {
         setErrors({ ...errors, [name]: true });
@@ -115,14 +123,14 @@ const MyProfile = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  useEffect(()=>{
-    scrollToTop()
-  })
+  useEffect(() => {
+    scrollToTop();
+  });
 
   return (
     <div className="my-profile-section">
       <Avatar sx={{ height: "100px", width: "100px", background: "black" }}>
-        {name
+        {currentName
           .split(" ")
           .map((word) => word[0].toUpperCase())
           .join(" ")}
@@ -132,11 +140,14 @@ const MyProfile = () => {
           <TextField
             label="Name"
             type="text"
-            name="name"
-            value={name}
+            value={username}
+            name="username"
             variant="standard"
             fullWidth
-            disabled
+            onChange={handleChanges}
+            disabled={!editingUsername}
+            error={errors.username}
+            helperText={errors.username ? "Please enter a valid name" : ""}
           />
         </Grid>
         <Grid item xs={12}>
@@ -147,13 +158,10 @@ const MyProfile = () => {
             value={email}
             variant="standard"
             fullWidth
-            onChange={handleChanges}
-            disabled={!isFormActive}
-            error={errors.email}
-            helperText={errors.email ? "Please enter an valid Email" : ""}
+            disabled
           />
         </Grid>
-        {(editingEmail || editingPass)  && (
+        {editingPass && (
           <Grid item xs={12}>
             <TextField
               label="Current Password"
@@ -173,7 +181,7 @@ const MyProfile = () => {
             />
           </Grid>
         )}
-        {editingPass  && (
+        {editingPass && (
           <Grid item xs={12}>
             <TextField
               label="New Password"
@@ -193,22 +201,36 @@ const MyProfile = () => {
             />
           </Grid>
         )}
-        
-          <>
-            <Grid item xs={6}>
-              <button onClick={isFormActive?updateData:enableFordEdit} className="update-btn" value={!isFormActive&&"email"}>
-                {loading?<><CircularProgress size={20} color="inherit"/></>:(isFormActive?"Save changes":"change email")}
-                
-              </button>
-            </Grid>
-            <Grid item xs={6}>
-              <button onClick={isFormActive?discardData:enableFordEdit} className="update-btn" value={!isFormActive&&"pass"}>
-                {isFormActive?"discard changes":"change password"}
-                
-              </button>
-            </Grid>
-          </>
-        
+
+        <>
+          <Grid item xs={6}>
+            <button
+              onClick={isFormActive ? updateData : enableFordEdit}
+              className="update-btn"
+              value={!isFormActive && "username"}
+              
+            >
+              {loading ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                </>
+              ) : isFormActive ? (
+                "Save Changes"
+              ) : (
+                "change Name"
+              )}
+            </button>
+          </Grid>
+          <Grid item xs={6}>
+            <button
+              onClick={isFormActive ? discardData : enableFordEdit}
+              className="update-btn"
+              value={!isFormActive && "pass"}
+            >
+              {isFormActive ? "Discard Changes" : "Change Password"}
+            </button>
+          </Grid>
+        </>
       </Grid>
     </div>
   );
