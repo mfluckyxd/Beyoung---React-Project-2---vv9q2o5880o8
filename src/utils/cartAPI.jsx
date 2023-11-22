@@ -11,6 +11,7 @@ export const addItemToCart = async (id, qty) => {
       headers
     );
     
+    
 
     return res.data;
   } catch (error) {

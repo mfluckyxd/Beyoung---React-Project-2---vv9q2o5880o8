@@ -151,7 +151,7 @@ const ProductsListComponent = ({ products }) => {
                 ))
               )}
             </div>
-            {!isEmpty && (
+             {!isEmpty && (
               <button
                 onClick={loadMore}
                 disabled={itemsToDisplay.length === filteredProducts.length}

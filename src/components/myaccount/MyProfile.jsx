@@ -132,6 +132,7 @@ const MyProfile = () => {
           <TextField
             label="Name"
             type="text"
+            name="name"
             value={name}
             variant="standard"
             fullWidth
@@ -192,7 +193,7 @@ const MyProfile = () => {
             />
           </Grid>
         )}
-        {/* {isFormActive ? ( */}
+        
           <>
             <Grid item xs={6}>
               <button onClick={isFormActive?updateData:enableFordEdit} className="update-btn" value={!isFormActive&&"email"}>
@@ -207,28 +208,7 @@ const MyProfile = () => {
               </button>
             </Grid>
           </>
-        {/* ) : ( */}
-          <>
-            {/* <Grid item xs={6}>
-              <button
-                onClick={enableFordEdit}
-                className="update-btn"
-                value="email"
-              >
-                change email
-              </button>
-            </Grid> */}
-            {/* <Grid item xs={6}>
-              <button
-                onClick={enableFordEdit}
-                className="update-btn"
-                value="pass"
-              >
-                change password
-              </button>
-            </Grid> */}
-          </>
-        {/* )} */}
+        
       </Grid>
     </div>
   );
