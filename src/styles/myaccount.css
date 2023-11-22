@@ -253,6 +253,7 @@
 }
 
 @media (max-width: 768px) {
+
   .my-account-container {
     flex-direction: column;
     margin: 3rem 5%;
@@ -274,6 +275,9 @@
       width: 35%;
       padding: 0.5rem 0;
     }
+  }
+  .my-profile-section{
+    width: 100%;
   }
 }
 @media (max-width: 450px) {
