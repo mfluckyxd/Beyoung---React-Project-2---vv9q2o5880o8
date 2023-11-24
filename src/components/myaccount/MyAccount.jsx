@@ -3,16 +3,18 @@ import { Outlet, useNavigate } from "react-router";
 import "../../styles/myaccount.css";
 import { Avatar, Stack, Typography, useMediaQuery } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateLoginStatus } from "../../context/AuthContext";
 import {
   useUpdateCartNumbers,
   useUpdateWishlistNumbers,
 } from "../../context/CartItemNumbersContext";
+import DeleteMeDialoge from "./DeleteMeDialoge";
 
 const MyAccount = () => {
   const name = localStorage.getItem("username");
+  const [showDeleteDialoge, setShowDeleteDialoge] = useState(false)
   
 
   const updateLoginStatus = useUpdateLoginStatus();
@@ -42,6 +44,10 @@ const MyAccount = () => {
 
     navigate("/");
   };
+
+  const showDeletemeDialoge = ()=>{
+    setShowDeleteDialoge(true);
+  }
 
   return (
     <div className="my-account-container">
@@ -83,9 +89,13 @@ const MyAccount = () => {
             <NavLink to={"orders"}>Order</NavLink>
             <NavLink to={"wishlist"}>Wishlist</NavLink>
           </nav>
-          <button onClick={handleLogout}>logout</button>
+          <section className="my-ac-btns">
+            <Link onClick={showDeletemeDialoge}>Delete My Account</Link>
+            <button onClick={handleLogout}>logout</button>
+          </section>
         </div>
       </section>
+      <DeleteMeDialoge open={showDeleteDialoge} setOpen={setShowDeleteDialoge} logout={handleLogout}/>
 
       <section className="my-ac-right-section">
         <Outlet />

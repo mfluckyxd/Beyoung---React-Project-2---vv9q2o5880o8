@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getWishlistItems } from "../../utils/wishListAPI";
+import { clearWishList, getWishlistItems } from "../../utils/wishListAPI";
 import { useLoader } from "../../context/LoaderContext";
 import WishlistCard from "./WishlistCard";
 import emptyImage from "../../assets/EMPTY-WISHLIST-PAGE.jpg";
+import { toast } from "react-toastify";
+import { useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
 
 const WishList = () => {
   const [products, setProducts] = useState([]);
 
   const { updateLoaderStatus } = useLoader();
+  const updateWishlistNumbers = useUpdateWishlistNumbers();
 
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(
@@ -28,17 +31,39 @@ const WishList = () => {
       updateLoaderStatus(false);
     }
   };
+
+  const clearAllWishlist = async () => {
+    try {
+      const res = await clearWishList();
+
+      if (res.status == "success") {
+        setProducts([]);
+        updateWishlistNumbers(0);
+      } else {
+        toast.error("There's an error, check console for more detail!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   useEffect(() => {
     fetchproducts();
-    scrollToTop()
+    scrollToTop();
   }, []);
   return (
-    <div className="wishlist-section" >
+    <div className="wishlist-section">
+      {products.length>0 && (
+        <button onClick={clearAllWishlist}>Clear wishlist</button>
+      )}
       {products.length === 0 ? (
-        <img style={{width:'70%',margin:'0 auto'}} src={emptyImage} alt="empty-wishlist" />
+        <img
+          style={{ width: "70%", margin: "0 auto" }}
+          src={emptyImage}
+          alt="empty-wishlist"
+        />
       ) : (
         <div className="wishlist-container">
           {products.map((product, i) => (

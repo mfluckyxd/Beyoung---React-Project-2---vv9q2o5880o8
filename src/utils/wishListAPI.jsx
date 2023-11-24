@@ -43,3 +43,13 @@ export const getnumberOfWishlistItems = async ()=>{
      console.log(error);
     }
   }
+
+  export const clearWishList = async ()=>{
+    const headers = headerWithJWT();
+  try {
+    const res = await axios.delete(`${apiURL}/ecommerce/wishlist/`, headers);
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+  }

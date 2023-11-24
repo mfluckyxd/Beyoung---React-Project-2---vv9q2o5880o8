@@ -8,10 +8,9 @@ export const loginAPI = async (userInfo) => {
   try {
     const res = await axios.post(`${apiURL}/user/login`, userInfo, headers);
     if (res.data.token) {
-        
-        localStorage.setItem('authToken', res.data.token);
-        localStorage.setItem('username', res.data.data.name);
-        localStorage.setItem('useremail', res.data.data.email);
+      localStorage.setItem("authToken", res.data.token);
+      localStorage.setItem("username", res.data.data.name);
+      localStorage.setItem("useremail", res.data.data.email);
     }
     return res.data;
   } catch (error) {
@@ -23,12 +22,11 @@ export const signupAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
   try {
     const res = await axios.post(`${apiURL}/user/signup`, userInfo, headers);
-   
+
     if (res.data.token) {
-        
-        localStorage.setItem('authToken', res.data.token);
-        localStorage.setItem('username', res.data.data.user.name);
-        localStorage.setItem('useremail', res.data.data.user.email);
+      localStorage.setItem("authToken", res.data.token);
+      localStorage.setItem("username", res.data.data.user.name);
+      localStorage.setItem("useremail", res.data.data.user.email);
     }
     return res.data;
   } catch (error) {
@@ -36,27 +34,44 @@ export const signupAPI = async (userInfo) => {
   }
 };
 
-export const updateProfileInfo = async(body, type)=>{
+export const updateProfileInfo = async (body, type) => {
   const headers = headerWithJWT();
   let requestUrl = apiURL;
-  if (type=="password") {
-    requestUrl +="/user/updateMyPassword";
-  }else if (type=="username") {
-    requestUrl +="/user/updateme"
-  }else{
-    toast.error("Something went wrong")
+  if (type == "password") {
+    requestUrl += "/user/updateMyPassword";
+  } else if (type == "username") {
+    requestUrl += "/user/updateme";
+  } else {
+    toast.error("Something went wrong");
     return;
   }
 
   try {
-    const res = await axios.patch(requestUrl,body,headers)
-    return res.data
+    const res = await axios.patch(requestUrl, body, headers);
+    return res.data;
   } catch (error) {
-    
-    
-    return error.response.data
-    
+    return error.response.data;
   }
-  
+};
 
+export const deleteMe = async(body)=>{
+  const headers = headerWithJWT();
+  console.log(headers);
+  try{
+    const res = await axios.delete(`${apiURL}/user/deleteMe`,headers,body);
+    
+    return true;
+
+  }catch(error){
+    return error;
+  }
+}
+export const resetPasswordAPI = async(body)=>{
+  const headers = headerWithProjectIdOnly();
+  try {
+    const res = axios.post(`${apiURL}/user/forgotPassword`,body,headers);
+    return res;
+  } catch (error) {
+    return error;
+  }
 }

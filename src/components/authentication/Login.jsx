@@ -5,13 +5,13 @@ import "../../styles/login.css";
 import Modal from "@mui/material/Modal";
 import loginBanner from "../../assets/login-banner.jpg";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { loginAPI, signupAPI } from "../../utils/authAPI";
+import { loginAPI, resetPasswordAPI, signupAPI } from "../../utils/authAPI";
 import { toast } from "react-toastify";
 import { useShowLoginModal, useUpdateLoginModalStatus, useUpdateLoginStatus } from "../../context/AuthContext";
 import { getnumberOfCartItems } from "../../utils/cartAPI";
 import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
 import { getnumberOfWishlistItems } from "../../utils/wishListAPI";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -34,6 +34,8 @@ const Login = () => {
   const setOpen = useUpdateLoginModalStatus();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  
+
 
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -42,6 +44,7 @@ const Login = () => {
     appType : "ecommerce"
   });
   const [isSignupForm, setIsSignupForm] = useState(false);
+  const [isResetPassForm, setIsResetPassForm] = useState(false)
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [nameError, setNameError] = useState(false);
@@ -128,6 +131,19 @@ const Login = () => {
       setLoader(false)
     }
   };
+  const resetPassword = async()=>{
+    console.log("reset");
+    const body = { ...userInfo };
+    delete body.appType; 
+    
+    try {
+      const res = await resetPasswordAPI(body);
+      console.log(res);
+    } catch (error) {
+      
+      toast.error(error.response.data.message);
+    }
+  }
   const authSwitch = (e) => {
     e.preventDefault();
     if (searchParams.get('q')) {
@@ -138,12 +154,23 @@ const Login = () => {
       setSearchParams(searchParams);
     }
   };
+  const showResetPassForm = (e)=>{
+    e.preventDefault()
+    searchParams.set('q', 'reset-password');
+    setSearchParams(searchParams);
+    console.log(searchParams.get('q'));
+    console.log("xx");
+  }
 
   useEffect(()=>{
     if (searchParams.get('q')==='signup') {
       setIsSignupForm(true)
+    }else if(searchParams.get('q')==='reset-password'){
+      setIsResetPassForm(true);
+      setIsSignupForm(true);
     }else{
       setIsSignupForm(false)
+    setIsResetPassForm(false);
     }
   },[searchParams])
 
@@ -206,17 +233,18 @@ const Login = () => {
                   onChange={handleChanges}
                   required
                 />
+                {!isSignupForm&&<button onClick={showResetPassForm} id="reser-pass-btn" >Forgot password?</button>}
                 <Button
-                  onClick={handleAuth}
+                  onClick={isResetPassForm?resetPassword: handleAuth}
                   variant="contained"
                   sx={{ "&:focus": { outline: "none" } }}
                 >
-                  {loader?<CircularProgress size={20} color="inherit" />:isSignupForm ? "signup" : "login"}
+                  {loader?<CircularProgress size={20} color="inherit" />:isSignupForm ? (isResetPassForm?"reset":"signup") : "login"}
                   
                 </Button>
                 <button onClick={authSwitch} className="auth-form-switch">
                   {isSignupForm
-                    ? "Alredy have an account? Sign in now"
+                    ? (isResetPassForm?"Remembered accidentally? ":"Alredy have an account? ")+"Sign in now"
                     : "Don't have an account? Sign up now."}
                 </button>
               </form>

@@ -41,6 +41,22 @@
 /* .form-container form .MuiTextField-root{
     width: 100% !important;
 } */
+#reser-pass-btn{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    color: rgb(155, 12, 12);
+    margin-top: -15px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    &:hover{
+        /* text-decoration: underline; */
+        border-bottom: 1px solid;
+    }
+}
 
 
 
