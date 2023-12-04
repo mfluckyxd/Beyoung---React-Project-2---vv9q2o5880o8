@@ -24,6 +24,7 @@ const MyProfile = () => {
     newpass: false,
   });
 
+  // function to show edit profile form(name or password) by identifying the target button
   const enableFordEdit = (e) => {
     const { value } = e.target;
     setIsFormActive(true);
@@ -35,6 +36,7 @@ const MyProfile = () => {
   };
 
 
+  // function to make api call to update password or name
   const updateData = async () => {
     let body = {};
     let updateType;
@@ -80,6 +82,8 @@ const MyProfile = () => {
       setLoading(false);
     }
   };
+
+  // function to close the editing form if user decides to descard the editing process
   const discardData = () => {
     setUsername(currentName);
     setPassword("");
@@ -89,6 +93,8 @@ const MyProfile = () => {
     setEditingPass(false);
     setErrors({ username: false, pass: false, newpass: false });
   };
+
+// function to save user inputs and identify errors in the input
   const handleChanges = (e) => {
     const { name, value } = e.target;
     if (name === "username") {
@@ -115,10 +121,7 @@ const MyProfile = () => {
     }
   };
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

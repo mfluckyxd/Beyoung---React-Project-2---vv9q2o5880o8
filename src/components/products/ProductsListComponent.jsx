@@ -19,6 +19,7 @@ const ProductsListComponent = ({ products }) => {
 
   const [filteredProducts, setFilteredProducts] = useState(products);
 
+  // set the page heading by reading query parameters
   let heading = "shop all";
   for (const value of params.values()) {
     if (value) {
@@ -26,9 +27,11 @@ const ProductsListComponent = ({ products }) => {
     }
   }
 
+  // this function takes an array of objects and a key and returns unique values of that key from all the objects
   const uniqueValues = (arr, key) => {
     return [...new Set(arr.map((item) => item[key].toLowerCase()))];
   };
+  // this function scans all the products and save the potential filters that can be applied to a state
   const getInitialFilter = (products) => {
     const subCategories = uniqueValues(products, "subCategory");
     const brands = uniqueValues(products, "brand");
@@ -50,6 +53,7 @@ const ProductsListComponent = ({ products }) => {
     color: [],
   });
 
+  // this function is responsible for filtering out the products based on user selection
   const applyFilter = () => {
     const { subCategory, brand, color } = productsFilter;
     const filteredResult = products.filter((product) => {
@@ -66,6 +70,7 @@ const ProductsListComponent = ({ products }) => {
     setFilteredProducts(filteredResult);
   };
 
+  // function to reset the filter
   const clearFilter = () => {
     setProductsFilter({
       subCategory: [],
@@ -74,19 +79,25 @@ const ProductsListComponent = ({ products }) => {
     });
     setFilteredProducts(products);
   };
+
+  // clears the filter when products received from props changes means new products are getting rendered
   useEffect(() => {
     clearFilter();
     setFilteredProducts(products);
   }, [products]);
+
+  // set the page number to 1 when any filter is applied and 
+  // also sets the potensial filters that can be applied on the whole products array that is received from props
   useEffect(() => {
     const initialFilter = getInitialFilter(products);
     setFilterCriteria(initialFilter);
     setPageNo(1);
   }, [filteredProducts]);
 
-  const itemsToDisplay = filteredProducts.slice(0, pageNo * 20);
+  // const itemsToDisplay = filteredProducts.slice(0, pageNo * 20); render products based on the page number, in the multiply of 20
   const isEmpty = !Object.keys(filteredProducts).length;
 
+  // function to load next 20 items by updating the page number
   const loadMore = () => {
     const newPage = pageNo + 1;
     setPageNo(newPage);

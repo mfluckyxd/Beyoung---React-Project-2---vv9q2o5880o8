@@ -17,8 +17,8 @@ const CartComponent = () => {
     const cartItemNumbers = useCartNumbers()
     
 
+    // function to fetch cart items and update required states accordingly
   const fetchProducts = async () => {
-    
     try {
       updateLoaderStatus(true)
       const res = await getCartItems();

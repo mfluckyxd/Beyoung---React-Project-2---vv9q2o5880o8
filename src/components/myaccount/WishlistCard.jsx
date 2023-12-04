@@ -19,6 +19,7 @@ const WishlistCard = ({product,removeProductFromState}) => {
   const updateCartNumbers = useUpdateCartNumbers();
 
 
+  // function to make api call to remove an item from the wishlist 
   const handleRemoveItem = async ()=>{
       try {
           updateLoaderStatus(true)
@@ -36,6 +37,8 @@ const WishlistCard = ({product,removeProductFromState}) => {
           updateLoaderStatus(false)
       }
   }
+
+  // function to delete an iten from the wishlist and add to the cart
   const moveToCart = async()=>{
       try {
         updateLoaderStatus(true)

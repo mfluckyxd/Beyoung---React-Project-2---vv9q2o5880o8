@@ -22,21 +22,20 @@ export function CartNumbersProvider({ children }) {
   );
 }
 
+// custom hooks to use or update the number of items in the wishlist or cart
 export function useCartNumbers() {
   const context = useContext(cartNumberContext);
   return context.cartNumbers;
 }
-
 export function useUpdateCartNumbers() {
   const context = useContext(cartNumberContext);
-  return context.updateCartNumbers; // Return the function itself, not a property of the function
+  return context.updateCartNumbers; 
 }
 export function useWishlistNumbers() {
   const context = useContext(cartNumberContext);
   return context.wishlistNumbers;
 }
-
 export function useUpdateWishlistNumbers() {
   const context = useContext(cartNumberContext);
-  return context.updateWishlistNumbers; // Return the function itself, not a property of the function
+  return context.updateWishlistNumbers; 
 }

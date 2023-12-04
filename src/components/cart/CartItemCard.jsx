@@ -34,6 +34,7 @@ const CartItemCard = ({ product, removeProductFromState }) => {
     setQty(value);
   };
 
+  // function to remove a single item from cart and update the related states accordingly
   const removeItemFromCart = async (_id) => {
     try {
       updateLoaderStatus(true)
@@ -52,6 +53,8 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       updateLoaderStatus(false)
     }
   };
+
+  // function to remove an item from cart and add to the wishlist
   const moveToWishlist = async (id) => {
     const body = {
       productId: id,

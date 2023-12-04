@@ -16,6 +16,7 @@ const ProductsList = () => {
 
   const { updateLoaderStatus } = useLoader();
 
+  // function to make api call to fetch the products based on a filter
   const fetchProducts = async (searchFilter) => {
     try {
       updateLoaderStatus(true);
@@ -38,6 +39,7 @@ const ProductsList = () => {
 
 
 
+  // this useEffect hook reads the query parameters and create a filter to identify what products to fetch
   useEffect(() => {
     let filter = {};
     if (searchParams.size === 0) {

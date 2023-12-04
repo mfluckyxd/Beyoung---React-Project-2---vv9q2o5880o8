@@ -12,6 +12,8 @@ const WishList = () => {
   const { updateLoaderStatus } = useLoader();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
 
+
+  // function to remove a wishlist item fromlocal state
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(
       (product) => product._id !== productId
@@ -19,6 +21,7 @@ const WishList = () => {
     setProducts(updatedProducts);
   };
 
+  // function to make api call to fetch wishlist items
   const fetchproducts = async () => {
     try {
       updateLoaderStatus(true);
@@ -32,6 +35,7 @@ const WishList = () => {
     }
   };
 
+  // functiopn to make api call to delete all items from the wishlist
   const clearAllWishlist = async () => {
     try {
       const res = await clearWishList();

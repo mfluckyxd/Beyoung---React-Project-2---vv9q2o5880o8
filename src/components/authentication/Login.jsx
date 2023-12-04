@@ -57,7 +57,7 @@ const Login = () => {
   const updateWishlistNumbers = useUpdateWishlistNumbers()
 
 
-
+// function to save input data and identify errors
   const handleChanges = (e) => {
     const { name, value } = e.target;
 
@@ -80,11 +80,13 @@ const Login = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  // function to validate email
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  // function to close the modal and reset all state
   const handleClose = () => {
     setUserInfo({
       name: "",
@@ -97,6 +99,7 @@ const Login = () => {
     setSearchParams(searchParams)
   }
 
+  //  function to make api call for login or signup
   const handleAuth = async (e) => {
     e.preventDefault();
   
@@ -131,6 +134,7 @@ const Login = () => {
       setLoader(false)
     }
   };
+  // function to make api call for resetting password
   const resetPassword = async()=>{
     console.log("reset");
     const body = { ...userInfo };
@@ -144,6 +148,8 @@ const Login = () => {
       toast.error(error.response.data.message);
     }
   }
+
+  // function to switch between login or signup form
   const authSwitch = (e) => {
     e.preventDefault();
     if (searchParams.get('q')) {
@@ -154,6 +160,8 @@ const Login = () => {
       setSearchParams(searchParams);
     }
   };
+
+  // function to show password reset form
   const showResetPassForm = (e)=>{
     e.preventDefault()
     searchParams.set('q', 'reset-password');
@@ -162,6 +170,7 @@ const Login = () => {
     console.log("xx");
   }
 
+  // this useEffect block is responsible for showing form accordingly based on query parameters
   useEffect(()=>{
     if (searchParams.get('q')==='signup') {
       setIsSignupForm(true)

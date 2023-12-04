@@ -13,9 +13,8 @@ const DeleteMeDialoge = ({ open, setOpen,logout }) => {
 
 
 
-
+  // function to make api call to delete the account
   const deleteAccount = async () => {
-    
     const body = {
         name:localStorage.getItem("userename"),
         email:localStorage.getItem("usermail"),

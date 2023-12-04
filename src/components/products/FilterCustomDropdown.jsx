@@ -31,6 +31,7 @@ const FilterCustomDropdown = ({ values, type, filter, setFilter }) => {
     setSelectedValues(filter[type] || []);
   }, [filter, type]);
 
+  // function to save the filter selected by user to the state
   const handleChange = (event) => {
     const selected = event.target.value;
     setSelectedValues(selected);

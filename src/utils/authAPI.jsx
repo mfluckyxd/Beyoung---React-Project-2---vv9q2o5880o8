@@ -2,6 +2,8 @@ import axios from "axios";
 import { headerWithProjectIdOnly, apiURL, headerWithJWT } from "./getHeaders";
 import { toast } from "react-toastify";
 
+
+// function to make api call for login
 export const loginAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
 
@@ -18,6 +20,7 @@ export const loginAPI = async (userInfo) => {
   }
 };
 
+// function to make api call for sign up
 export const signupAPI = async (userInfo) => {
   const headers = headerWithProjectIdOnly();
   try {
@@ -34,6 +37,7 @@ export const signupAPI = async (userInfo) => {
   }
 };
 
+// function to make api call for updation of profile details(name or password)
 export const updateProfileInfo = async (body, type) => {
   const headers = headerWithJWT();
   let requestUrl = apiURL;
@@ -54,6 +58,7 @@ export const updateProfileInfo = async (body, type) => {
   }
 };
 
+// function to make api call to delete the account
 export const deleteMe = async(body)=>{
   const headers = headerWithJWT();
   console.log(headers);
@@ -66,6 +71,8 @@ export const deleteMe = async(body)=>{
     return error;
   }
 }
+
+// function to make api call to reset the password
 export const resetPasswordAPI = async(body)=>{
   const headers = headerWithProjectIdOnly();
   try {

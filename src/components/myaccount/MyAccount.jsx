@@ -25,13 +25,15 @@ const MyAccount = () => {
 
   const isSmallScreen = useMediaQuery("(max-width:768px)");
 
+
+  // thir ref and state is responsible for handling responsiveness for diffrent menu options on user account
   const collapsRef = useRef(null);
   const [collapsActive, setCollapsActive] = useState(false);
-
   const toggelCollaps = () => {
     setCollapsActive(!collapsActive);
   };
 
+  // function to logout user by deletint the session data from the local storage and update required states accordingly
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");

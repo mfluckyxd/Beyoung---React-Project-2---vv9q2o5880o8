@@ -19,7 +19,7 @@ import { useError } from "../../context/ErrorContext";
 const Footer = () => {
   const [open, setOpen] = React.useState(1);
 
-  const handleOpen = (value) => setOpen(open === value ? 0 : value);
+
   const {updateErrorStatus} = useError()
   
   const showError = ()=>{

@@ -8,8 +8,8 @@ const BestSeller = () => {
     const {updateLoaderStatus} = useLoader()
 
 
+    // function to make api call to fetch the products
     const fetchProducts = async () => {
-
       const filter = {
         sellerTag: 'best seller'
       }

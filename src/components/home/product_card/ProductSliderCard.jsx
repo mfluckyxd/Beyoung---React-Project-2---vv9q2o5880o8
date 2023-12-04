@@ -19,6 +19,8 @@ const ProductSliderCard = ({ product }) => {
   const {updateLoaderStatus} = useLoader()
 
 
+  // function to make api call to add a product to the wishlist and update required states accordingly
+  //  if the user is logged in otherwise show login modal
   const handleAddToFav = async (e) => {
     e.preventDefault();
     const body = {

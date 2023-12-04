@@ -4,6 +4,8 @@ import { Navigate, useNavigate } from "react-router";
 
 const EmptyCart = () => {
     const navigate = useNavigate();
+
+    // this component renders when the cart is empty
   return (
     <div className="empty-cart">
       <section>

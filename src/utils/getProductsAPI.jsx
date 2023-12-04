@@ -3,6 +3,7 @@ import { headerWithProjectIdOnly, apiURL } from "./getHeaders";
 
 
 
+// function to make api call to fetch the products
 export const getProductsBySearch = async (filter)=>{
     const headers = headerWithProjectIdOnly()
 
@@ -26,6 +27,7 @@ export const getProductsBySearch = async (filter)=>{
     } 
 }
 
+// function to make api call to fetch a single item
 export const getProductById = async (id)=>{
     const headers = headerWithProjectIdOnly()
     try {

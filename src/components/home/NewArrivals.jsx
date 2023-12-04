@@ -10,7 +10,7 @@ const NewArrivals = () => {
   const {updateLoaderStatus} = useLoader()
 
   
-
+// function to make api call to fetch products
   const fetchProducts = async () => {
     const filter = {
       sellerTag: 'new arrival'

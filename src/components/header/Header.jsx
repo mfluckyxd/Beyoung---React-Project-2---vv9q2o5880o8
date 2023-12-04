@@ -36,12 +36,15 @@ const Header = () => {
 
 
   const isSmallScreen = useMediaQuery('(max-width:769px)');
+
   const HandleClick =()=>{
     if (isSmallScreen) {
       toggelBtnRef.current.click()
     }
   }
   
+  // function to logout user by deleting the session data from localstorage
+  // and update the required states accordingly
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
@@ -59,6 +62,7 @@ const Header = () => {
     const promoHeader = document.querySelector(".promo-header");
     const quickAccessHeader = document.querySelector(".quick-access-header");
 
+    // function to identify where should the navbar gets fixed
     const handleScroll = () => {
       if (
         window.scrollY >
@@ -86,6 +90,7 @@ const Header = () => {
   const searchInputRef = useRef()
   const navigate = useNavigate()
 
+  // function to show or hide the searchbar
   const handleSearchBtnClick = (event) => {
     if (anchorEl) {
       setIsSearchbarOpen(false);
@@ -96,12 +101,15 @@ const Header = () => {
     }
   };
 
+  // function to handle search by navigating user to the required route with required query parameters
   const handleSearch = ()=>{
     const {value} = searchInputRef.current;
     setIsSearchbarOpen(false);
     navigate(`/products?name=${value}`)
   }
    
+  // function to show authentication modal and render correct form in modal 
+  // by identifying the target button(login or signup) and updating the query parameters accordingly
   const handleSignin = (e) => {
     e.preventDefault();
     if (e.target.value==='signup') {

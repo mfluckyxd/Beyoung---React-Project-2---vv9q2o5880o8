@@ -53,11 +53,11 @@ const ProductComponent = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // function to make api call to fetch the product details
   const fetchProduct = async () => {
     try {
       updateLoaderStatus(true);
       const res = await getProductById(id);
-
       setProduct(res);
       scrollToTop();
     } catch (error) {
@@ -87,6 +87,8 @@ const ProductComponent = () => {
     setSelectedQty(newQuantity);
   };
 
+  // function to add item to the cart if user is logged in
+  // otherwise show login modal
   const handleAddToCart = async () => {
     if (loginStatus) {
       try {  
@@ -111,6 +113,8 @@ const ProductComponent = () => {
     }
   };
 
+  // function to place a item for individual item without adding to the cart by
+  // updating the checkout context accordingly for current item
   const handleBuyNow = () => {
     if (loginStatus) {
       
