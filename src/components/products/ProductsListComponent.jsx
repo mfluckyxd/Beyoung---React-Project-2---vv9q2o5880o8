@@ -94,7 +94,7 @@ const ProductsListComponent = ({ products }) => {
     setPageNo(1);
   }, [filteredProducts]);
 
-  // const itemsToDisplay = filteredProducts.slice(0, pageNo * 20); render products based on the page number, in the multiply of 20
+  const itemsToDisplay = filteredProducts.slice(0, pageNo * 20); // render products based on the page number, in the multiply of 20
   const isEmpty = !Object.keys(filteredProducts).length;
 
   // function to load next 20 items by updating the page number
