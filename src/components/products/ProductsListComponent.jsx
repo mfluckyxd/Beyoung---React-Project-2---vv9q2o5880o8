@@ -43,7 +43,7 @@ const ProductsListComponent = ({ products }) => {
       color: colors,
     };
   };
-
+  
   const initialFilter = getInitialFilter(products);
   const [filterCriteria, setFilterCriteria] = useState(initialFilter);
 
@@ -53,6 +53,7 @@ const ProductsListComponent = ({ products }) => {
     color: [],
   });
 
+  
   // this function is responsible for filtering out the products based on user selection
   const applyFilter = () => {
     const { subCategory, brand, color } = productsFilter;
