@@ -2,11 +2,14 @@ import React, { useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 import "../../styles/myaccount.css";
 import { Avatar, Stack, Typography, useMediaQuery } from "@mui/material";
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateLoginStatus } from "../../context/AuthContext";
-import { useUpdateCartNumbers, useUpdateWishlistNumbers } from "../../context/CartItemNumbersContext";
+import {
+  useUpdateCartNumbers,
+  useUpdateWishlistNumbers,
+} from "../../context/CartItemNumbersContext";
 
 const MyAccount = () => {
   const name = localStorage.getItem("username");
@@ -14,12 +17,11 @@ const MyAccount = () => {
 
   const updateLoginStatus = useUpdateLoginStatus();
   const updateCartNumbers = useUpdateCartNumbers();
-  const updateWishlistNumbers = useUpdateWishlistNumbers()
+  const updateWishlistNumbers = useUpdateWishlistNumbers();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-
-  const isSmallScreen = useMediaQuery('(max-width:768px)');
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
 
   const collapsRef = useRef(null);
   const [collapsActive, setCollapsActive] = useState(false);
@@ -34,13 +36,12 @@ const MyAccount = () => {
     localStorage.removeItem("useremail");
     updateLoginStatus(false);
     toast.success("Logged out succesfully", { position: "bottom-left" });
-    
+
     updateCartNumbers(0);
-    updateWishlistNumbers(0)
+    updateWishlistNumbers(0);
 
-    navigate('/')
+    navigate("/");
   };
-
 
   return (
     <div className="my-account-container">
@@ -55,28 +56,37 @@ const MyAccount = () => {
             <Avatar
               sx={{ height: "100px", width: "100px", background: "black" }}
             >
-              {name?.split(' ')?.map((word) => word[0]?.toUpperCase()).join(' ')}
+              {name
+                .split(" ")
+                .map((word) => word[0]?.toUpperCase())
+                .join(" ")}
             </Avatar>
-            <Typography sx={{textTransform:'uppercase'}} variant="h5">{name}</Typography>
+            <Typography sx={{ textTransform: "uppercase" }} variant="h5">
+              {name}
+            </Typography>
             <Typography sx={{ color: "gray" }} variant="subtitle1">
               #Beyoungster
             </Typography>
           </Stack>
         </div>
-        {isSmallScreen&&<button onClick={toggelCollaps} className="profile-btn-collaps"><KeyboardDoubleArrowDownIcon /></button>}
-        <div className={`lower-sec ${collapsActive ? 'collaps-active' : ''}`} ref={collapsRef}>
-            <nav>
-                
-                <NavLink to={'profile'}>Profile</NavLink>
-                <NavLink to={'orders'}>Order</NavLink>
-                <NavLink to={'wishlist'}>Wishlist</NavLink>
-                
-            </nav>
-            <button onClick={handleLogout}>logout</button>
+        {isSmallScreen && (
+          <button onClick={toggelCollaps} className="profile-btn-collaps">
+            <KeyboardDoubleArrowDownIcon />
+          </button>
+        )}
+        <div
+          className={`lower-sec ${collapsActive ? "collaps-active" : ""}`}
+          ref={collapsRef}
+        >
+          <nav>
+            <NavLink to={"profile"}>Profile</NavLink>
+            <NavLink to={"orders"}>Order</NavLink>
+            <NavLink to={"wishlist"}>Wishlist</NavLink>
+          </nav>
+          <button onClick={handleLogout}>logout</button>
         </div>
       </section>
 
-      
       <section className="my-ac-right-section">
         <Outlet />
       </section>
