@@ -1,6 +1,8 @@
 import axios from "axios";
 import { headerWithJWT, apiURL } from "./getHeaders";
 
+
+// function to make api call to create a new order
 export const newOrder = async (id, qty, address) => {
   const headers = headerWithJWT();
   const body = {
@@ -23,6 +25,7 @@ export const newOrder = async (id, qty, address) => {
 };
 
 
+// function to make api call to get order history
 export const getOrderHistory = async()=>{
   const headers = headerWithJWT();
   try {
@@ -32,6 +35,8 @@ export const getOrderHistory = async()=>{
     return error
   }
 }
+
+// function to make api call to get an order details
 export const getOrderDetails = async(id)=>{
   const headers = headerWithJWT();
   try {

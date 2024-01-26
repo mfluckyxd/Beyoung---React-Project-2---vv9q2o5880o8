@@ -19,6 +19,8 @@ const ProductSliderCard = ({ product }) => {
   const {updateLoaderStatus} = useLoader()
 
 
+  // function to make api call to add a product to the wishlist and update required states accordingly
+  //  if the user is logged in otherwise show login modal
   const handleAddToFav = async (e) => {
     e.preventDefault();
     const body = {
@@ -29,7 +31,6 @@ const ProductSliderCard = ({ product }) => {
       try {
         updateLoaderStatus(true)
         const res = await addToFavAPI(body);
-        // console.log(res);
         if (res.status==='success') {
           toast.success(res.message)
           updateWishlistNumbers(res.results)
@@ -40,6 +41,7 @@ const ProductSliderCard = ({ product }) => {
         }
       } catch (error) {
         console.log(error);
+        toast.error('Something went wrong, see console for more detail.')
       }finally{
         updateLoaderStatus(false)
       }

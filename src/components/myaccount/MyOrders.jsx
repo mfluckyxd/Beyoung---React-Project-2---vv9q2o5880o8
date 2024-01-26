@@ -8,6 +8,7 @@ const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const { updateLoaderStatus } = useLoader();
 
+  // function to make api call and fetch the order history
   const fetchOrders = async () => {
     try {
       updateLoaderStatus(true);

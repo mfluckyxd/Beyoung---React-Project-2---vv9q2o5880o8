@@ -34,11 +34,11 @@ const ProductComponent = () => {
   const updateCartNumbers = useUpdateCartNumbers();
   const setShowLoginModal = useUpdateLoginModalStatus();
   const { updateLoaderStatus } = useLoader();
-  const [loading, setLoading] = useState(false);
-
   const { updateProducts, updateTotalItems, updateTotalPrice } = useCheckout();
+
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
   const [selectedQty, setSelectedQty] = useState(1);
   const [selectedSize, setSelectedSize] = useState(false);
   const [zipCode, setZipCode] = useState("");
@@ -52,11 +52,12 @@ const ProductComponent = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  // function to make api call to fetch the product details
   const fetchProduct = async () => {
     try {
       updateLoaderStatus(true);
       const res = await getProductById(id);
-
       setProduct(res);
       scrollToTop();
     } catch (error) {
@@ -64,9 +65,11 @@ const ProductComponent = () => {
       updateLoaderStatus(false);
     }
   };
+
   useEffect(() => {
     fetchProduct();
   }, [id]);
+
   useEffect(() => {
     document.querySelectorAll(".product-details-box").forEach((box) => {
       box.querySelector("h5").addEventListener("click", () => {
@@ -81,22 +84,19 @@ const ProductComponent = () => {
 
   const handleQtyChange = (event) => {
     const newQuantity = parseInt(event.target.value);
-
     setSelectedQty(newQuantity);
   };
 
+  // function to add item to the cart if user is logged in
+  // otherwise show login modal
   const handleAddToCart = async () => {
     if (loginStatus) {
-      try {
-        
+      try {  
         setLoading(true);
-        
         const res = await addItemToCart(id, selectedQty);
-        // console.log(res);
         if (res.status === "success") {
           toast.success(res.message);
           updateCartNumbers(res.results);
-         
         } else if (res.status === "fail") {
           toast.error(res.message);
         } else {
@@ -104,6 +104,7 @@ const ProductComponent = () => {
         }
       } catch (error) {
         console.log(error);
+        toast.error('Something went wrong, see console for more detail.')
       } finally {
         setLoading(false);
       }
@@ -112,6 +113,8 @@ const ProductComponent = () => {
     }
   };
 
+  // function to place a item for individual item without adding to the cart by
+  // updating the checkout context accordingly for current item
   const handleBuyNow = () => {
     if (loginStatus) {
       

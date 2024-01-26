@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 
+
+// this context is responsible for all the checkout related data
 const CheckoutContext = createContext();
 
 export function CheckoutProvider({ children }) {
+  
   const [products, setProducts] = useState(
     JSON.parse(localStorage.getItem("products")) || []
   );
@@ -17,22 +20,27 @@ export function CheckoutProvider({ children }) {
   );
   const [paymentValid, setPaymentValid] = useState(false);
 
+  // function to update the products need to be checked out
   const updateProducts = (newData) => {
     setProducts(newData);
     localStorage.setItem("products", JSON.stringify(newData));
   };
+  // function to update the address for an order
   const updateCheckoutAddress = (newData) => {
     setCheckoutAddress(newData);
     localStorage.setItem("checkoutAddress", JSON.stringify(newData));
   };
+  // function to indicate if the provided payment details are valid or not
   const updatePaymentValid = (newData) => {
     setPaymentValid(newData);
   };
 
+  // function to update the total number of items in the checkout
   const updateTotalItems = (newData) => {
     setTotalItems(newData);
     localStorage.setItem("totalItems", newData);
   };
+  // function to update the total price for the total items in the checkout
   const updateTotalPrice = (newData) => {
     setTotalPrice(newData);
     localStorage.setItem("totalPrice", newData);
@@ -58,6 +66,7 @@ export function CheckoutProvider({ children }) {
   );
 }
 
+// this custom hook returns all the required properties and function to update the properties required in the checkout process
 export function useCheckout() {
   const context = useContext(CheckoutContext);
 

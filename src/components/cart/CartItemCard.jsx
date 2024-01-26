@@ -13,7 +13,6 @@ import { useLoader } from "../../context/LoaderContext";
 
 const CartItemCard = ({ product, removeProductFromState }) => {
 
-  // console.log(product);
   const {
     product: { _id, name, displayImage, price },
     quantity,
@@ -22,10 +21,8 @@ const CartItemCard = ({ product, removeProductFromState }) => {
   const [qty, setQty] = useState(quantity);
 
   const { updateTotalItems, updateTotalPrice } = useCheckout();
-  useEffect(()=>{
-    setQty(quantity)
-    
-  },[quantity])
+
+
 
   const updateCartNumbers = useUpdateCartNumbers();
   const updateWishlistNumbers = useUpdateWishlistNumbers();
@@ -33,16 +30,15 @@ const CartItemCard = ({ product, removeProductFromState }) => {
   const {updateLoaderStatus} = useLoader()
 
   const handleQtyChange = (event) => {
-    
-    const newQuantity = event.target.value;
-    setQty(newQuantity);
+    const {value} = event.target;
+    setQty(value);
   };
 
+  // function to remove a single item from cart and update the related states accordingly
   const removeItemFromCart = async (_id) => {
     try {
       updateLoaderStatus(true)
       const res = await deleteItemFromCart(_id);
-      // console.log(res);
       if (res.status === "success") {
         removeProductFromState(_id);
         updateTotalItems(res.data.items.length);
@@ -52,10 +48,13 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       }
     } catch (error) {
       console.log(error);
+      toast.error('Something went wrong, see console for more detail.')
     }finally{
       updateLoaderStatus(false)
     }
   };
+
+  // function to remove an item from cart and add to the wishlist
   const moveToWishlist = async (id) => {
     const body = {
       productId: id,
@@ -65,7 +64,6 @@ const CartItemCard = ({ product, removeProductFromState }) => {
       removeItemFromCart(id);
 
       const res = await addToFavAPI(body);
-      // console.log(res);
       if (res.status === "success") {
         toast.success(res.message);
         updateWishlistNumbers(res.results);
@@ -73,13 +71,16 @@ const CartItemCard = ({ product, removeProductFromState }) => {
         toast.error(res.message);
       }
     } catch (error) {
-
+      console.log(error);
+      toast.error('Something went wrong, see console for more detail.')
     }finally{
       updateLoaderStatus(false)
     }
   };
 
-  
+  useEffect(()=>{
+    setQty(quantity)
+  },[quantity])
 
   return (
     <div className="cart-item-card">

@@ -11,13 +11,15 @@ const PaymentSection = () => {
     year: false,
     cvv: false,
   });
-  // const [ccnum, setCcnum] = useState('')
+
   const [cardInfo, setCardInfo] = useState({
     ccnum: "",
     mm: "",
     yyyy: "",
     cvv: "",
   });
+
+  // function to save user inputs for payments and identify errors in the input
   const handleChanges = (e) => {
     const { name, value } = e.target;
    
@@ -71,13 +73,14 @@ const PaymentSection = () => {
     }
   };
 
+  // function to verify if the input is a valid name
   const isValidName = (str) => {
     const regex = /[^a-zA-Z\s]/;
-
     return !regex.test(str);
   };
 
   const { updatePaymentValid } = useCheckout();
+  // function to save the payment info(a boolean) in the context if its valid or allow user to edit the details
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!disableForm) {
@@ -91,6 +94,7 @@ const PaymentSection = () => {
     }
   };
 
+  // function to prevent unwanted numbers as input 
   const preventExtraInputs = (e) => {
     if (e.key === "-" || e.key === "+" || e.key === "e") {
       e.preventDefault();

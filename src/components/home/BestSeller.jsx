@@ -5,18 +5,17 @@ import { useLoader } from '../../context/LoaderContext';
 
 const BestSeller = () => {
     const [products, setProducts] = useState([]);
-    const [pageNo, setPageNo]=useState(1)
     const {updateLoaderStatus} = useLoader()
 
 
+    // function to make api call to fetch the products
     const fetchProducts = async () => {
-
       const filter = {
         sellerTag: 'best seller'
       }
       try {
         updateLoaderStatus(true)
-          const res = await getProductsBySearch(pageNo,filter);
+          const res = await getProductsBySearch(filter);
           if (res.status==='success') {
             setProducts(res.data)
           }else{

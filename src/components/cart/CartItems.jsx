@@ -10,13 +10,14 @@ const CartItems = () => {
   } = useCheckout();
   
  
- 
+//  function to remove a cart item from the local state
   const removeProductFromState = (productId) => {
     const updatedProducts = products.filter(
       (product) => product.product._id !== productId
     );
     updateProducts(updatedProducts);
   };
+
   return (
     <div className="cart-items-container">
       {products.length &&

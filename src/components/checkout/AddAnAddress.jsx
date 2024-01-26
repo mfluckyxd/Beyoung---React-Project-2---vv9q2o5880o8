@@ -23,23 +23,26 @@ const AddAnAddress = () => {
 
   const [disableForm, setDisableForm] = useState(false);
 
+
+  // function to save input data and identify errors
   const handleChanges = (e) => {
     const { name, value } = e.target;
     if (name === "zipCode" && value.length !== 6) {
       setErrors({ ...errors, [name]: true });
     } else if (name === "street" && value.length < 1) {
-      console.log('kk');
       setErrors({ ...errors, [name]: true });
     } else if (value.length < 1) {
       setErrors({ ...errors, [name]: true });
     } else {
       setErrors({ ...errors, [name]: false });
     }
-
     setAddress({ ...address, [name]: value });
   };
 
   const { updateCheckoutAddress } = useCheckout();
+
+  // this function is responsible for saving the address into a context 
+  // if the address is correct or allow user to edit address
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!disableForm) {

@@ -8,40 +8,36 @@ import EmptyCart from "./EmptyCart";
 import { useCheckout } from "../../context/CheckoutContext";
 import { useLoader } from "../../context/LoaderContext";
 import { useCartNumbers } from "../../context/CartItemNumbersContext";
+import { toast } from "react-toastify";
 
 const CartComponent = () => {
   const { products, updateProducts, updateTotalItems, updateTotalPrice } =
     useCheckout();
     const {updateLoaderStatus} = useLoader()
-    const cartItems = useCartNumbers()
+    const cartItemNumbers = useCartNumbers()
     
 
+    // function to fetch cart items and update required states accordingly
   const fetchProducts = async () => {
-    
     try {
       updateLoaderStatus(true)
-      
       const res = await getCartItems();
-      // console.log(res.data);
       const { items, totalPrice } = res.data;
-      // console.log(res);
-      console.log("set prod:",items);
       updateProducts(items);
       updateTotalPrice(totalPrice);
       updateTotalItems(items.length);
     } catch (error) {
       console.log(error);
+      toast.error('Something went wrong, see console for more detail.')
     }finally{
       updateLoaderStatus(false)
-      // console.log(products);
     }
   };
 
   useEffect(() => {
-    console.log('triggered');
     fetchProducts();
 
-  }, [cartItems]);
+  }, [cartItemNumbers]);
 
   return (
     <div>

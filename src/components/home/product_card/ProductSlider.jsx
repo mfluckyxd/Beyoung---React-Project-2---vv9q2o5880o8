@@ -25,7 +25,6 @@ const ProductSlider = ({ products,heading }) => {
       <Carousel
         responsive={responsive}
         infinite={true}
-        
       >
         {products.map((product, i) => (
           <ProductSliderCard key={i} product={product} />

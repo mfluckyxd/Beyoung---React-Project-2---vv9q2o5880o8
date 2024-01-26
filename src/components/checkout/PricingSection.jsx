@@ -23,12 +23,11 @@ const PricingSection = () => {
     updateTotalItems,
     updateTotalPrice,
   } = useCheckout();
-  const updateCart = useUpdateCartNumbers()
+  const updateCart = useUpdateCartNumbers();
 
-  const {updateLoaderStatus} = useLoader()
+  const { updateLoaderStatus } = useLoader();
 
-  const {updateSuccessmodal} = useSuccessModal()
-
+  const { updateSuccessmodal } = useSuccessModal();
 
   const navigate = useNavigate();
 
@@ -36,10 +35,13 @@ const PricingSection = () => {
   const currentRoute = location.pathname.split("/");
   const currentPage = currentRoute[currentRoute.length - 1];
 
+  // this function is responsible for handling how should the next step button in checkout should perform
+  // on diffrent pages by identifying current page and showing errors if user has not completed all the steps on current page
   const handleCheckout = (e) => {
     e.preventDefault();
     if (currentPage === "cart") {
       navigate("/checkout/shipping");
+      console.log(products);
     } else if (currentPage === "shipping") {
       if (Object.keys(checkoutAddress).length) {
         navigate("/checkout/payment");
@@ -55,63 +57,55 @@ const PricingSection = () => {
     }
   };
 
+  // function to place an order, if there are multiple items in the cart
+  // then it runs a loop and place all orders individually and finally reset all the required states
   const createOrder = async () => {
     try {
-      updateLoaderStatus(true)
+      updateLoaderStatus(true);
       for (const { product, quantity } of products) {
         const res = await newOrder(product._id, quantity, checkoutAddress);
-        if (res.status==='success') {
-          deleteItemFromCart(product._id)
+        if (res.status === "success") {
+          deleteItemFromCart(product._id);
+        } else {
+          toast.error(res.message);
         }
-        else{
-          toast.error(res.message)
-        }
-        
-        
       }
     } catch (error) {
       console.log(error);
     } finally {
-      
-      updateSuccessmodal(true)
-      navigate('/')
-      updatePaymentValid(false)
-      updateCheckoutAddress({})
-      updateProducts([])
-      updateTotalItems(0)
-      updateTotalPrice(0)
-      updateCart(0)
-      updateLoaderStatus(false)
-      
-
-
+      updateSuccessmodal(true);
+      navigate("/");
+      updatePaymentValid(false);
+      updateCheckoutAddress({});
+      updateProducts([]);
+      updateTotalItems(0);
+      updateTotalPrice(0);
+      updateCart(0);
+      updateLoaderStatus(false);
     }
   };
 
-    const clearWholeCart = async ()=>{
-
+  // function to delete all the items from the cart by running a loop and deleting individual items
+  // and finally updates all the required states accordingly
+  const clearWholeCart = async () => {
     try {
-      updateLoaderStatus(true)
+      updateLoaderStatus(true);
       console.log(products);
-       
+
       for (const { product } of products) {
-        
-        const res = await deleteItemFromCart(product._id)
-        
+        const res = await deleteItemFromCart(product._id);
       }
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong, see console for more detail.')
-    }finally{
-      updateProducts([])
-      updateLoaderStatus(false)
-      updateTotalItems(0)
-      updateTotalPrice(0)
-      updateCart(0)
-
+      toast.error("Something went wrong, see console for more detail.");
+    } finally {
+      updateProducts([]);
+      updateLoaderStatus(false);
+      updateTotalItems(0);
+      updateTotalPrice(0);
+      updateCart(0);
     }
-  }
-
+  };
   return (
     <div className="pricing-section-container">
       <section className="pricing-section">
@@ -143,9 +137,12 @@ const PricingSection = () => {
           <span>&#8377;{totalPrice}</span>
         </p>
         <button onClick={handleCheckout}>checkout securely</button>
-        {currentPage === "cart"&&<button  style={{marginTop:'1rem'}} onClick={clearWholeCart}>Clear Cart</button>}
+        {currentPage === "cart" && (
+          <button style={{ marginTop: "1rem" }} onClick={clearWholeCart}>
+            Clear Cart
+          </button>
+        )}
       </section>
-
     </div>
   );
 };

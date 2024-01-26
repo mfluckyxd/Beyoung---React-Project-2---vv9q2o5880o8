@@ -19,8 +19,6 @@ import {
   useUpdateWishlistNumbers,
   useWishlistNumbers,
 } from "../../context/CartItemNumbersContext";
-import { useLoader } from "../../context/LoaderContext";
-import { getProductsBySearch } from "../../utils/getProductsAPI";
 import ShoppingCartIcon from "../../assets/ShoppingCartIcon";
 
 const Header = () => {
@@ -37,18 +35,16 @@ const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
 
-  const isSmallScreen = useMediaQuery('(max-width:768px)');
+  const isSmallScreen = useMediaQuery('(max-width:769px)');
+
   const HandleClick =()=>{
     if (isSmallScreen) {
       toggelBtnRef.current.click()
     }
   }
-
-
-
-
-
   
+  // function to logout user by deleting the session data from localstorage
+  // and update the required states accordingly
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
@@ -66,6 +62,7 @@ const Header = () => {
     const promoHeader = document.querySelector(".promo-header");
     const quickAccessHeader = document.querySelector(".quick-access-header");
 
+    // function to identify where should the navbar gets fixed
     const handleScroll = () => {
       if (
         window.scrollY >
@@ -93,6 +90,7 @@ const Header = () => {
   const searchInputRef = useRef()
   const navigate = useNavigate()
 
+  // function to show or hide the searchbar
   const handleSearchBtnClick = (event) => {
     if (anchorEl) {
       setIsSearchbarOpen(false);
@@ -103,12 +101,15 @@ const Header = () => {
     }
   };
 
-const handleSearch = async ()=>{
-  const {value} = searchInputRef.current;
-  setIsSearchbarOpen(false);
-  navigate(`/products?name=${value}`)
-}
+  // function to handle search by navigating user to the required route with required query parameters
+  const handleSearch = ()=>{
+    const {value} = searchInputRef.current;
+    setIsSearchbarOpen(false);
+    navigate(`/products?name=${value}`)
+  }
    
+  // function to show authentication modal and render correct form in modal 
+  // by identifying the target button(login or signup) and updating the query parameters accordingly
   const handleSignin = (e) => {
     e.preventDefault();
     if (e.target.value==='signup') {
@@ -132,7 +133,7 @@ const handleSearch = async ()=>{
         <div className="quick-access-left">
           <Link to={'/myaccount/orders'}>
             <LocationOnIcon />
-            Track Order
+            TRACK YOUR ORDER
           </Link>
         </div>
         <div className="quick-access-right">
@@ -143,8 +144,8 @@ const handleSearch = async ()=>{
             </>
           ) : (
             <>
-              <button onClick={handleSignin}>Sign In</button>
-              <button onClick={handleSignin} value={'signup'}>Sign Up</button>
+              <button onClick={handleSignin}>LOG IN</button>
+              <button onClick={handleSignin} value={'signup'}>SIGN UP</button>
             </>
           )}
         </div>

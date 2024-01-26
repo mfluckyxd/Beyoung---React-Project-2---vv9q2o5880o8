@@ -7,9 +7,8 @@ import NoProducts from "./NoProducts";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
   const [prevSearchParams, setPrevSearchParams] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -17,10 +16,10 @@ const ProductsList = () => {
 
   const { updateLoaderStatus } = useLoader();
 
+  // function to make api call to fetch the products based on a filter
   const fetchProducts = async (searchFilter) => {
     try {
       updateLoaderStatus(true);
-      console.log("fetching");
       const res = await getProductsBySearch(searchFilter);
 
       if (res.status === "success") {
@@ -37,6 +36,10 @@ const ProductsList = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+
+
+  // this useEffect hook reads the query parameters and create a filter to identify what products to fetch
   useEffect(() => {
     let filter = {};
     if (searchParams.size === 0) {
@@ -50,36 +53,21 @@ const ProductsList = () => {
 
     const isSearchChange = prevSearchParams !== searchParams.toString();
     if (isSearchChange) {
-      setScrollPosition(0);
-      setPageNo(1);
       scrollToTop();
     }
 
     setPrevSearchParams(searchParams.toString());
 
     fetchProducts(filter);
+    
   }, [searchParams]);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 800
-    ) {
-      setScrollPosition(window.scrollY);
-      setPageNo((prevPage) => prevPage + 1);
-    }
-  };
-  useEffect(() => {
-    window.scrollTo(0, scrollPosition);
-  }, [pageNo]);
+  
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
+
+
+  
   const isEmpty = !Object.keys(products).length;
 
   return (
@@ -87,7 +75,7 @@ const ProductsList = () => {
       {isEmpty ? (
         <NoProducts />
       ) : (
-        <ProductsListComponent products={products} pageNo={pageNo} />
+        <ProductsListComponent products={products}  />
       )}
     </div>
   );
