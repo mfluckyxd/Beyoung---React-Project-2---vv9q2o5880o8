@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { CartNumbersProvider } from "./context/CartItemNumbersContext";
 import RoutesComponent from "./components/RoutesComponent";
 import CheckoutComponent from "./components/checkout/CheckoutComponent";
-import CartItems from "./components/cart/CartItems";
+
 import ShippingSection from "./components/checkout/ShippingSection";
 import PaymentSection from "./components/checkout/PaymentSection";
 import CartComponent from "./components/cart/CartComponent";
