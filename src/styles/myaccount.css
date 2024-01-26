@@ -49,13 +49,6 @@
       text-decoration: none;
     }
   }
-  
-}
-.lower-sec .my-ac-btns{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
   > button {
     width: 100%;
     border: none;
@@ -73,13 +66,9 @@
       background-color: #feed00bd;
     }
   }
-  >a{
-    color: red;
-    &:hover{
-      color: rgb(216, 0, 0);
-    }
-  }
+  
 }
+
 .lower-sec nav a.active {
   color: black;
   font-weight: 600;
