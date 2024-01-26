@@ -55,7 +55,7 @@ const MyAccount = () => {
             <Avatar
               sx={{ height: "100px", width: "100px", background: "black" }}
             >
-              {name.split(' ').map((word) => word[0].toUpperCase()).join(' ')}
+              {name?.split(' ')?.map((word) => word[0]?.toUpperCase()).join(' ')}
             </Avatar>
             <Typography sx={{textTransform:'uppercase'}} variant="h5">{name}</Typography>
             <Typography sx={{ color: "gray" }} variant="subtitle1">
