@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { getAllProductsByLimit, getProductsBySearch } from "../../utils/getProductsAPI";
+import { getProductsBySearch } from "../../utils/getProductsAPI";
 
 import ProductSlider from "./product_card/ProductSlider";
 import { useLoader } from "../../context/LoaderContext";
